@@ -6,7 +6,31 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+body,html{
+  width: 100;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+*{
+  margin: 0;
+  padding: 0;
+  font-size: small;
+}
+.search-wrapper:hover{
+  border: 2px solid white;
+  max-width: 200px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+}
+.search-wrapper  div:hover{
+  border: none;
+}
+.search-wrapper  input:hover{
+  border: none;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
