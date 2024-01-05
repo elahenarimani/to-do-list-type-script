@@ -1,0 +1,13 @@
+ .priority-drop-down-container{
+  position: relative;
+ }
+ select {
+     width: 120px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: absolute;
+    top:100%;
+    left:0;
+    z-index: 1;
+      }

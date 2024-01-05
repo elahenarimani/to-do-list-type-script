@@ -1,5 +1,5 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
 import './App.css';
 import { VscChecklist } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
@@ -7,8 +7,15 @@ import { FaFilter } from "react-icons/fa6";
 import { TbPencilPlus } from "react-icons/tb";
 import TableMobile from './components/tableMobile/TableMobile';
 import TableDesktop  from './components/tableDesktop/TableDesktop';
-import Aaaa from './components/aaaa/Aaaa';
+import Modal from './components/modal/Modal';
 function App() {
+  const [open , setOpen] = useState <boolean>(false)
+  function handleOpen(){
+    setOpen(true)
+  }
+  function handleClose(){
+    setOpen(false)
+  }
   return (
     <div className="App">
       <header className='w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]'>
@@ -25,21 +32,20 @@ function App() {
             <input className='w-full h-full bg-[#6200EA] border-none outline-none' placeholder='Search'/>
             <div className=''><CiSearch /></div>
           </div>
-          <div>
+          <button>
             <FaFilter />
-          </div>
-          <div>
-            <TbPencilPlus />
-          </div>
+          </button>
+          <button  onClick={handleOpen}>
+            <TbPencilPlus />  
+          </button>
         </div>
       </header>
       <main className='w-full h-full'>
         {/* <TableMobile/> */}
-        {/* <TableDesktop/> */}
-       <Aaaa/>
+        <TableDesktop/>
+        <Modal open={open} onClose={handleClose} />
       </main>
     </div>
   );
 }
-
 export default App;
