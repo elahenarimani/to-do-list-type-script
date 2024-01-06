@@ -2,27 +2,26 @@ import { useState } from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
 import './modal.css'
 import Select from "../select/Select";
+import Input from "../input/Input"
 
 interface ImodalParameter {
     open: boolean
     onClose: Function
 }
+interface Idata{
+    id:number
+    text:string | number
+}
 function Modal({ open, onClose }: ImodalParameter) {
-    
+    const [data, setData] = useState<Idata[]>([])
     const [isDropDownVisible, setIsDropDownVisible] = useState<boolean>(false)
-    const [selectOption, setSelectOption] = useState<null>(null)
     const [selectedOption, setSelectedOption] = useState<"">("")
     const [selectedOption2 , setSelectedOption2 ] = useState <"">("")
+    const [inpval , setInpval] = useState <string | number>("")
    
     // function handleChange() {
     //     ((e: any) => setSelectedOption(e.target.value))
     // }
-    function handleBTNDropDown() {
-        setIsDropDownVisible(!isDropDownVisible)
-    }
-    function closeDropDown() {
-        setIsDropDownVisible(false)
-    }
     if (!open) return null
     return (
         <div className='modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center'>
@@ -31,6 +30,7 @@ function Modal({ open, onClose }: ImodalParameter) {
                 <div className="modal w-full h-full flex flex-col justify-around items-center pl-[10px] pr-[10px] gap-[1px] ">
                     <div className="w-[400px] border-gray-500 rounded-[5px] border-[1px] h-[40px]">
                         <input placeholder="Task Name" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' />
+                        <Input valueState={inpval} inputHandler={() => setData([...data,{id:Date.now , text:inpval}])} />
                     </div>
                     <div className="w-[400px] h-[40px] flex justify-between items-center ">
                         <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
@@ -40,14 +40,14 @@ function Modal({ open, onClose }: ImodalParameter) {
                             {/* <button className="text-[50px]" >
                                 <TiArrowSortedDown onClick={handleBTNDropDown} />
                             </button> */}
-                            {true && <Select handleChange={setSelectedOption2} selectedOption={selectedOption2} className='w-full h-full pl-[15px] text-[17px] border-none outline-none' >
+                            <Select handleChange={setSelectedOption2} selectedOption={selectedOption2} className='w-full h-full pl-[15px] text-[17px] border-none outline-none' >
                                <>
                                 <option value="" disabled>Priority</option>
                                 <option value="1">Hight</option>
                                 <option value="2">Medium</option>
                                 <option value="3">Low</option>
                                </>
-                            </Select>}
+                            </Select>
 
                         </div>
                         <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
@@ -55,14 +55,14 @@ function Modal({ open, onClose }: ImodalParameter) {
                             {/* <button className="text-[50px]"> */}
                                 {/* <TiArrowSortedDown /> */}
                             {/* </button> */}
-                            {true && <Select  handleChange={setSelectedOption} selectedOption={selectedOption} className='w-full h-full pl-[15px] text-[17px] border-none outline-none' >
+                            <Select  handleChange={setSelectedOption} selectedOption={selectedOption} className='w-full h-full pl-[15px] text-[17px] border-none outline-none' >
                                 <>
                                     <option value="" disabled>Status</option>
                                     <option value="1">To do</option>
                                     <option value="2">Doing</option>
                                     <option value="3">Done</option>
                                 </>
-                            </Select>}
+                            </Select>
                         </div>
                         <div className=" w-[120px] h-full border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
                             <input placeholder="Deadline" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' />
