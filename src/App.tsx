@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './App.css';
 import { VscChecklist } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
@@ -8,6 +7,8 @@ import { TbPencilPlus } from "react-icons/tb";
 import TableMobile from './components/tableMobile/TableMobile';
 import TableDesktop  from './components/tableDesktop/TableDesktop';
 import Modal from './components/modal/Modal';
+import Select from './components/select/Select';
+
 function App() {
   const [open , setOpen] = useState <boolean>(false)
   function handleOpen(){
