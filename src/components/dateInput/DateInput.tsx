@@ -1,15 +1,15 @@
-interface IInputParameter{
+import {InputHTMLAttributes} from 'react'
+interface IInputParameter extends InputHTMLAttributes<HTMLInputElement>{
     valueState: string | number
     inputHandler : Function 
     className : string
     placeholder : string
-    type : string  
 }
-function Input({valueState , inputHandler , className , placeholder , type}:IInputParameter){
+function DateInput ({valueState , inputHandler , className , placeholder , type}: IInputParameter ){
     return(
         <div>
             <input value={valueState} onChange={() => inputHandler()} className={className} placeholder={placeholder} type={type}/>
         </div>
     )
 }
-export default Input
+export default DateInput

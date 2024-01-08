@@ -3,6 +3,7 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import './modal.css'
 import Select from "../select/Select";
 import Input from "../input/Input"
+import DateInput from "../dateInput/DateInput"
 
 interface ImodalParameter {
     open: boolean
@@ -29,8 +30,8 @@ function Modal({ open, onClose }: ImodalParameter) {
                 <p className='text-[20px] text-left pb-[5px]'>New task</p>
                 <div className="modal w-full h-full flex flex-col justify-around items-center pl-[10px] pr-[10px] gap-[1px] ">
                     <div className="w-[400px] border-gray-500 rounded-[5px] border-[1px] h-[40px]">
-                        <input placeholder="Task Name" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' />
-                        <Input valueState={inpval} inputHandler={() => setData([...data,{id:Date.now , text:inpval}])} />
+                        {/* <input placeholder="Task Name" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' /> */}
+                        <Input valueState={inpval} type="text" inputHandler={(e:any) => setData(e.target.value)} placeholder="Task Name" className='w-full h-full pl-[15px] text-[17px] border-none outline-none'/>
                     </div>
                     <div className="w-[400px] h-[40px] flex justify-between items-center ">
                         <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
@@ -48,7 +49,6 @@ function Modal({ open, onClose }: ImodalParameter) {
                                 <option value="3">Low</option>
                                </>
                             </Select>
-
                         </div>
                         <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
                             {/* <input placeholder="Status" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' /> */}
@@ -65,14 +65,16 @@ function Modal({ open, onClose }: ImodalParameter) {
                             </Select>
                         </div>
                         <div className=" w-[120px] h-full border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
-                            <input placeholder="Deadline" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' />
-                            <button className="text-[50px]">
+                        <DateInput valueState={inpval} type="date" inputHandler={(e:any) => setData(e.target.value)} placeholder="Deadline" className='w-full h-full pl-[15px] text-[17px] border-none outline-none'/>
+                            {/* <input placeholder="Deadline" type="date" className='w-full h-full pl-[15px] text-[17px] border-none outline-none' /> */}
+                            {/* <button className="text-[50px]">
                                 <TiArrowSortedDown />
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                     <div className="w-[400px] h-[150px] border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start">
-                        <input placeholder="Task Details (Optional) " className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top" />
+                        {/* <input placeholder="Task Details (Optional) " className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top" /> */}
+                        <Input valueState={inpval} type="text" inputHandler={(e:any) => setData(e.target.value)} placeholder="Task Details (Optional)" className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top"/>
                     </div>
                     <div className="w-[400px] h-[40px] flex justify-between items-center ">
                         <button onClick={() => onClose()} className=" text-[#3091E7] text-[17px] ">CANCEL</button>
