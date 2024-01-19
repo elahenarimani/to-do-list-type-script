@@ -5,10 +5,10 @@ interface IInputParameter{
     placeholder : string
     type : string  
 }
-function Input({valueState , inputHandler , className , placeholder , type}:IInputParameter){
-    return(
+function Input({valueState , inputHandler , className , placeholder , type}:IInputParameter){  
+    return( 
         <div>
-            <input value={valueState} onChange={() => inputHandler()} className={className} placeholder={placeholder} type={type}/>
+            <input value={valueState} onChange={(e:any) => inputHandler(e)} className={className} placeholder={placeholder} type={type}/>     
         </div>
     )
 }
