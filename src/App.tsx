@@ -12,8 +12,8 @@ import { FaArrowUp } from "react-icons/fa";
 interface Idata {
   id: number
   taskName: string | number
-  priority: string
-  status: string
+  priority: number
+  status: number
   deadline: number
   taskDetails: string | number
 }
@@ -25,6 +25,18 @@ function App() {
   }
   function handleClose() {
     setOpen(false)
+  }
+  interface IRemoveTodoParameter{
+    todoId : number
+  }
+  function removeTodo({todoId} : IRemoveTodoParameter){
+   setData(data.filter(item => item.id != todoId))
+  }
+  // interface IHandleRemoveTodoButton {
+  //   idTodo :number
+  // }
+  function handleButtonClick({todoId}:IRemoveTodoParameter){
+    removeTodo({todoId})
   }
   return (
     <div className="App">
@@ -77,7 +89,7 @@ function App() {
                   </tr>
                   {data.map(item => {
                    return (
-                      <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails} />
+                      <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails} handleButtonClick={handleButtonClick}/>
                       )
                     })}
                 </table>

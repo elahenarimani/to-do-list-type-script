@@ -1,14 +1,14 @@
 import {ReactElement} from 'react'
 interface ISelectParameter{
-    selectedOption:string 
+    value:string 
     handleChange:Function
     children:ReactElement
     className:string
 }
-function Select({selectedOption , handleChange,children,className }:ISelectParameter){
+function Select({value , handleChange , children ,className }:ISelectParameter){
     return(
         <div>
-           <select value={selectedOption}   onChange={(e:any) => handleChange(e.target.value)} className={className}>
+           <select value={value}   onChange={(e:any) => handleChange(e.target.value)} className={className}>
                  {children}
            </select>
         </div>

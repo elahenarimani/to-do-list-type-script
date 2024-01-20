@@ -1,5 +1,5 @@
 interface IButtonParameter{
-    children : string
+    children : string 
     onClicHandler:Function
     className : string
 }
