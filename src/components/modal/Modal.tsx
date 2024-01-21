@@ -19,15 +19,13 @@ interface ImodalParameter {
     data: Idata[] 
     setData :Function
 }
-function Modal({ open , onClose , data ,setData}: ImodalParameter) {
-    
+function Modal({ open , onClose , data ,setData}: ImodalParameter) { 
     const [isDropDownVisible , setIsDropDownVisible] = useState<boolean>(false)
     const [selectedOption , setSelectedOption] = useState<"">("")
     const [selectedOption2 , setSelectedOption2 ] = useState <"">("")
     const [inpval , setInpval] = useState <string | number >("")
     const [inpvalDate , setInpvalDate] = useState < number >(0)
     const [inpvalDetail , setInpvalDetail] = useState <string | number >("")
-    {console.log(selectedOption)}
     {console.log(data)}
     if (!open) return null
     return (
@@ -69,8 +67,7 @@ function Modal({ open , onClose , data ,setData}: ImodalParameter) {
                     </div>
                     <div className="w-[400px] h-[40px] flex justify-between items-center ">
                         <Button onClicHandler={() => onClose()} className=" text-[#3091E7] text-[17px] ">CANCEL</Button>
-                        <Button onClicHandler={() => setData([...data,{id:Date.now() , taskName:inpval , priority: selectedOption2 , status: selectedOption , deadline: inpvalDate ,taskDetails:inpvalDetail }]) } className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]">SAVE</Button>
-                        
+                        <Button onClicHandler={() => setData([...data,{id:Date.now() , taskName:inpval , priority: selectedOption2 , status: selectedOption , deadline: inpvalDate ,taskDetails:inpvalDetail }]) } className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]">SAVE</Button>    
                     </div>
                 </div>
             </div>

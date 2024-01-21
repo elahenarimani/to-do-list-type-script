@@ -17,6 +17,7 @@ interface Idata {
   deadline: number
   taskDetails: string | number
 }
+let  todoId:number
 function App() {
   const [data, setData] = useState<Idata[]>([])
   const [open, setOpen] = useState<boolean>(false)
@@ -29,15 +30,22 @@ function App() {
   interface IRemoveTodoParameter{
     todoId : number
   }
+  console.log(todoId)
   function removeTodo({todoId} : IRemoveTodoParameter){
    setData(data.filter(item => item.id != todoId))
+   console.log(todoId)
   }
-  // interface IHandleRemoveTodoButton {
-  //   idTodo :number
-  // }
-  function handleButtonClick({todoId}:IRemoveTodoParameter){
-    removeTodo({todoId})
+  
+  interface IHandleRemoveTodoButton {
+    todoId :number
+   
   }
+  
+  function handleButtonClick({todoId}:IHandleRemoveTodoButton){
+    removeTodo({todoId:todoId})
+    console.log(todoId)
+  }
+ 
   return (
     <div className="App">
       <header className='w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]'>
@@ -89,7 +97,7 @@ function App() {
                   </tr>
                   {data.map(item => {
                    return (
-                      <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails} handleButtonClick={handleButtonClick}/>
+                      <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails} handleButtonClick={handleButtonClick} id={item.id} todoId={todoId}/>
                       )
                     })}
                 </table>

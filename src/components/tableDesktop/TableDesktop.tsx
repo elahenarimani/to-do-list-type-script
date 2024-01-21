@@ -19,8 +19,10 @@ interface ITableDesktopParameter {
   deadline :number
   taskDetails :string | number
   handleButtonClick : Function
+  id :number
+  todoId :number
 }
-function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , handleButtonClick}:ITableDesktopParameter) {
+function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , handleButtonClick , id ,todoId}:ITableDesktopParameter) {
   interface IPriorityParameter{
     priority : number
   }
@@ -45,8 +47,11 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
      return  <p className='h-[25px] w-[55px] bg-[#53B257] rounded-[20px]'>Done</p>;
     }
   }
+ 
   return (
+    
         <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
+          
           <td className="border-r-[2px] border-[#E0E0E0] text-[#1F1F1F] text-left  pl-[15px]">{taskName}</td>
           <td className="text-white ">
             <div className='flex justify-center items-center'>
@@ -71,13 +76,14 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
               <button>
                 <BsFillPencilFill color={'#757575'} />
               </button>
-              <button onClick={handleButtonClick(42)}>
+              <button onClick={() => handleButtonClick({todoId:id})}> 
+            
                 <FaTrash color={'#757575'} />
               </button>
+             
             </div>
           </td>
-        </tr>
-    
+        </tr> 
   )
   }
 export default TableDesktop
