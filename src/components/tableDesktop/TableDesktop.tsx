@@ -2,6 +2,8 @@ import './tableDeaktop.css'
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
+import { useState } from 'react';
+import DeleteModal from '../DeleteModal/DeleteModal'
 interface Idata{
   id:number
   taskName:string | number
@@ -18,11 +20,12 @@ interface ITableDesktopParameter {
   status : number
   deadline :number
   taskDetails :string | number
-  handleButtonClick : Function
+  
   id :number
   todoId :number
 }
-function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , handleButtonClick , id ,todoId}:ITableDesktopParameter) {
+function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , id ,todoId}:ITableDesktopParameter) {
+  const [open , setOpen] = useState<boolean>(false)
   interface IPriorityParameter{
     priority : number
   }
@@ -34,6 +37,21 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
      } else{
      return  <p className='h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px]'> Low</p>;
     }
+  }
+  interface IRemoveTodoParameter{
+    todoId : number
+  }
+  console.log(todoId)
+  function removeTodo({todoId} : IRemoveTodoParameter){
+   setData(data.filter(item => item.id != todoId))
+   console.log(todoId)
+  }
+  interface IHandleRemoveTodoButton {
+    todoId :number 
+  }
+  function handleButtonClick({todoId}:IHandleRemoveTodoButton){
+    removeTodo({todoId:todoId}) 
+    handleClose()
   }
   interface IStatusParameter{
    status : number
@@ -47,7 +65,13 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
      return  <p className='h-[25px] w-[55px] bg-[#53B257] rounded-[20px]'>Done</p>;
     }
   }
- 
+  function handleOpen(){
+    setOpen(true)
+    
+  }
+  function handleClose(){
+    setOpen(false)
+  }
   return (
     
         <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
@@ -76,14 +100,19 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
               <button>
                 <BsFillPencilFill color={'#757575'} />
               </button>
-              <button onClick={() => handleButtonClick({todoId:id})}> 
+              {/* <button onClick={() => handleButtonClick({todoId:id}) }> 
             
+                <FaTrash color={'#757575'} />
+              </button> */}
+              <button onClick={() => handleOpen() }> 
                 <FaTrash color={'#757575'} />
               </button>
              
             </div>
           </td>
+          <DeleteModal  open={open} todoId={todoId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
         </tr> 
+        
   )
   }
 export default TableDesktop
