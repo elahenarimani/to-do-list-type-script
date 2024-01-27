@@ -26,6 +26,7 @@ interface ITableDesktopParameter {
 }
 function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , id ,todoId}:ITableDesktopParameter) {
   const [open , setOpen] = useState<boolean>(false)
+  const [openEdite , setOpenEdit] = useState<boolean>(false)
   interface IPriorityParameter{
     priority : number
   }
@@ -66,12 +67,15 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
     }
   }
   function handleOpen(){
-    setOpen(true)
-    
+    setOpen(true) 
   }
   function handleClose(){
     setOpen(false)
   }
+  function handleEditOpen(){
+     setOpenEdit(true)
+  }
+  
   return (
     
         <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
@@ -97,13 +101,9 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
               <button>
                 <IoEyeSharp color={'#757575'} />
               </button>
-              <button>
+              <button onClick={() => handleEditOpen()}>
                 <BsFillPencilFill color={'#757575'} />
               </button>
-              {/* <button onClick={() => handleButtonClick({todoId:id}) }> 
-            
-                <FaTrash color={'#757575'} />
-              </button> */}
               <button onClick={() => handleOpen() }> 
                 <FaTrash color={'#757575'} />
               </button>
