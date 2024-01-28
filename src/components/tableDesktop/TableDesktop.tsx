@@ -4,6 +4,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { useState } from 'react';
 import DeleteModal from '../DeleteModal/DeleteModal'
+import EditModal from '../editModal/EditModal'
 interface Idata{
   id:number
   taskName:string | number
@@ -27,6 +28,11 @@ interface ITableDesktopParameter {
 function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , id ,todoId}:ITableDesktopParameter) {
   const [open , setOpen] = useState<boolean>(false)
   const [openEdite , setOpenEdit] = useState<boolean>(false)
+  interface IForModeParameter{
+    id : null | number
+    mode :string
+  }
+  const [formMode , setFormMode] = useState<IForModeParameter>({mode : "add" , id : null })
   interface IPriorityParameter{
     priority : number
   }
@@ -72,9 +78,14 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
   function handleClose(){
     setOpen(false)
   }
-  function handleEditOpen(){
+  interface IhandleEditOpenParameter{
+    id : number
+   }
+  function handleEditOpen({id:id}:IhandleEditOpenParameter){
      setOpenEdit(true)
+     setFormMode({mode : "add" , id : id})
   }
+  
   
   return (
     
@@ -101,9 +112,10 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
               <button>
                 <IoEyeSharp color={'#757575'} />
               </button>
-              <button onClick={() => handleEditOpen()}>
-                <BsFillPencilFill color={'#757575'} />
+              <button onClick={() => handleEditOpen({id:id})}>
+                <BsFillPencilFill color={'#757575'} /> 
               </button>
+              
               <button onClick={() => handleOpen() }> 
                 <FaTrash color={'#757575'} />
               </button>
@@ -111,6 +123,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
             </div>
           </td>
           <DeleteModal  open={open} todoId={todoId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
+          < EditModal openEdite={openEdite } handleEditOpen={handleEditOpen}/>
         </tr> 
         
   )

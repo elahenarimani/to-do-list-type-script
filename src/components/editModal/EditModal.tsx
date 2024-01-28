@@ -1,7 +1,8 @@
 interface IDeleteModalParameter{
     openEdite : boolean
+    handleEditOpen : Function
 }
-function EditModal({openEdite}:IDeleteModalParameter){
+function EditModal({openEdite , handleEditOpen}:IDeleteModalParameter){
     if(!openEdite) return null
     return(
         <div>
