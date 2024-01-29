@@ -28,11 +28,11 @@ interface ITableDesktopParameter {
 function TableDesktop({data, setData ,taskName , priority ,  status , deadline , taskDetails , id ,todoId}:ITableDesktopParameter) {
   const [open , setOpen] = useState<boolean>(false)
   const [openEdite , setOpenEdit] = useState<boolean>(false)
-  interface IForModeParameter{
+  interface IIdModeParameter{
     id : null | number
-    mode :string
+    
   }
-  const [formMode , setFormMode] = useState<IForModeParameter>({mode : "add" , id : null })
+  const [idMode , setIdMode] = useState<IIdModeParameter>({ id : null  })
   interface IPriorityParameter{
     priority : number
   }
@@ -78,12 +78,12 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
   function handleClose(){
     setOpen(false)
   }
-  interface IhandleEditOpenParameter{
-    id : number
+  interface IchangeToEditModeParameter{
+    editId : number
    }
-  function handleEditOpen({id:id}:IhandleEditOpenParameter){
+  function changeToEditMode({editId}:IchangeToEditModeParameter){
      setOpenEdit(true)
-     setFormMode({mode : "add" , id : id})
+     setIdMode({ id : editId})
   }
   
   
@@ -112,7 +112,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
               <button>
                 <IoEyeSharp color={'#757575'} />
               </button>
-              <button onClick={() => handleEditOpen({id:id})}>
+              <button onClick={() => changeToEditMode({editId:id})}>
                 <BsFillPencilFill color={'#757575'} /> 
               </button>
               
@@ -123,7 +123,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
             </div>
           </td>
           <DeleteModal  open={open} todoId={todoId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
-          < EditModal openEdite={openEdite } handleEditOpen={handleEditOpen}/>
+          < EditModal openEdite={openEdite }  data={data} setData={setData} idMode ={idMode}  setOpenEdit={setOpenEdit}/>
         </tr> 
         
   )
