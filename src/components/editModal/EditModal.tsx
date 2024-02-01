@@ -26,7 +26,6 @@ interface IEditModalParameter{
     selectedOption :number
     inpvalDate :number
     inpvalDetail : string | number  
-
 }
 function EditModal({openEdite , data , idMode , setData , setOpenEdit , editId , inpval , selectedOption2 , selectedOption , inpvalDate , inpvalDetail }:IEditModalParameter){
     const [isDropDownVisible , setIsDropDownVisibleEdit ] = useState<boolean>(false)
@@ -46,7 +45,6 @@ function EditModal({openEdite , data , idMode , setData , setOpenEdit , editId ,
     function editTodo(editToDoEnparameter:IEditTodoParameter){
          setData(data.map(item => {
             if(item.id == editId){
-                
                     item.taskName = inpvalEdit  ,
                     item.priority = selectedOption2Edit  ,
                     item.status = selectedOptionEdit  , 

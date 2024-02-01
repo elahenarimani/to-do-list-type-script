@@ -30,8 +30,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
   const [open , setOpen] = useState<boolean>(false)
   const [openEdite , setOpenEdit] = useState<boolean>(false)
   interface IIdModeParameter{
-    id : null | number
-    
+    id : null | number  
   }
   const [idMode , setIdMode] = useState<IIdModeParameter>({ id : null  })
   interface IPriorityParameter{
@@ -86,10 +85,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
      setOpenEdit(true)
      setIdMode({ id : editId})
   }
-  
-  
-  return (
-    
+  return ( 
         <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
           
           <td className="border-r-[2px] border-[#E0E0E0] text-[#1F1F1F] text-left  pl-[15px]">{taskName}</td>
@@ -124,7 +120,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
             </div>
           </td>
           <DeleteModal  open={open} todoId={todoId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
-          < Modal openEdite={openEdite }  data={data} setData={setData} idMode ={idMode}  setOpenEdit={setOpenEdit}></Modal>
+          < Modal openEdite={openEdite } data={data} setData={setData} idMode ={idMode}  setOpenEdit={setOpenEdit}></Modal>
           <EditModal openEdite={openEdite}/>
         </tr> 
         
