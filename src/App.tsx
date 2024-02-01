@@ -9,6 +9,7 @@ import TableDesktop from './components/tableDesktop/TableDesktop';
 import Modal from './components/modal/Modal';
 import Select from './components/select/Select';
 import { FaArrowUp } from "react-icons/fa";
+
 interface Idata {
   id: number
   taskName: string | number
@@ -17,8 +18,17 @@ interface Idata {
   deadline: number
   taskDetails: string | number
 }
+interface IIdModeParameter{
+  id : null | number  
+}
+interface IModalParameter{
+  openEdite:boolean
+    idMode:IIdModeParameter
+    setOpenEdit:Function
+    editId:number | null
+}
 let  todoId:number
-function App() {
+function App({openEdite,idMode,setOpenEdit,editId}:IModalParameter) {
   const [data, setData] = useState<Idata[]>([])
   const [open, setOpen] = useState<boolean>(false)
   function handleOpen() {
@@ -97,7 +107,7 @@ function App() {
                     })}
                 </table>
               </div>
-        <Modal open={open} onClose={handleClose} data={data} setData={setData}  />  
+        <Modal open={open} onClose={handleClose} data={data} setData={setData} openEdite={openEdite}idMode={idMode} setOpenEdit={setOpenEdit} editId={editId} />  
       </main>
     </div>
   );

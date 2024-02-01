@@ -5,6 +5,7 @@ import { FaTrash } from "react-icons/fa";
 import { useState } from 'react';
 import DeleteModal from '../DeleteModal/DeleteModal'
 import EditModal from '../editModal/EditModal'
+import Modal from '../modal/Modal';
 interface Idata{
   id:number
   taskName:string | number
@@ -123,7 +124,8 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
             </div>
           </td>
           <DeleteModal  open={open} todoId={todoId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
-          < EditModal openEdite={openEdite }  data={data} setData={setData} idMode ={idMode}  setOpenEdit={setOpenEdit}/>
+          < Modal openEdite={openEdite }  data={data} setData={setData} idMode ={idMode}  setOpenEdit={setOpenEdit}></Modal>
+          <EditModal openEdite={openEdite}/>
         </tr> 
         
   )

@@ -5,6 +5,11 @@ import Select from "../select/Select";
 import Input from "../input/Input"
 import DateInput from "../dateInput/DateInput"
 import Button from "../button/Button";
+import EditModal from '../editModal/EditModal'
+import TableDesktop from '../tableDesktop/TableDesktop'
+interface IIdModeParameter{
+    id : null | number  
+  }
 interface Idata{
     id:number
     taskName:string | number
@@ -18,12 +23,16 @@ interface ImodalParameter {
     onClose: Function
     data: Idata[] 
     setData :Function
+    openEdite:boolean
+    idMode:IIdModeParameter
+    setOpenEdit:Function
+    editId:number | null
 }
-function Modal({ open , onClose , data ,setData}: ImodalParameter) { 
+function Modal({ open , onClose , data ,setData ,openEdite,idMode,setOpenEdit,editId}: ImodalParameter) { 
     const [isDropDownVisible , setIsDropDownVisible] = useState<boolean>(false)
-    const [selectedOption , setSelectedOption] = useState<"">("")
-    const [selectedOption2 , setSelectedOption2 ] = useState <"">("")
-    const [inpval , setInpval] = useState <string | number >("")
+    const [selectedOption , setSelectedOption] = useState<number>(0)
+    const [selectedOption2 , setSelectedOption2 ] = useState <number>(0)
+    const [inpval , setInpval] = useState <string | number >("0")
     const [inpvalDate , setInpvalDate] = useState < number >(0)
     const [inpvalDetail , setInpvalDetail] = useState <string | number >("")
     {console.log(data)}
@@ -71,6 +80,7 @@ function Modal({ open , onClose , data ,setData}: ImodalParameter) {
                     </div>
                 </div>
             </div>
+            < EditModal openEdite={openEdite }  data={data} setData={setData} idMode ={idMode}  setOpenEdit={setOpenEdit} editId={editId} inpval={inpval}  selectedOption2={selectedOption2 }  selectedOption={selectedOption}  inpvalDate={inpvalDate}  inpvalDetail={inpvalDetail}/>
         </div>
     )
 }

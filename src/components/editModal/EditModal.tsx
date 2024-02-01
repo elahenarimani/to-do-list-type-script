@@ -12,25 +12,29 @@ interface Idata{
     taskDetails:string | number
   }
   interface IIdModeParameter{
-    id : null | number
-    
+    id : null | number  
   }
 interface IEditModalParameter{
     openEdite : boolean
-    
     data: Idata[] 
     idMode : IIdModeParameter
     setData :Function
     setOpenEdit : Function
-}
+    editId:number | null
+    inpval : string | number
+    selectedOption2 :number 
+    selectedOption :number
+    inpvalDate :number
+    inpvalDetail : string | number  
 
-function EditModal({openEdite   , data ,idMode ,setData ,setOpenEdit}:IEditModalParameter){
-    const [isDropDownVisible , setIsDropDownVisible] = useState<boolean>(false)
-    const [selectedOption , setSelectedOption] = useState<"">("")
-    const [selectedOption2 , setSelectedOption2 ] = useState <"">("")
-    const [inpval , setInpval] = useState <string | number >("")
-    const [inpvalDate , setInpvalDate] = useState < number >(0)
-    const [inpvalDetail , setInpvalDetail] = useState <string | number >("")
+}
+function EditModal({openEdite , data , idMode , setData , setOpenEdit , editId , inpval , selectedOption2 , selectedOption , inpvalDate , inpvalDetail }:IEditModalParameter){
+    const [isDropDownVisible , setIsDropDownVisibleEdit ] = useState<boolean>(false)
+    const [selectedOptionEdit , setSelectedOptionEdit ] = useState<number>(0)
+    const [selectedOption2Edit  , setSelectedOption2Edit  ] = useState <number>(0)
+    const [inpvalEdit  , setInpvalEdit ] = useState <string | number >("")
+    const [inpvalDateEdit  , setInpvalDateEdit ] = useState < number >(0)
+    const [inpvalDetailEdit  , setInpvalDetailEdit ] = useState <string | number >("")
     interface IEditTodoParameter{
         editId:number | null
         inpval : string | number
@@ -39,15 +43,15 @@ function EditModal({openEdite   , data ,idMode ,setData ,setOpenEdit}:IEditModal
         inpvalDate :number
         inpvalDetail : string | number   
     }
-    function editTodo({editId , inpval, selectedOption2 , selectedOption ,inpvalDate ,inpvalDetail }:IEditTodoParameter){
+    function editTodo(editToDoEnparameter:IEditTodoParameter){
          setData(data.map(item => {
             if(item.id == editId){
                 
-                    item.taskName = inpval ,
-                    item.priority = selectedOption2 ,
-                    item.status = selectedOption , 
-                    item.deadline = inpvalDate ,
-                    item.taskDetails = inpvalDetail
+                    item.taskName = inpvalEdit  ,
+                    item.priority = selectedOption2Edit  ,
+                    item.status = selectedOptionEdit  , 
+                    item.deadline = inpvalDateEdit  ,
+                    item.taskDetails = inpvalDetailEdit 
 
                 return item
             }else{
