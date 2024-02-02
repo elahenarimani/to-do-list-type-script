@@ -22,19 +22,24 @@ interface IEditModalParameter {
     setData :Function
     idMode : IIdModeParameter
     setIdMode:Function
+    taskName: string | number
+    priority: string
+    status: string
+    deadline: number
+    taskDetails: string | number
 }
-function EditModal({ openEdite , setOpenEdit , data ,setData , idMode ,setIdMode}: IEditModalParameter) { 
+function EditModal({ openEdite , setOpenEdit , data ,setData , idMode ,setIdMode ,taskName,priority,status,deadline,taskDetails}: IEditModalParameter) { 
     const [isDropDownVisible , setIsDropDownVisible] = useState<boolean>(false)
     const [selectedOption , setSelectedOption] = useState<string>("")
-    const [selectedOptionEdit , setSelectedOptionEdit] = useState<string>("")
+    const [selectedOptionEdit , setSelectedOptionEdit] = useState<string>(status)
     const [selectedOption2 , setSelectedOption2 ] = useState <string>("")
-    const [selectedOption2Edit , setSelectedOption2Edit ] = useState <string>("")
+    const [selectedOption2Edit , setSelectedOption2Edit ] = useState <string>(priority)
     const [inpval , setInpval] = useState <string | number >("")
-    const [inpvalEdit , setInpvalEdit] = useState <string | number >("")
+    const [inpvalEdit , setInpvalEdit] = useState <string | number >(taskName)
     const [inpvalDate , setInpvalDate] = useState < number>(0)
-    const [inpvalDateEdit , setInpvalDateEdit] = useState < number >(0)
+    const [inpvalDateEdit , setInpvalDateEdit] = useState < number >(deadline)
     const [inpvalDetail , setInpvalDetail] = useState <string | number >("")
-    const [inpvalDetailEdit , setInpvalDetailEdit] = useState <string | number >("")
+    const [inpvalDetailEdit , setInpvalDetailEdit] = useState <string | number >(taskDetails)
     const [test, setTest] = useState<any>("")
     interface IEditTodoParameter{
         editId:number | null
@@ -52,11 +57,12 @@ function EditModal({ openEdite , setOpenEdit , data ,setData , idMode ,setIdMode
                     item.status = newSelectedOption  
                     item.deadline = newInpvalDate  
                     item.taskDetails = newInpvalDetail   
+
                 return item
             }else{
                 return item
             }
-            console.log("test")
+            
          }
             ) )
             setIdMode({ id : null , mode:"add" })
@@ -104,7 +110,7 @@ function EditModal({ openEdite , setOpenEdit , data ,setData , idMode ,setIdMode
                     </div>
                     <div className="w-[400px] h-[40px] flex justify-between items-center ">
                         <Button onClickHandler={() => handleClose()} className=" text-[#3091E7] text-[17px] ">CANCEL</Button>   
-                    <Button onClickHandler={() => editTodo({ editId:idMode.id  , newInpval:inpvalEdit , newSelectedOption2:selectedOption2Edit , newSelectedOption:selectedOptionEdit , newInpvalDate: inpvalDateEdit , newInpvalDetail : inpvalDetailEdit}) } className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]">SAVE</Button>  
+                        <Button onClickHandler={() => editTodo({ editId:idMode.id  , newInpval:inpvalEdit , newSelectedOption2:selectedOption2Edit , newSelectedOption:selectedOptionEdit , newInpvalDate: inpvalDateEdit , newInpvalDetail : inpvalDetailEdit}) } className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]">SAVE</Button>  
                     </div>
                 </div>
             </div>

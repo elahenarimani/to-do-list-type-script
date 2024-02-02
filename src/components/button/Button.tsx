@@ -1,6 +1,6 @@
 interface IButtonParameter{
     children : string | JSX.Element
-    onClickHandler:Function
+    onClickHandler : Function
     className ?: string
 }
 function Button({onClickHandler , children , className}:IButtonParameter){

@@ -8,6 +8,7 @@ import EditModal from '../editModal/EditModal'
 import Modal from '../modal/Modal'
 import { Console } from 'console';
 import Button from '../button/Button';
+import ViewModal from '../viewModal/ViewModal'
 interface Idata {
   id: number
   taskName: string | number
@@ -31,11 +32,17 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
   const [open , setOpen] = useState<boolean>(false)
   const [openEdite , setOpenEdit] = useState<boolean>(false)
   const [deleteOpen , setDeleteOpen] = useState<boolean>(false)
+  const [viewOpen , setViewOpen] = useState<boolean>(false)
   interface IIdModeParameter{
     id : null | number
     mode : string 
   }
   const [idMode , setIdMode] = useState<IIdModeParameter>({ id : null , mode:"add" })
+  interface IViewParameter{
+    id : null | number
+  }
+  const [viewId , setViewId] = useState<IViewParameter>({ id : null})
+  
   interface IPriorityParameter{
     priority : number | string
   }
@@ -94,7 +101,8 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
     viewId:number
   }
   function handleviewbtn({viewId}:IhandleviewbtnParameter){
-    console.log(id)
+    setViewOpen(true)
+    console.log(viewId)
   }
   return (
         <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
@@ -129,7 +137,21 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
             </div>
           </td>
           <DeleteModal  deleteOpen={deleteOpen} removeId={removeId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
-          < EditModal  openEdite={openEdite} setOpenEdit={setOpenEdit} data={data} setData={setData} idMode ={idMode}  setIdMode={setIdMode}/>
+          {data.map(item => {
+            if(item.id == idMode.id)
+            return(< EditModal  openEdite={openEdite} setOpenEdit={setOpenEdit} data={data} setData={setData} idMode ={idMode}  setIdMode={setIdMode}
+              taskName={item.taskName}
+              priority={item.priority}
+              status={item.status}
+              deadline={item.deadline}
+              taskDetails={item.taskDetails}/>)
+          })}
+          {data.map(item => {
+            if(item.id == viewId.id)
+            return (
+             <ViewModal taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails} viewOpen={viewOpen} setViewOpen={setViewOpen}/>
+            )
+          })}
         
         </tr>      
   )
