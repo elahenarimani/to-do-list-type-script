@@ -5,10 +5,10 @@ interface IInputParameter extends InputHTMLAttributes<HTMLInputElement>{
     className : string
     placeholder : string
 }
-function DateInput ({valueState , inputHandler , className , placeholder , type}: IInputParameter ){
+function DateInput({valueState , inputHandler , className , placeholder , type}: IInputParameter ){
     return(
         <div>
-            <input value={valueState} onChange={() => inputHandler()} className={className} placeholder={placeholder} type={type}/>
+            <input value={valueState} onChange={(e:any) => inputHandler(e)} className={className} placeholder={placeholder} type={type}/>
         </div>
     )
 }

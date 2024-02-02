@@ -6,41 +6,35 @@ import { FaFilter } from "react-icons/fa6";
 import { TbPencilPlus } from "react-icons/tb";
 import TableMobile from './components/tableMobile/TableMobile';
 import TableDesktop from './components/tableDesktop/TableDesktop';
-import Modal from './components/modal/Modal';
-import Select from './components/select/Select';
 import { FaArrowUp } from "react-icons/fa";
+import Button from './components/button/Button';
+import Modal from './components/modal/Modal';
 interface Idata {
   id: number
   taskName: string | number
-  priority: number
-  status: number
+  priority: string
+  status: string
   deadline: number
   taskDetails: string | number
 }
-let  todoId:number
+let  removeId:number
 function App() {
   const [data, setData] = useState<Idata[]>([])
   const [open, setOpen] = useState<boolean>(false)
+  const [test, setTest] = useState<any>("")
   function handleOpen() {
     setOpen(true)
+    
+    console.log("test")
   }
   function handleClose() {
     setOpen(false)
   }
-  // interface IRemoveTodoParameter{
-  //   todoId : number
-  // }
-  // console.log(todoId)
-  // function removeTodo({todoId} : IRemoveTodoParameter){
-  //  setData(data.filter(item => item.id != todoId))
-  //  console.log(todoId)
-  // }
-  // interface IHandleRemoveTodoButton {
-  //   todoId :number 
-  // }
-  // function handleButtonClick({todoId}:IHandleRemoveTodoButton){
-  //   removeTodo({todoId:todoId}) 
-  // }
+  interface IIdModeParameter{
+    id : null | number
+    mode : string 
+  }
+  const [idMode , setIdMode] = useState<IIdModeParameter>({ id : null , mode:"add" })
   return (
     <div className="App">
       <header className='w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]'>
@@ -60,9 +54,9 @@ function App() {
           <button>
             <FaFilter />
           </button>
-          <button onClick={handleOpen}>
+          <Button onClickHandler={() => handleOpen()}>
             <TbPencilPlus />
-          </button>
+          </Button>
         </div>
       </header>
       <main className='w-full h-full'>
@@ -92,12 +86,12 @@ function App() {
                   </tr>
                   {data.map(item => {
                    return (
-                      <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails}  id={item.id} todoId={todoId}/>
+                      <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails}  id={item.id} removeId={removeId}/>
                       )
                     })}
                 </table>
               </div>
-        <Modal open={open} onClose={handleClose} data={data} setData={setData}  />  
+              <Modal open={open}  onClose={handleClose} data={data} setData={setData} idMode={idMode} setIdMode={setIdMode} />
       </main>
     </div>
   );
