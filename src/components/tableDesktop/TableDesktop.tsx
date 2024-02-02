@@ -85,8 +85,9 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
     editId : number
    }
   function changeToEditMode({editId}:IchangeToEditModeParameter){
-     setOpenEdit(true)
+     
      setIdMode({ id : editId , mode:"edit"})
+     setOpenEdit(true)
      console.log("test")
   }
   interface IhandleviewbtnParameter{
@@ -128,7 +129,7 @@ function TableDesktop({data, setData ,taskName , priority ,  status , deadline ,
             </div>
           </td>
           <DeleteModal  deleteOpen={deleteOpen} removeId={removeId} id={id} handleButtonClick={handleButtonClick} onClose={handleClose}/>
-          < EditModal   data={data} setData={setData} idMode ={idMode}  setIdMode={setIdMode}/>
+          < EditModal  openEdite={openEdite} setOpenEdit={setOpenEdit} data={data} setData={setData} idMode ={idMode}  setIdMode={setIdMode}/>
         
         </tr>      
   )
