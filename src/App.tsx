@@ -9,6 +9,9 @@ import TableDesktop from './components/tableDesktop/TableDesktop';
 import { FaArrowUp } from "react-icons/fa";
 import Button from './components/button/Button';
 import Modal from './components/modal/Modal';
+import { IoMdArrowDropdown } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 interface Idata {
   id: number
   taskName: string | number
@@ -22,6 +25,14 @@ function App() {
   const [data, setData] = useState<Idata[]>([])
   const [open, setOpen] = useState<boolean>(false)
   const [test, setTest] = useState<any>("")
+  const [showSelectOption , setShowSelectOption] =useState< string |number>("All")
+  let filteredData = data 
+  
+    if(showSelectOption !== "All"){
+     
+      filteredData= data.slice(0 , +showSelectOption)
+    }   
+
   function handleOpen() {
     setOpen(true)
     
@@ -35,6 +46,12 @@ function App() {
     mode : string 
   }
   const [idMode , setIdMode] = useState<IIdModeParameter>({ id : null , mode:"add" })
+  interface IhandleSelectOptionParametere{
+    numberOfShow :  string |number;
+  }
+  function handleSelectOption({numberOfShow}:IhandleSelectOptionParametere){
+    setShowSelectOption(numberOfShow)
+  }
   return (
     <div className="App">
       <header className='w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]'>
@@ -84,12 +101,33 @@ function App() {
                    </th>
                    <th className="  text-center text-[#666666]  ">Action</th>
                   </tr>
-                  {data.map(item => {
+                  {filteredData.map(item => {
                    return (
                       <TableDesktop data={data} setData={setData} taskName={item.taskName} priority={item.priority} status={item.status} deadline={item.deadline} taskDetails={item.taskDetails}  id={item.id} removeId={removeId}/>
                       )
                     })}
                 </table>
+                <div className='w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]'>
+                  <div>
+                    <p>Rows per page: </p>
+                  </div>
+                  <div className='dropdown min-w-[50px] inline-block cursor-pointer relative flex justify-between items-center gap-[15px]'>
+                    <div className='dropdowncontent h-[130px]  absolute min-w-[50px] z-12 bottom-0 right-100 bg-white rounded-[5px] pt-[5px]'>
+                      <p className='h-[30px] text-[15px]' onClick={() => handleSelectOption({numberOfShow:5})}>5</p>
+                      <p className='h-[30px] text-[15px]' onClick={() => handleSelectOption({numberOfShow:10})}>10</p>
+                      <p className='h-[30px] text-[15px]' onClick={() => handleSelectOption({numberOfShow:15})}>15</p>
+                      <p className='h-[30px] text-[15px]' onClick={() => handleSelectOption({numberOfShow:"All"})}>All</p>  
+                    </div> 
+                    <button className='dropBTN'><IoMdArrowDropdown size={25} color={"#757575"}/></button>
+                  </div>
+                  <div>
+                    <p>1-10 of 10 </p>
+                  </div>
+                  <div className='flex justify-between items-center gap-[15px]'>
+                    <button><IoIosArrowBack size={20} color={"#BDBDBD"}/></button>
+                    <button><IoIosArrowForward size={20} color={"#BDBDBD"}/></button>
+                  </div>
+                </div>
               </div>
               <Modal open={open}  onClose={handleClose} data={data} setData={setData} idMode={idMode} setIdMode={setIdMode} />
       </main>

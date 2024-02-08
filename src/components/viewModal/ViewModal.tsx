@@ -1,6 +1,7 @@
+import { idText } from "typescript"
 
-
-
+import ReactDOM from "react-dom";
+import {  useEffect } from "react";
 interface IViewModalParameter{
     taskName: string | number
     priority: string
@@ -9,8 +10,9 @@ interface IViewModalParameter{
     taskDetails: string | number
     viewOpen:boolean
     setViewOpen:Function
+    closeViewModal:Function
 }
-function ViewModal({ taskName,priority,status,deadline,taskDetails , viewOpen ,setViewOpen}: IViewModalParameter) { 
+function ViewModal({ taskName,priority,status,deadline,taskDetails , viewOpen ,setViewOpen ,closeViewModal}: IViewModalParameter) { 
     // const [isDropDownVisible , setIsDropDownVisible] = useState<boolean>(false)
     // const [selectedOption , setSelectedOption] = useState<string>(status)
     // const [selectedOptionEdit , setSelectedOptionEdit] = useState<string>(status)
@@ -22,11 +24,13 @@ function ViewModal({ taskName,priority,status,deadline,taskDetails , viewOpen ,s
     // const [inpvalDateEdit , setInpvalDateEdit] = useState < number >(deadline)
     // const [inpvalDetail , setInpvalDetail] = useState <string | number >(taskDetails)
     // const [inpvalDetailEdit , setInpvalDetailEdit] = useState <string | number >(taskDetails)
-    // const [test, setTest] = useState<any>("")
    
+    // const [test, setTest] = useState<any>("")
+   console.log(viewOpen)
     if (!viewOpen) return null
     return (
-        <div className='modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center'>
+        <div className='modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center' id="bg" onClick={() => closeViewModal()}  >
+            
             <div className=" w-[500px] h-[500px]  bg-white rounded-[5px] pl-[30px] pr-[30px] pt-[20px] pb-[20px]">
             <p className='text-[20px] text-left pb-[5px]'>View task</p> 
                 <div className="modal w-full h-full flex flex-col justify-around items-center pl-[10px] pr-[10px] gap-[1px] ">
