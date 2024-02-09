@@ -6,17 +6,21 @@
   height: 40vmin;
   pointer-events: none;
 }
-body,html{
+
+body,
+html {
   width: 100;
   min-height: 100vh;
   box-sizing: border-box;
 }
-*{
+
+* {
   margin: 0;
   padding: 0;
   font-size: small;
 }
-.search-wrapper:hover{
+
+.search-wrapper:hover {
   border: 2px solid white;
   max-width: 200px;
   height: 100%;
@@ -25,12 +29,15 @@ body,html{
   align-items: center;
   border-radius: 5px;
 }
-.search-wrapper  div:hover{
+
+.search-wrapper div:hover {
   border: none;
 }
-.search-wrapper  input:hover{
+
+.search-wrapper input:hover {
   border: none;
 }
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -47,29 +54,34 @@ body,html{
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 .dropdowncontent {
-  box-shadow:-1px 2px 400px 13px rgba(0,0,0,1);
+  box-shadow: -1px 2px 400px 13px rgba(0, 0, 0, 1);
   display: none;
-  
 }
+
 .dropdowncontent p {
   display: block;
- 
 }
+
 .dropdowncontent p:hover {
   background-color: #e8e5e5;
-  color :#2A9AF3
+  color: #2A9AF3
 }
+
 .App-link {
   color: #61dafb;
 }
+
 .dropdown:hover .dropdowncontent {
- display: block;
+  display: block;
 }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

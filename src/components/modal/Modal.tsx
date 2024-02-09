@@ -1,5 +1,4 @@
-import { useState, createContext } from "react";
-import "./modal.css";
+import { useState } from "react";
 import Select from "../select/Select";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
@@ -24,41 +23,26 @@ interface ImodalParameter {
   idMode: IIdModeParameter;
   setIdMode: Function;
 }
-function Modal({
-  open,
-  onClose,
-  data,
-  setData,
-  idMode,
-  setIdMode,
-}: ImodalParameter) {
-  const [isDropDownVisible, setIsDropDownVisible] = useState<boolean>(false);
+function Modal({ open, onClose, data, setData }: ImodalParameter) {
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const [selectedOptionEdit, setSelectedOptionEdit] = useState<string>("");
   const [selectedOption2, setSelectedOption2] = useState<string>("");
-  const [selectedOption2Edit, setSelectedOption2Edit] = useState<string>("");
   const [inpval, setInpval] = useState<string | number>("");
-  const [inpvalEdit, setInpvalEdit] = useState<string | number>("");
   const [inpvalDate, setInpvalDate] = useState<number>(0);
-  const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(0);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
-  const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>("");
-  const [test, setTest] = useState<any>("");
-  const [openEdite, setOpenEdit] = useState<boolean>(false);
-  function addData(){
+  function addData() {
     setData([
-        ...data,
-        {
-          id: Date.now(),
-          taskName: inpval,
-          priority: selectedOption2,
-          status: selectedOption,
-          deadline: inpvalDate,
-          taskDetails: inpvalDetail,
-          open: false
-        },
-      ])
-      onClose()
+      ...data,
+      {
+        id: Date.now(),
+        taskName: inpval,
+        priority: selectedOption2,
+        status: selectedOption,
+        deadline: inpvalDate,
+        taskDetails: inpvalDetail,
+        open: false,
+      },
+    ]);
+    onClose();
   }
   interface IEditTodoParameter {
     editId: number | null;
@@ -146,11 +130,8 @@ function Modal({
             >
               CANCEL
             </Button>
-
             <Button
-              onClickHandler={() =>  
-                addData()
-              }
+              onClickHandler={() => addData()}
               className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]"
             >
               SAVE

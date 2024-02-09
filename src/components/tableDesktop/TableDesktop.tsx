@@ -2,20 +2,17 @@ import "./tableDeaktop.css";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
-import { useState , useEffect } from "react";
+import { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import EditModal from "../editModal/EditModal";
-import Modal from "../modal/Modal";
-import { Console } from "console";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
-import ReactDOM from "react-dom";
 interface Idata {
   id: number;
   taskName: string | number;
   priority: string;
   status: string;
-  deadline: number ;
+  deadline: number;
   taskDetails: string | number;
 }
 interface ITableDesktopParameter {
@@ -55,8 +52,8 @@ function TableDesktop({
   interface IViewParameter {
     id: null | number;
   }
-  const [viewId, setViewId] = useState<IViewParameter>({ 
-    id: null 
+  const [viewId, setViewId] = useState<IViewParameter>({
+    id: null,
   });
 
   interface IPriorityParameter {
@@ -80,7 +77,6 @@ function TableDesktop({
   interface IRemoveTodoParameter {
     removeId: number;
   }
-  // console.log(removeId)
   function removeTodo({ removeId }: IRemoveTodoParameter) {
     setData(data.filter((item) => item.id !== removeId));
     console.log(removeId);
@@ -127,21 +123,13 @@ function TableDesktop({
   interface IchangeToViewbtnParameter {
     viewId: number;
   }
-  function  changeToViewbtn({ viewId }: IchangeToViewbtnParameter) {
-    setViewId({ id:viewId  })
+  function changeToViewbtn({ viewId }: IchangeToViewbtnParameter) {
+    setViewId({ id: viewId });
     setViewOpen(true);
-    console.log(id)
+    console.log(id);
   }
-  
-  function closeViewModal(e:any){
-    console.log(e.target)
-      console.log(e.target.id)
-     if(e.target.id === "bg"){
-      console.log(e.target)
-      console.log(e.target.id)
-      setViewOpen(false)
-     }
-
+  function closeViewModal() {
+    setViewOpen(false);
   }
   return (
     <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
