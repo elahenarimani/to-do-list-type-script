@@ -2,7 +2,137 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
-function TableMobile() {
+
+// import { IoEyeSharp } from "react-icons/io5";
+// import { BsFillPencilFill } from "react-icons/bs";
+// import { FaTrash } from "react-icons/fa";
+import { useState } from "react";
+import DeleteModal from "../DeleteModal/DeleteModal";
+import EditModal from "../editModal/EditModal";
+import Button from "../button/Button";
+import ViewModal from "../viewModal/ViewModal";
+interface Idata {
+  id: number;
+  taskName: string | number;
+  priority: string;
+  status: string;
+  deadline: number;
+  taskDetails: string | number;
+}
+interface ITableMobileParameter {
+  data: Idata[];
+  setData: Function;
+  taskName: string | number;
+  priority: string;
+  status: string;
+  deadline: number;
+  taskDetails: string | number;
+  id: number;
+  removeId: number;
+}
+function TableMobile({ data,
+  setData,
+  taskName,
+  priority,
+  status,
+  deadline,
+  taskDetails,
+  id,
+  removeId,
+}: ITableMobileParameter)  {
+  // const [openEdite, setOpenEdit] = useState<boolean>(false);
+  // const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+  // const [viewOpen, setViewOpen] = useState<boolean>(false);
+  interface IIdModeParameter {
+    id: null | number;
+    mode: string;
+  }
+  // const [idMode, setIdMode] = useState<IIdModeParameter>({
+  //   id: null,
+  //   mode: "add",
+  // });
+  // interface IViewParameter {
+  //   id: null | number;
+  // }
+  // const [viewId, setViewId] = useState<IViewParameter>({
+  //   id: null,
+  // });
+
+  interface IPriorityParameter {
+    priority: number | string;
+  }
+  function renderPriority({ priority }: IPriorityParameter) {
+    if (priority === 1) {
+      return (
+        <p className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px]">High </p>
+      );
+    } else if (priority === 2) {
+      return (
+        <p className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px]">Medium</p>
+      );
+    } else {
+      return (
+        <p className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px]"> Low</p>
+      );
+    }
+  }
+  interface IRemoveTodoParameter {
+    removeId: number;
+  }
+  function removeTodo({ removeId }: IRemoveTodoParameter) {
+    setData(data.filter((item) => item.id !== removeId));
+    console.log(removeId);
+  }
+  interface IHandleRemoveTodoButton {
+    removeId: number;
+  }
+  // function handleButtonClick({ removeId }: IHandleRemoveTodoButton) {
+  //   removeTodo({ removeId: removeId });
+  //   handleClose();
+  // }
+  interface IStatusParameter {
+    status: string | number;
+  }
+  function renderStatus({ status }: IStatusParameter) {
+    if (status === 1) {
+      return (
+        <p className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]">To do </p>
+      );
+    } else if (status === 2) {
+      return (
+        <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
+      );
+    } else {
+      return (
+        <p className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]">Done</p>
+      );
+    }
+  }
+  // function handleDeleteOpen() {
+  //   setDeleteOpen(true);
+  // }
+  // function handleClose() {
+  //   setDeleteOpen(false);
+  // }
+  // interface IchangeToEditModeParameter {
+  //   editId: number;
+  // }
+  // function changeToEditMode({ editId }: IchangeToEditModeParameter) {
+  //   setIdMode({ id: editId, mode: "edit" });
+  //   setOpenEdit(true);
+  //   console.log("test");
+  // }
+  // interface IchangeToViewbtnParameter {
+  //   viewId: number;
+  // }
+  // function changeToViewbtn({ viewId }: IchangeToViewbtnParameter) {
+  //   setViewId({ id: viewId });
+  //   setViewOpen(true);
+  //   console.log(id);
+  // }
+  // function closeViewModal() {
+  //   setViewOpen(false);
+  // }
   return (
     <div>
       <table className="w-full flex flex-col justify-between ">
@@ -17,7 +147,7 @@ function TableMobile() {
             <IoMdArrowDropdown color={"#757575"} />
           </div>
         </th>
-        <tr className="flex flex-col justify-between  border-b-[1px] border-[#ECECEC]  pl-[13px] pr-[13px]">
+        <tr className="w-full flex flex-col justify-between  border-b-[1px] border-[#ECECEC]  pl-[13px] pr-[13px]">
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Task</p>

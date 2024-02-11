@@ -13,7 +13,7 @@ function DateInput({
   type,
 }: IInputParameter) {
   return (
-    <div>
+    <div className="w-full">
       <input
         value={valueState}
         onChange={(e: any) => inputHandler(e)}

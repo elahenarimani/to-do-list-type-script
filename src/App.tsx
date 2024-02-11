@@ -96,35 +96,37 @@ function App() {
         </div>
       </header>
       <main className="w-full h-full">
-        <div className="w-full">
-          <table className="w-full h-full  ">
-            <tr className="w-full h-[50px] border-b-[2px] border-[#E0E0E0]">
+        <div className=" w-full">
+          <table className=" w-full h-full  ">
+            <tr className=" w-full h-[50px] border-b-[2px] border-[#E0E0E0] ">
               <th className="w-[25%] text-left h-full text-[#666666] border-r-[2px] border-[#E0E0E0] pl-[15px]">
                 Task
               </th>
-              <th className="text-center h-full">
+              <th className=" text-center h-full">
                 <div className="flex  justify-center gap-[2px] items-center">
                   <p className=" text-[#666666]">Priority</p>
                   <FaArrowUp />
                 </div>
               </th>
-              <th>
-                <div className="status   flex  justify-center gap-[2px] items-center">
+              <th >
+                <div className="status  flex  justify-center gap-[2px] items-center">
                   <p className=" text-[#666666]">Status</p>
                   <FaArrowUp />
                 </div>
               </th>
-              <th>
-                <div className="deadline  flex justify-center gap-[2px] items-center">
+              <th >
+                <div className=" deadline  flex justify-center gap-[2px] items-center">
                   <p className=" text-[#666666]">Deadline</p>
                   <FaArrowUp />
                 </div>
               </th>
               <th className="  text-center text-[#666666]  ">Action</th>
             </tr>
-            {filteredData.map((item) => {
+           
+           {filteredData.map((item) => {
               return (
-                <TableDesktop
+            
+                    <TableDesktop
                   data={data}
                   setData={setData}
                   taskName={item.taskName}
@@ -135,11 +137,15 @@ function App() {
                   id={item.id}
                   removeId={removeId}
                 />
+             
               );
             })}
-            {filteredData.map((item) => {
+           
+{/*            
+           {filteredData.map((item) => {
               return (
-                <TableMobile
+               <div className="block md:hidden">
+                    <TableMobile 
                   data={data}
                   setData={setData}
                   taskName={item.taskName}
@@ -150,8 +156,10 @@ function App() {
                   id={item.id}
                   removeId={removeId}
                 />
+               </div>
               );
-            })}
+            })} */}
+           
           </table>
           <div className="w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]">
             <div>

@@ -3,6 +3,7 @@ import Select from "../select/Select";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
+import { IoMdArrowDropdown } from "react-icons/io";
 interface Idata {
   id: number;
   taskName: string | number;
@@ -32,6 +33,7 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
   function addData() {
     setData([
       ...data,
+      
       {
         id: Date.now(),
         taskName: inpval,
@@ -43,23 +45,15 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
       },
     ]);
     onClose();
+    setInpval("")
   }
-  interface IEditTodoParameter {
-    editId: number | null;
-    newInpval: string | number;
-    newSelectedOption2: string;
-    newSelectedOption: string;
-    newInpvalDate: number;
-    newInpvalDetail: string | number;
-  }
-  {
-    console.log(data);
-  }
+
+ 
   if (!open) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
       <div className=" w-[500px] h-[500px]  bg-white rounded-[5px] pl-[30px] pr-[30px] pt-[20px] pb-[20px]">
-        <p className="text-[20px] text-left pb-[5px]">New task</p>
+        <p className="text-[20px] text-left pb-[5px]">New task </p>
 
         <div className="modal w-full h-full flex flex-col justify-around items-center pl-[10px] pr-[10px] gap-[1px] ">
           <div className="w-[400px] border-gray-500 rounded-[5px] border-[1px] h-[40px]">
@@ -72,11 +66,11 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
             />
           </div>
           <div className="w-[400px] h-[40px] flex justify-between items-center ">
-            <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+            <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px] ">
               <Select
                 value={selectedOption2}
                 handleChange={(e: any) => setSelectedOption2(e)}
-                className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
+                className="w-full h-full pl-[15px] text-[17px] border-none outline-none bg-transparent"
               >
                 <>
                   <option value="" disabled>
@@ -88,11 +82,19 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                 </>
               </Select>
             </div>
+            {/* <div className="priority-drop-down w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+                <div className="priority-drop-down-content">
+                  <p onClick={() => handlePriority()}>High</p>
+                  <p onClick={() => handlePriority()}>Medium</p>
+                  <p onClick={() => handlePriority()}>Low</p>
+                </div>
+                <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
+            </div> */}
             <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
               <Select
                 value={selectedOption}
                 handleChange={(e: any) => setSelectedOption(e)}
-                className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
+                className="w-full h-full pl-[15px] text-[17px] border-none outline-none bg-transparent"
               >
                 <>
                   <option value="" disabled>

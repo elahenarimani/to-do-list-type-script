@@ -4,6 +4,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import TableMobile from "../tableMobile/TableMobile"
 import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
@@ -37,7 +38,6 @@ function TableDesktop({
   id,
   removeId,
 }: ITableDesktopParameter) {
-  const [open, setOpen] = useState<boolean>(false);
   const [openEdite, setOpenEdit] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
@@ -132,28 +132,28 @@ function TableDesktop({
     setViewOpen(false);
   }
   return (
-    <tr className="to-do-wrapper w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
-      <td className="border-r-[2px] border-[#E0E0E0] text-[#1F1F1F] text-left  pl-[15px]">
+    <tr className="w-full w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
+      <td className=" border-r-[2px] border-[#E0E0E0] text-[#1F1F1F] text-left  pl-[15px]">
         {taskName}
       </td>
-      <td className="text-white ">
+      <td className="w-[19%] text-white ">
         <div className="flex justify-center items-center">
           <p>{renderPriority({ priority })}</p>
         </div>
       </td>
-      <td className="text-white">
+      <td className=" text-white ">
         <div className="flex justify-center items-center">
           <p>{renderStatus({ status })}</p>
         </div>
       </td>
-      <td className="text-[#F44438]">
+      <td className=" text-[#F44438] ">
         <div className="flex justify-center items-center">
           <p className="h-[25px] w-[85px] border-[1px] border-[#F44438] rounded-[20px]">
             {deadline}
           </p>
         </div>
       </td>
-      <td className="h-[50px] pt-[15px] pb-[15px]">
+      <td className=" h-[50px] pt-[15px] pb-[15px]">
         <div className=" flex justify-center items-center gap-[12px]">
           <Button onClickHandler={() => changeToViewbtn({ viewId: id })}>
             <IoEyeSharp color={"#757575"} />
