@@ -27,10 +27,15 @@ function App() {
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
   );
+  const [currenPage , setCurrentPage] = useState<number>(1)
+  const itemPerPage = +showSelectOption;
+  const startIndex = (currenPage - 1) * itemPerPage;
+  const endIndex = startIndex + itemPerPage;
   let filteredData = data;
   if (showSelectOption !== "All") {
-    filteredData = data.slice(0, +showSelectOption);
+    filteredData = data.slice(startIndex, endIndex);
   }
+  
   function handleOpen() {
     setOpen(true);
     console.log("test");
@@ -51,7 +56,16 @@ function App() {
   }
   function handleSelectOption({ numberOfShow }: IhandleSelectOptionParametere) {
     setShowSelectOption(numberOfShow);
+    // setCurrentPage(1)
   }
+  
+  function handledArroeForward() {
+    setCurrentPage((prevPage) => prevPage+1)    
+  }
+  function handleArrowBack ()  {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+ 
   return (
     <div className="App">
       <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]">
@@ -123,6 +137,21 @@ function App() {
                 />
               );
             })}
+            {filteredData.map((item) => {
+              return (
+                <TableMobile
+                  data={data}
+                  setData={setData}
+                  taskName={item.taskName}
+                  priority={item.priority}
+                  status={item.status}
+                  deadline={item.deadline}
+                  taskDetails={item.taskDetails}
+                  id={item.id}
+                  removeId={removeId}
+                />
+              );
+            })}
           </table>
           <div className="w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]">
             <div>
@@ -163,10 +192,10 @@ function App() {
               <p>1-10 of 10 </p>
             </div>
             <div className="flex justify-between items-center gap-[15px]">
-              <button>
+              <button onClick={() => handleArrowBack () }>
                 <IoIosArrowBack size={20} color={"#BDBDBD"} />
               </button>
-              <button>
+              <button onClick={() => handledArroeForward()}>
                 <IoIosArrowForward size={20} color={"#BDBDBD"} />
               </button>
             </div>
