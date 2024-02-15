@@ -1,9 +1,10 @@
 import { useState } from "react";
-import Select from "../select/Select";
+import Select2 from "../select/Select2";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
+import Select ,{ components, DropdownIndicatorProps, StylesConfig } from 'react-select';
 interface Idata {
   id: number;
   taskName: string | number;
@@ -24,12 +25,18 @@ interface ImodalParameter {
   idMode: IIdModeParameter;
   setIdMode: Function;
 }
+interface ISelectOption{
+  value:string
+  label:string
+}
 function Modal({ open, onClose, data, setData }: ImodalParameter) {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  // const [selectedOption, setSelectedOption] = useState<string>("");
   const [selectedOption2, setSelectedOption2] = useState<string>("");
   const [inpval, setInpval] = useState<string | number>("");
   const [inpvalDate, setInpvalDate] = useState<number>(0);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
+  const [selectedOption , setSelectedOption]=useState<ISelectOption | null>(null)
+  
   function addData() {
     setData([
       ...data,
@@ -47,8 +54,33 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
     onClose();
     setInpval("")
   }
+  interface CustomDropdownIndicatorProps extends DropdownIndicatorProps< ISelectOption, false> {
+    [key: string]: any;
+    innerProps: React.HTMLAttributes<HTMLDivElement>;
+    isFocused: boolean; 
+  }
+  function CustomDropdownIndicator ({ innerProps, isFocused, ...props }: React.FC<CustomDropdownIndicatorProps>){
+    
+    return(
+      <components.DropdownIndicator {...props}>
+        <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
+        <CustomArrowIcon/>
+      </components.DropdownIndicator>
+    )
+  }
+  const CustomArrowIcon: React.FC = () => (
+ <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
+    <span>&#x2193;</span>
 
+  )
  
+ const customStyles: StylesConfig<ISelectOption, false> = {
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    border: 'none', 
+  }),
+};
+
   if (!open) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
@@ -67,7 +99,7 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
           </div>
           <div className="w-[400px] h-[40px] flex justify-between items-center ">
             <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px] ">
-              <Select
+              {/* <Select
                 value={selectedOption2}
                 handleChange={(e: any) => setSelectedOption2(e)}
                 className="w-full h-full pl-[15px] text-[17px] border-none outline-none bg-transparent"
@@ -80,7 +112,24 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                   <option value="2">Medium</option>
                   <option value="3">Low</option>
                 </>
-              </Select>
+              </Select> */}
+             <Select  
+             
+             onChange={(e:any) => setSelectedOption(e)}
+             defaultValue={selectedOption}
+             placeholder="Priority"
+             components = {{DropdownIndicator: CustomDropdownIndicator  }}
+             styles={customStyles}
+             options={[
+                {value:"High" , label:"High"},
+                {value:"Medium" , label:"Medium"},
+                {value:"Low", label:"Low"}
+
+             ]} 
+            
+            
+             />
+             <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
             </div>
             {/* <div className="priority-drop-down w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
                 <div className="priority-drop-down-content">
@@ -91,7 +140,7 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                 <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
             </div> */}
             <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
-              <Select
+              {/* <Select
                 value={selectedOption}
                 handleChange={(e: any) => setSelectedOption(e)}
                 className="w-full h-full pl-[15px] text-[17px] border-none outline-none bg-transparent"
@@ -104,7 +153,7 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                   <option value="2">Doing</option>
                   <option value="3">Done</option>
                 </>
-              </Select>
+              </Select> */}
             </div>
             <div className=" w-[120px] h-full border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
               <DateInput

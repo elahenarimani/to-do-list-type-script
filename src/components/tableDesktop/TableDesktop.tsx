@@ -8,6 +8,7 @@ import TableMobile from "../tableMobile/TableMobile"
 import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
+
 interface Idata {
   id: number;
   taskName: string | number;

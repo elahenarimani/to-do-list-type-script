@@ -12,6 +12,7 @@ import Modal from "./components/modal/Modal";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import Select from 'react-select';
 interface Idata {
   id: number;
   taskName: string | number;
@@ -27,6 +28,7 @@ function App() {
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
   );
+  
   const [currenPage , setCurrentPage] = useState<number>(1)
   const itemPerPage = +showSelectOption;
   const startIndex = (currenPage - 1) * itemPerPage;
@@ -67,8 +69,22 @@ function App() {
   };
  
   return (
-    <div className="App">
-      <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]">
+    <div className="App  ">
+        {/* <Select  options={[
+          {value:0 , label:"do"},
+          {value:1 , label:"doing"},
+          {value:2 , label:"done"}
+          ]}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderColor: state.isFocused ? 'grey' : 'red',
+            }),
+          }}
+          /> */}
+
+          
+       <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]">
         <div className="min-w-[80px] flex justify-between items-center gap-[5px]">
           <div>
             <VscChecklist />
@@ -142,7 +158,7 @@ function App() {
             })}
            
 {/*            
-           {filteredData.map((item) => {
+           {filteredData.map((item) => {1111111
               return (
                <div className="block md:hidden">
                     <TableMobile 
@@ -158,7 +174,7 @@ function App() {
                 />
                </div>
               );
-            })} */}
+            })}111111111111 */}
            
           </table>
           <div className="w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]">
@@ -217,7 +233,7 @@ function App() {
           idMode={idMode}
           setIdMode={setIdMode}
         />
-      </main>
+      </main> 
     </div>
   );
 }

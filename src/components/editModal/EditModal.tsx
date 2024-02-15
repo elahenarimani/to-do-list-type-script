@@ -1,5 +1,5 @@
 import { useState} from "react";
-import Select from "../select/Select";
+import Select from "../select/Select2";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
