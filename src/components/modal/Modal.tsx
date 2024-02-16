@@ -5,6 +5,10 @@ import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Select ,{ components, DropdownIndicatorProps, StylesConfig } from 'react-select';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+// import {library} from "@fortawesome/fontawesome-svg-core";
+// library.add(faCaretDown);
 interface Idata {
   id: number;
   taskName: string | number;
@@ -26,17 +30,17 @@ interface ImodalParameter {
   setIdMode: Function;
 }
 interface ISelectOption{
-  value:string
+  value:string |number
   label:string
 }
 function Modal({ open, onClose, data, setData }: ImodalParameter) {
+  console.log(data)
   // const [selectedOption, setSelectedOption] = useState<string>("");
-  const [selectedOption2, setSelectedOption2] = useState<string>("");
+  const [selectedOptionStatus , setSelectedOptionStatus]=useState<ISelectOption | null>(null)
   const [inpval, setInpval] = useState<string | number>("");
   const [inpvalDate, setInpvalDate] = useState<number>(0);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
-  const [selectedOption , setSelectedOption]=useState<ISelectOption | null>(null)
-  
+  const [selectedOptionPriority , setSelectedOptionPriority]=useState<ISelectOption | null>(null)
   function addData() {
     setData([
       ...data,
@@ -44,8 +48,8 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
       {
         id: Date.now(),
         taskName: inpval,
-        priority: selectedOption2,
-        status: selectedOption,
+        priority: selectedOptionPriority,
+        status: selectedOptionStatus,
         deadline: inpvalDate,
         taskDetails: inpvalDetail,
         open: false,
@@ -54,33 +58,48 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
     onClose();
     setInpval("")
   }
-  interface CustomDropdownIndicatorProps extends DropdownIndicatorProps< ISelectOption, false> {
-    [key: string]: any;
-    innerProps: React.HTMLAttributes<HTMLDivElement>;
-    isFocused: boolean; 
-  }
-  function CustomDropdownIndicator ({ innerProps, isFocused, ...props }: React.FC<CustomDropdownIndicatorProps>){
-    
-    return(
-      <components.DropdownIndicator {...props}>
-        <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
-        <CustomArrowIcon/>
-      </components.DropdownIndicator>
-    )
-  }
-  const CustomArrowIcon: React.FC = () => (
- <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
-    <span>&#x2193;</span>
 
-  )
- 
- const customStyles: StylesConfig<ISelectOption, false> = {
-  dropdownIndicator: (provided, state) => ({
-    ...provided,
-    border: 'none', 
-  }),
+const CaretDownIcon = () => {
+  return <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
 };
-
+const DropdownIndicator: React.FC<DropdownIndicatorProps> = props => {
+  return (
+    <components.DropdownIndicator {...props}>
+      <CaretDownIcon/>
+    </components.DropdownIndicator>
+  );
+};
+const customStyles: StylesConfig = {
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: 'none',
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    width: 120,
+    height: 40,
+    borderColor: "#757575"
+  }),
+  menu: (provided) => ({
+    ...provided,
+    textAlign: 'left',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: 'inherit',
+    // backgroundColor: (state.isFocused || state.isSelected) ? "#f0f0f0" : "transparent",
+    // backgroundColor: state.isFocused ? "#f0f0f0" : "transparent", 
+    // backgroundColor: state.isFocused ? "#f0f0f0" : state.isSelected  ? "#3091E7" :"transparent",
+    backgroundColor:  state.isSelected  ? "#3091E7" :"transparent",
+    
+    
+    '&:hover': {
+      backgroundColor: '#A8A8A8',
+      color: 'inherit',
+    },
+  }),  
+  
+};
   if (!open) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
@@ -98,7 +117,7 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
             />
           </div>
           <div className="w-[400px] h-[40px] flex justify-between items-center ">
-            <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px] ">
+            {/* <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px] "> */}
               {/* <Select
                 value={selectedOption2}
                 handleChange={(e: any) => setSelectedOption2(e)}
@@ -112,25 +131,24 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                   <option value="2">Medium</option>
                   <option value="3">Low</option>
                 </>
+                
               </Select> */}
-             <Select  
              
-             onChange={(e:any) => setSelectedOption(e)}
-             defaultValue={selectedOption}
-             placeholder="Priority"
-             components = {{DropdownIndicator: CustomDropdownIndicator  }}
-             styles={customStyles}
+             <Select  
+             onChange={(e:any) => {setSelectedOptionPriority(e.label)}}
+            //  defaultValue={selectedOptionPriority}
+             placeholder={"Priority"}
+             components={{DropdownIndicator}}
+            
+             styles={customStyles}  
              options={[
-                {value:"High" , label:"High"},
-                {value:"Medium" , label:"Medium"},
-                {value:"Low", label:"Low"}
-
+                {value:1 , label:"High"},
+                {value:2 , label:"Medium"},
+                {value:3, label:"Low"}
              ]} 
-            
-            
              />
-             <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
-            </div>
+             
+            {/* </div> */}
             {/* <div className="priority-drop-down w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
                 <div className="priority-drop-down-content">
                   <p onClick={() => handlePriority()}>High</p>
@@ -139,7 +157,21 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                 </div>
                 <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
             </div> */}
-            <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+            {/* <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]"> */}
+            <Select  
+             onChange={(e:any) => {setSelectedOptionStatus(e.label)}}
+            //  defaultValue={selectedOptionStatus}
+             
+             placeholder={"status"}
+             components={{DropdownIndicator}}
+            
+             styles={customStyles}  
+             options={[
+                {value:1 , label:"To do"},
+                {value:2 , label:"Doing"},
+                {value:3, label:"Done"}
+             ]} 
+             />
               {/* <Select
                 value={selectedOption}
                 handleChange={(e: any) => setSelectedOption(e)}
@@ -154,7 +186,7 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
                   <option value="3">Done</option>
                 </>
               </Select> */}
-            </div>
+            {/* </div> */}
             <div className=" w-[120px] h-full border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
               <DateInput
                 valueState={inpvalDate}

@@ -42,6 +42,7 @@ function TableDesktop({
   const [openEdite, setOpenEdit] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
+
   interface IIdModeParameter {
     id: null | number;
     mode: string;
@@ -61,11 +62,11 @@ function TableDesktop({
     priority: number | string;
   }
   function renderPriority({ priority }: IPriorityParameter) {
-    if (priority === 1) {
+    if (priority === "High") {
       return (
         <p className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px]">High </p>
       );
-    } else if (priority === 2) {
+    } else if (priority === "Medium") {
       return (
         <p className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px]">Medium</p>
       );
@@ -93,11 +94,11 @@ function TableDesktop({
     status: string | number;
   }
   function renderStatus({ status }: IStatusParameter) {
-    if (status === 1) {
+    if (status === "To do") {
       return (
         <p className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]">To do </p>
       );
-    } else if (status === 2) {
+    } else if (status === "Doing" ) {
       return (
         <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
       );
