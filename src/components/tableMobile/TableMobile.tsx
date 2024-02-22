@@ -62,11 +62,11 @@ function TableMobile({ data,
     priority: number | string;
   }
   function renderPriority({ priority }: IPriorityParameter) {
-    if (priority === 1) {
+    if (priority === "High") {
       return (
         <p className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px]">High </p>
       );
-    } else if (priority === 2) {
+    } else if (priority === "Medium") {
       return (
         <p className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px]">Medium</p>
       );
@@ -94,11 +94,11 @@ function TableMobile({ data,
     status: string | number;
   }
   function renderStatus({ status }: IStatusParameter) {
-    if (status === 1) {
+    if (status === "To do") {
       return (
         <p className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]">To do </p>
       );
-    } else if (status === 2) {
+    } else if (status === "Doing" ) {
       return (
         <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
       );
@@ -151,25 +151,25 @@ function TableMobile({ data,
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Task</p>
-              <p>Call mom</p>
+              <p> {taskName}</p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Priority</p>
-              <p>Low</p>
+              <p>{renderPriority({ priority })}</p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Status</p>
-              <p>Doing</p>
+              <p>{renderStatus({ status })}</p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Deadline</p>
-              <p>2024/02/09</p>
+              <p>{deadline}</p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">

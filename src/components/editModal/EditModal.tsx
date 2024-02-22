@@ -46,10 +46,11 @@ function EditModal({
     useState<string>(priority);
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
   const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(deadline);
+  
   const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>(
     taskDetails
   );
-  const [test, setTest] = useState<any>("");
+  
   interface IEditTodoParameter {
     editId: number | null;
     newInpval: string | number;

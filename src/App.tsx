@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import  { createContext, useState } from "react";
 import "./App.css";
 import { VscChecklist } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
@@ -13,6 +13,9 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import Select from 'react-select';
+export const DataContext = createContext<{data:Idata[] , setData:Function } | null>(null)
+  
+
 interface Idata {
   id: number;
   taskName: string | number;
@@ -69,7 +72,9 @@ function App() {
   };
  
   return (
-    <div className="App  ">
+    <>
+      <DataContext.Provider value={{data , setData}}>
+       <div className="App">
         {/* <Select  options={[
           {value:0 , label:"do"},
           {value:1 , label:"doing"},
@@ -84,36 +89,36 @@ function App() {
           /> */}
 
           
-       <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[10px] pr-[10px] text-[#FFFFFF]">
+       <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
         <div className="min-w-[80px] flex justify-between items-center gap-[5px]">
           <div>
-            <VscChecklist />
+            <VscChecklist size={20}/>
           </div>
           <div>
-            <p className="truncate min-w-[100px]"> My To-Do Tasks </p>
+            <p className="truncate min-w-[100px] text-[20px]"> My To-Do Tasks </p>
           </div>
         </div>
-        <div className="max-w-[80%]  flex justify-between items-center gap-[10px]  bg-[#6200EA]">
-          <div className="search-wrapper  max-w-[200px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
+        <div className="max-w-[80%]  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
+          <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
             <input
               className="w-full h-full bg-[#6200EA] border-none outline-none"
               placeholder="Search"
             />
             <div className="">
-              <CiSearch />
+              <CiSearch size={20}/>
             </div>
           </div>
           <button>
-            <FaFilter />
+            <FaFilter size={20}/>
           </button>
           <Button onClickHandler={() => handleOpen()}>
-            <TbPencilPlus />
+            <TbPencilPlus size={20}/>
           </Button>
         </div>
       </header>
       <main className="w-full h-full">
         <div className=" w-full">
-          <table className=" w-full h-full  ">
+          <table className=" hidden md:table w-full h-full  ">
             <tr className=" w-full h-[50px] border-b-[2px] border-[#E0E0E0] ">
               <th className="w-[25%] text-left h-full text-[#666666] border-r-[2px] border-[#E0E0E0] pl-[15px]">
                 Task
@@ -157,8 +162,11 @@ function App() {
               );
             })}
            
-{/*            
-           {filteredData.map((item) => {1111111
+
+           
+          </table>
+                     
+           {filteredData.map((item) => {
               return (
                <div className="block md:hidden">
                     <TableMobile 
@@ -174,9 +182,7 @@ function App() {
                 />
                </div>
               );
-            })}111111111111 */}
-           
-          </table>
+            })}
           <div className="w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]">
             <div>
               <p>Rows per page: </p>
@@ -235,6 +241,8 @@ function App() {
         />
       </main> 
     </div>
+    </DataContext.Provider>
+    </>
   );
 }
 export default App;

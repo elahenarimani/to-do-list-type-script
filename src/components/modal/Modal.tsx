@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { createContext, useContext, useState} from "react";
 import Select2 from "../select/Select2";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Select ,{ components, DropdownIndicatorProps, StylesConfig } from 'react-select';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-// import {library} from "@fortawesome/fontawesome-svg-core";
-// library.add(faCaretDown);
+import { DataContext } from "../../App";
+
+
 interface Idata {
   id: number;
   taskName: string | number;
@@ -30,8 +29,8 @@ interface ImodalParameter {
   setIdMode: Function;
 }
 interface ISelectOption{
-  value:string |number
-  label:string
+  value:string |number |null
+  label:string |null
 }
 function Modal({ open, onClose, data, setData }: ImodalParameter) {
   console.log(data)
@@ -41,10 +40,11 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
   const [inpvalDate, setInpvalDate] = useState<number>(0);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const [selectedOptionPriority , setSelectedOptionPriority]=useState<ISelectOption | null>(null)
+  const DataUse = useContext(DataContext)
+  console.log(DataUse)
   function addData() {
-    setData([
+    DataUse?.setData([
       ...data,
-      
       {
         id: Date.now(),
         taskName: inpval,
@@ -160,11 +160,9 @@ const customStyles: StylesConfig = {
             {/* <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]"> */}
             <Select  
              onChange={(e:any) => {setSelectedOptionStatus(e.label)}}
-            //  defaultValue={selectedOptionStatus}
-             
+            //  defaultValue={selectedOptionStatus} 
              placeholder={"status"}
              components={{DropdownIndicator}}
-            
              styles={customStyles}  
              options={[
                 {value:1 , label:"To do"},

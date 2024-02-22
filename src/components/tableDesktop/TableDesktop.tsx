@@ -42,7 +42,6 @@ function TableDesktop({
   const [openEdite, setOpenEdit] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
-
   interface IIdModeParameter {
     id: null | number;
     mode: string;
@@ -57,7 +56,6 @@ function TableDesktop({
   const [viewId, setViewId] = useState<IViewParameter>({
     id: null,
   });
-
   interface IPriorityParameter {
     priority: number | string;
   }
@@ -134,7 +132,7 @@ function TableDesktop({
     setViewOpen(false);
   }
   return (
-    <tr className="w-full w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
+    <tr className=" w-full w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
       <td className=" border-r-[2px] border-[#E0E0E0] text-[#1F1F1F] text-left  pl-[15px]">
         {taskName}
       </td>
