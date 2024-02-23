@@ -8,14 +8,12 @@ import TableMobile from "./components/tableMobile/TableMobile";
 import TableDesktop from "./components/tableDesktop/TableDesktop";
 import { FaArrowUp } from "react-icons/fa";
 import Button from "./components/button/Button";
-import Modal from "./components/modal/Modal";
+import AddModal from "./components/addModal/AddModal";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import Select from 'react-select';
+// import Select from 'react-select';
 export const DataContext = createContext<{data:Idata[] , setData:Function } | null>(null)
-  
-
 interface Idata {
   id: number;
   taskName: string | number;
@@ -26,12 +24,11 @@ interface Idata {
 }
 let removeId: number;
 function App() {
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [data, setData] = useState<Idata[]>([]);
-  const [open, setOpen] = useState<boolean>(false);
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
   );
-  
   const [currenPage , setCurrentPage] = useState<number>(1)
   const itemPerPage = +showSelectOption;
   const startIndex = (currenPage - 1) * itemPerPage;
@@ -40,13 +37,11 @@ function App() {
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
   }
-  
   function handleOpen() {
-    setOpen(true);
-    console.log("test");
+    setOpenAddModal(true);
   }
-  function handleClose() {
-    setOpen(false);
+  function onClose() {
+    setOpenAddModal(false);
   }
   interface IIdModeParameter {
     id: null | number;
@@ -74,21 +69,7 @@ function App() {
   return (
     <>
       <DataContext.Provider value={{data , setData}}>
-       <div className="App">
-        {/* <Select  options={[
-          {value:0 , label:"do"},
-          {value:1 , label:"doing"},
-          {value:2 , label:"done"}
-          ]}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              borderColor: state.isFocused ? 'grey' : 'red',
-            }),
-          }}
-          /> */}
-
-          
+       <div className="App">   
        <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
         <div className="min-w-[80px] flex justify-between items-center gap-[5px]">
           <div>
@@ -146,8 +127,7 @@ function App() {
            
            {filteredData.map((item) => {
               return (
-            
-                    <TableDesktop
+                <TableDesktop
                   data={data}
                   setData={setData}
                   taskName={item.taskName}
@@ -158,7 +138,6 @@ function App() {
                   id={item.id}
                   removeId={removeId}
                 />
-             
               );
             })}
            
@@ -169,7 +148,7 @@ function App() {
            {filteredData.map((item) => {
               return (
                <div className="block md:hidden">
-                    <TableMobile 
+                  <TableMobile 
                   data={data}
                   setData={setData}
                   taskName={item.taskName}
@@ -231,9 +210,9 @@ function App() {
             </div>
           </div>
         </div>
-        <Modal
-          open={open}
-          onClose={handleClose}
+        <AddModal
+          openAddModal={openAddModal}
+          onClose={onClose}
           data={data}
           setData={setData}
           idMode={idMode}

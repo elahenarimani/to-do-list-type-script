@@ -6,14 +6,12 @@ import Button from "../button/Button";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Select ,{ components, DropdownIndicatorProps, StylesConfig } from 'react-select';
 import { DataContext } from "../../App";
-
-
 interface Idata {
   id: number;
   taskName: string | number;
   priority: string;
   status: string;
-  deadline: number;
+  deadline: number ;
   taskDetails: string | number;
 }
 interface IIdModeParameter {
@@ -21,7 +19,7 @@ interface IIdModeParameter {
   mode: string;
 }
 interface ImodalParameter {
-  open: boolean;
+  openAddModal: boolean;
   onClose: Function;
   data: Idata[];
   setData: Function;
@@ -32,14 +30,14 @@ interface ISelectOption{
   value:string |number |null
   label:string |null
 }
-function Modal({ open, onClose, data, setData }: ImodalParameter) {
+function AddModal({ openAddModal, onClose, data, setData }: ImodalParameter) {
   console.log(data)
   // const [selectedOption, setSelectedOption] = useState<string>("");
-  const [selectedOptionStatus , setSelectedOptionStatus]=useState<ISelectOption | null>(null)
   const [inpval, setInpval] = useState<string | number>("");
-  const [inpvalDate, setInpvalDate] = useState<number>(0);
-  const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const [selectedOptionPriority , setSelectedOptionPriority]=useState<ISelectOption | null>(null)
+  const [selectedOptionStatus , setSelectedOptionStatus]=useState<ISelectOption | null>(null)
+  const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
+  const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const DataUse = useContext(DataContext)
   console.log(DataUse)
   function addData() {
@@ -52,13 +50,15 @@ function Modal({ open, onClose, data, setData }: ImodalParameter) {
         status: selectedOptionStatus,
         deadline: inpvalDate,
         taskDetails: inpvalDetail,
-        open: false,
+        openAddModal: false,
       },
     ]);
     onClose();
     setInpval("")
+    setInpvalDetail("")
+    setInpvalDate(undefined)
+    
   }
-
 const CaretDownIcon = () => {
   return <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
 };
@@ -98,14 +98,14 @@ const customStyles: StylesConfig = {
       color: 'inherit',
     },
   }),  
-  
+
 };
-  if (!open) return null;
-  return (
-    <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
+
+  if (!openAddModal) return null;
+  return ( 
+      <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
       <div className=" w-[500px] h-[500px]  bg-white rounded-[5px] pl-[30px] pr-[30px] pt-[20px] pb-[20px]">
         <p className="text-[20px] text-left pb-[5px]">New task </p>
-
         <div className="modal w-full h-full flex flex-col justify-around items-center pl-[10px] pr-[10px] gap-[1px] ">
           <div className="w-[400px] border-gray-500 rounded-[5px] border-[1px] h-[40px]">
             <Input
@@ -139,12 +139,11 @@ const customStyles: StylesConfig = {
             //  defaultValue={selectedOptionPriority}
              placeholder={"Priority"}
              components={{DropdownIndicator}}
-            
              styles={customStyles}  
              options={[
                 {value:1 , label:"High"},
                 {value:2 , label:"Medium"},
-                {value:3, label:"Low"}
+                {value:3 , label:"Low"}
              ]} 
              />
              
@@ -221,6 +220,7 @@ const customStyles: StylesConfig = {
         </div>
       </div>
     </div>
+
   );
 }
-export default Modal;
+export default AddModal;

@@ -1,8 +1,11 @@
-import { useState} from "react";
-import Select from "../select/Select2";
+import { useState } from "react";
+// import Select from "../select/Select2";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
+import selectContext from "../addModal/AddModal";
+import { IoMdArrowDropdown } from "react-icons/io";
+import Select ,{ components, DropdownIndicatorProps, StylesConfig } from 'react-select';
 interface Idata {
   id: number;
   taskName: string | number;
@@ -44,13 +47,19 @@ function EditModal({
   const [selectedOptionEdit, setSelectedOptionEdit] = useState<string>(status);
   const [selectedOption2Edit, setSelectedOption2Edit] =
     useState<string>(priority);
+    interface ISelectOption{
+      value:string |number |null
+      label:string |null
+    }
+  const [selectedOptionPriority , setSelectedOptionPriority]=useState<ISelectOption | null>(null)
+  const [selectedOptionStatus , setSelectedOptionStatus]=useState<ISelectOption | null>(null)
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
   const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(deadline);
   
   const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>(
     taskDetails
   );
-  
+ 
   interface IEditTodoParameter {
     editId: number | null;
     newInpval: string | number;
@@ -89,6 +98,48 @@ function EditModal({
   {
     console.log(data);
   }
+  interface ISelectOption{
+    value:string |number |null
+    label:string |null
+  }
+  const CaretDownIcon = () => {
+    return <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
+  };
+  const DropdownIndicator: React.FC<DropdownIndicatorProps> = props => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <CaretDownIcon/>
+      </components.DropdownIndicator>
+    );
+  };
+  const customStyles: StylesConfig = {
+    indicatorSeparator: (provided, state) => ({
+      ...provided,
+      display: 'none',
+    }),
+    control: (provided, state) => ({
+      ...provided,
+      width: 120,
+      height: 40,
+      borderColor: "#757575"
+    }),
+    menu: (provided) => ({
+      ...provided,
+      textAlign: 'left',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: 'inherit',
+      // backgroundColor: (state.isFocused || state.isSelected) ? "#f0f0f0" : "transparent",
+      // backgroundColor: state.isFocused ? "#f0f0f0" : "transparent", 
+      // backgroundColor: state.isFocused ? "#f0f0f0" : state.isSelected  ? "#3091E7" :"transparent",
+      backgroundColor:  state.isSelected  ? "#3091E7" :"transparent",
+      '&:hover': {
+        backgroundColor: '#A8A8A8',
+        color: 'inherit',
+      },
+    }),   
+  };
   if (!openEdite) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
@@ -106,7 +157,7 @@ function EditModal({
           </div>
           <div className="w-[400px] h-[40px] flex justify-between items-center ">
             <div className="priority-drop-down-container w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
-              <Select
+              {/* <Select
                 value={selectedOption2Edit}
                 handleChange={(e: any) => setSelectedOption2Edit(e)}
                 className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
@@ -119,10 +170,23 @@ function EditModal({
                   <option value="2">Medium</option>
                   <option value="3">Low</option>
                 </>
-              </Select>
+              </Select> */}
+               <Select  
+             onChange={(e:any) => {setSelectedOptionPriority(e.label)}}
+            //  defaultValue={selectedOptionPriority}
+             placeholder={"Priority"}
+             components={{DropdownIndicator}}
+            
+             styles={customStyles}  
+             options={[
+                {value:1 , label:"High"},
+                {value:2 , label:"Medium"},
+                {value:3, label:"Low"}
+             ]} 
+             />
             </div>
             <div className=" w-[120px] h-full  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
-              <Select
+              {/* <Select
                 value={selectedOptionEdit}
                 handleChange={(e: any) => setSelectedOptionEdit(e)}
                 className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
@@ -135,7 +199,19 @@ function EditModal({
                   <option value="2">Doing</option>
                   <option value="3">Done</option>
                 </>
-              </Select>
+              </Select> */}
+              <Select  
+             onChange={(e:any) => {setSelectedOptionStatus(e.label)}}
+            //  defaultValue={selectedOptionStatus} 
+             placeholder={"status"}
+             components={{DropdownIndicator}}
+             styles={customStyles}  
+             options={[
+                {value:1 , label:"To do"},
+                {value:2 , label:"Doing"},
+                {value:3, label:"Done"}
+             ]} 
+             />
             </div>
             <div className=" w-[120px] h-full border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
               <DateInput

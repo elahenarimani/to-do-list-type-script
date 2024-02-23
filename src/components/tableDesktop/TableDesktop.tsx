@@ -8,7 +8,6 @@ import TableMobile from "../tableMobile/TableMobile"
 import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
-
 interface Idata {
   id: number;
   taskName: string | number;
@@ -39,8 +38,14 @@ function TableDesktop({
   id,
   removeId,
 }: ITableDesktopParameter) {
+  interface IViewParameter {
+    id: null | number;
+  }
+  const [viewId, setViewId] = useState<IViewParameter>({
+    id: null,
+  });
   const [openEdite, setOpenEdit] = useState<boolean>(false);
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
   interface IIdModeParameter {
     id: null | number;
@@ -50,12 +55,8 @@ function TableDesktop({
     id: null,
     mode: "add",
   });
-  interface IViewParameter {
-    id: null | number;
-  }
-  const [viewId, setViewId] = useState<IViewParameter>({
-    id: null,
-  });
+ 
+  
   interface IPriorityParameter {
     priority: number | string;
   }
@@ -68,9 +69,13 @@ function TableDesktop({
       return (
         <p className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px]">Medium</p>
       );
-    } else {
+    } else if (priority === "Low"){
       return (
         <p className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px]"> Low</p>
+      );
+    }else {
+      return (
+        <p> </p>
       );
     }
   }
@@ -99,18 +104,21 @@ function TableDesktop({
     } else if (status === "Doing" ) {
       return (
         <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
-      );
-    } else {
+      );}
+      else if (status === "Done" ) {
+        return (
+          <p className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]">Done</p>
+        );} else {
       return (
-        <p className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]">Done</p>
+        <p></p>
       );
     }
   }
-  function handleDeleteOpen() {
-    setDeleteOpen(true);
+  function handleDeleteBTN() {
+    setOpenDelete(true);
   }
   function handleClose() {
-    setDeleteOpen(false);
+    setOpenDelete(false);
   }
   interface IchangeToEditModeParameter {
     editId: number;
@@ -161,14 +169,13 @@ function TableDesktop({
           <Button onClickHandler={() => changeToEditMode({ editId: id })}>
             <BsFillPencilFill color={"#757575"} />
           </Button>
-
-          <Button onClickHandler={() => handleDeleteOpen()}>
+          <Button onClickHandler={() => handleDeleteBTN()}>
             <FaTrash color={"#757575"} />
           </Button>
         </div>
       </td>
       <DeleteModal
-        deleteOpen={deleteOpen}
+        openDelete={openDelete}
         removeId={removeId}
         id={id}
         handleButtonClick={handleButtonClick}

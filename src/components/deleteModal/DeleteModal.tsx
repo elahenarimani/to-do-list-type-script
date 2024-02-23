@@ -1,18 +1,18 @@
 interface IDeleteModalParameter {
-  deleteOpen: boolean;
+  openDelete: boolean;
   id: number;
   removeId: number;
   handleButtonClick: Function;
   onClose: Function;
 }
 function DeleteModal({
-  deleteOpen,
+  openDelete,
   removeId,
   id,
   handleButtonClick,
   onClose,
 }: IDeleteModalParameter) {
-  if (!deleteOpen) return null;
+  if (!openDelete) return null;
   return (
     <div className=" w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
       <div className="w-[600px] h-[150px] bg-red-200 flex flex-col items-center justify-between p-[20px]">

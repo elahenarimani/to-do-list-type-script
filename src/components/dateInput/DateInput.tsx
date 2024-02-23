@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from "react";
 interface IInputParameter extends InputHTMLAttributes<HTMLInputElement> {
-  valueState: string | number;
+  valueState: string | number |undefined;
   inputHandler: Function;
   className: string;
   placeholder: string;

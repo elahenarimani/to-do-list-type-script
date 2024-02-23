@@ -1,5 +1,5 @@
 interface IInputParameter {
-  valueState: string | number;
+  valueState: string | number ;
   inputHandler: Function;
   className: string;
   placeholder: string;
