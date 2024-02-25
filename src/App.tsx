@@ -201,7 +201,7 @@ function App() {
               <p>1-10 of 10 </p>
             </div>
             <div className="flex justify-between items-center gap-[15px]">
-              <button onClick={() => handleArrowBack () }>
+              <button onClick={() => handleArrowBack()}>
                 <IoIosArrowBack size={20} color={"#BDBDBD"} />
               </button>
               <button onClick={() => handledArroeForward()}>
@@ -214,7 +214,6 @@ function App() {
           openAddModal={openAddModal}
           onClose={onClose}
           data={data}
-          setData={setData}
           idMode={idMode}
           setIdMode={setIdMode}
         />

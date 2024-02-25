@@ -1,5 +1,4 @@
 import { createContext, useContext, useState} from "react";
-import Select2 from "../select/Select2";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
@@ -22,7 +21,6 @@ interface ImodalParameter {
   openAddModal: boolean;
   onClose: Function;
   data: Idata[];
-  setData: Function;
   idMode: IIdModeParameter;
   setIdMode: Function;
 }
@@ -30,7 +28,7 @@ interface ISelectOption{
   value:string |number |null
   label:string |null
 }
-function AddModal({ openAddModal, onClose, data, setData }: ImodalParameter) {
+function AddModal({ openAddModal, onClose, data}: ImodalParameter) {
   console.log(data)
   // const [selectedOption, setSelectedOption] = useState<string>("");
   const [inpval, setInpval] = useState<string | number>("");
@@ -56,8 +54,7 @@ function AddModal({ openAddModal, onClose, data, setData }: ImodalParameter) {
     onClose();
     setInpval("")
     setInpvalDetail("")
-    setInpvalDate(undefined)
-    
+    setInpvalDate(undefined) 
   }
 const CaretDownIcon = () => {
   return <button className="dropBTN"> <IoMdArrowDropdown size={25} color={"#757575"} /></button>
@@ -91,8 +88,6 @@ const customStyles: StylesConfig = {
     // backgroundColor: state.isFocused ? "#f0f0f0" : "transparent", 
     // backgroundColor: state.isFocused ? "#f0f0f0" : state.isSelected  ? "#3091E7" :"transparent",
     backgroundColor:  state.isSelected  ? "#3091E7" :"transparent",
-    
-    
     '&:hover': {
       backgroundColor: '#A8A8A8',
       color: 'inherit',
@@ -100,7 +95,7 @@ const customStyles: StylesConfig = {
   }),  
 
 };
-
+ 
   if (!openAddModal) return null;
   return ( 
       <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[50%] flex items-center justify-center">
@@ -136,6 +131,7 @@ const customStyles: StylesConfig = {
              
              <Select  
              onChange={(e:any) => {setSelectedOptionPriority(e.label)}}
+             
             //  defaultValue={selectedOptionPriority}
              placeholder={"Priority"}
              components={{DropdownIndicator}}

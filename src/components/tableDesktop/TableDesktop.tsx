@@ -8,6 +8,7 @@ import TableMobile from "../tableMobile/TableMobile"
 import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
+import Edite2Modal from "../edite2Modal/Edite2Modal"
 interface Idata {
   id: number;
   taskName: string | number;
@@ -123,7 +124,7 @@ function TableDesktop({
   interface IchangeToEditModeParameter {
     editId: number;
   }
-  function changeToEditMode({ editId }: IchangeToEditModeParameter) {
+  function changeToEdit2Mode({ editId }: IchangeToEditModeParameter) {
     setIdMode({ id: editId, mode: "edit" });
     setOpenEdit(true);
     console.log("test");
@@ -166,7 +167,7 @@ function TableDesktop({
           <Button onClickHandler={() => changeToViewbtn({ viewId: id })}>
             <IoEyeSharp color={"#757575"} />
           </Button>
-          <Button onClickHandler={() => changeToEditMode({ editId: id })}>
+          <Button onClickHandler={() => changeToEdit2Mode({ editId: id })}>
             <BsFillPencilFill color={"#757575"} />
           </Button>
           <Button onClickHandler={() => handleDeleteBTN()}>
@@ -181,10 +182,28 @@ function TableDesktop({
         handleButtonClick={handleButtonClick}
         onClose={handleClose}
       />
-      {data.map((item) => {
+      {/* {data.map((item) => {
         if (item.id == idMode.id)
           return (
             <EditModal
+              openEdite={openEdite}
+              setOpenEdit={setOpenEdit}
+              data={data}
+              setData={setData}
+              idMode={idMode}
+              setIdMode={setIdMode}
+              taskName={item.taskName}
+              priority={item.priority}
+              status={item.status}
+              deadline={item.deadline}
+              taskDetails={item.taskDetails}
+            />
+          );
+      })} */}
+      {data.map((item) => {
+        if (item.id == idMode.id)
+          return (
+            <Edite2Modal
               openEdite={openEdite}
               setOpenEdit={setOpenEdit}
               data={data}
