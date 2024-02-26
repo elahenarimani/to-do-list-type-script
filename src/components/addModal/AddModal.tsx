@@ -179,7 +179,7 @@ function AddModal({ openAddModal, onClose, data }: ImodalParameter) {
             </Button>
           </div>
         </div> */}
-        <div className="modal w-full h-full  grid grid-cols-1 md:grid-cols-3 gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
+        <div className=" w-full h-full  grid grid-cols-1 md:grid-cols-3 gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
           <div className="w-full md:w-[400px]  md:col-start-1 md:col-end-4 border-gray-500 rounded-[5px] border-[1px] h-[40px]">
             <Input
               valueState={inpval}

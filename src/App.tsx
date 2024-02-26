@@ -3,7 +3,7 @@ import "./App.css";
 import { VscChecklist } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
 import { FaFilter } from "react-icons/fa6";
-import { TbPencilPlus } from "react-icons/tb";
+import { TbPencilPlus, TbSettingsSearch } from "react-icons/tb";
 import TableMobile from "./components/tableMobile/TableMobile";
 import TableDesktop from "./components/tableDesktop/TableDesktop";
 import { FaArrowUp } from "react-icons/fa";
@@ -12,6 +12,7 @@ import AddModal from "./components/addModal/AddModal";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import Input from "./components/input/Input";
 // import Select from 'react-select';
 export const DataContext = createContext<{data:Idata[] , setData:Function } | null>(null)
 interface Idata {
@@ -33,6 +34,7 @@ function App() {
   const itemPerPage = +showSelectOption;
   const startIndex = (currenPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
+  const [search , setSearch] = useState<string | number>("")
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
@@ -75,15 +77,18 @@ function App() {
           <div>
             <VscChecklist size={20}/>
           </div>
-          <div>
-            <p className="truncate min-w-[100px] text-[20px]"> My To-Do Tasks </p>
+          <div className="my-to-do-wrapper ">
+            <p className="truncate w-full text-[20px]"> My To-Do Tasks </p>
           </div>
         </div>
         <div className="max-w-[80%]  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
           <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
-            <input
+            <Input
               className="w-full h-full bg-[#6200EA] border-none outline-none"
               placeholder="Search"
+              valueState={search}
+              inputHandler={((e:any) => setSearch(e.target.value))}
+              type="text"
             />
             <div className="">
               <CiSearch size={20}/>
@@ -125,27 +130,37 @@ function App() {
               <th className="  text-center text-[#666666]  ">Action</th>
             </tr>
            
-           {filteredData.map((item) => {
+           {filteredData.filter(item =>{
+              const taskName = (item?.taskName as string).toLowerCase();
+              return taskName.includes((search as string).toLowerCase());
+              // const taskName = String(item?.taskName); // Ensure taskName is a string
+              // const search.toLowerCase() = String()
+              // return taskName.toLowerCase().includes(search.toLowerCase());
+           })
+  
+           .map((item) => {
               return (
                 <TableDesktop
                   data={data}
                   setData={setData}
-                  taskName={item.taskName}
-                  priority={item.priority}
-                  status={item.status}
-                  deadline={item.deadline}
-                  taskDetails={item.taskDetails}
+                  taskName={item?.taskName}
+                  priority={item?.priority}
+                  status={item?.status}
+                  deadline={item?.deadline}
+                  taskDetails={item?.taskDetails}
                   id={item.id}
                   removeId={removeId}
                 />
               );
-            })}
-           
-
-           
-          </table>
-                     
-           {filteredData.map((item) => {
+            })} 
+          </table>           
+           {filteredData.
+           filter(item =>{
+            // const taskName = (item?.taskName as string).toLowerCase();
+            // return taskName.includes((search as string).toLowerCase());
+          
+         })
+           .map((item) => {
               return (
                <div className="block md:hidden">
                   <TableMobile 

@@ -76,7 +76,12 @@ html {
 .dropdown:hover .dropdowncontent {
   display: block;
 }
-
+.my-to-do-wrapper{
+  min-width: 100px; /* Set a width for your element */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* This prevents text wrapping within the element */
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
