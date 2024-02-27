@@ -11,6 +11,7 @@ import DeleteModal from "../DeleteModal/DeleteModal";
 import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
+import Edite2Modal from "../edite2Modal/Edite2Modal";
 interface Idata {
   id: number;
   taskName: string | number;
@@ -40,23 +41,27 @@ function TableMobile({ data,
   id,
   removeId,
 }: ITableMobileParameter)  {
-  // const [openEdite, setOpenEdit] = useState<boolean>(false);
-  // const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
-  // const [viewOpen, setViewOpen] = useState<boolean>(false);
+  const [openEdite, setOpenEdit] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [viewOpen, setViewOpen] = useState<boolean>(false);
   interface IIdModeParameter {
     id: null | number;
     mode: string;
   }
+  const [idMode, setIdMode] = useState<IIdModeParameter>({
+    id: null,
+    mode: "add",
+  });
   // const [idMode, setIdMode] = useState<IIdModeParameter>({
   //   id: null,
   //   mode: "add",
   // });
-  // interface IViewParameter {
-  //   id: null | number;
-  // }
-  // const [viewId, setViewId] = useState<IViewParameter>({
-  //   id: null,
-  // });
+  interface IViewParameter {
+    id: null | number;
+  }
+  const [viewId, setViewId] = useState<IViewParameter>({
+    id: null,
+  });
 
   interface IPriorityParameter {
     priority: number | string;
@@ -86,6 +91,22 @@ function TableMobile({ data,
   interface IHandleRemoveTodoButton {
     removeId: number;
   }
+  interface IchangeToEditModeParameter {
+    id: null | number;
+    mode: string;
+  }
+  // interface IchangeToEditModeParameter {
+  //   editId: number;
+  // }
+  // function changeToEdit2Mode({ editId }: IchangeToEditModeParameter) {
+  //   setIdMode({ id: editId, mode: "edit" });
+  //   setOpenEdit(true);
+  //   console.log("test");
+  // }
+  // const [idMode, setIdMode] = useState<IIdModeParameter>({
+  //   id: null,
+  //   mode: "add",
+  // });
   // function handleButtonClick({ removeId }: IHandleRemoveTodoButton) {
   //   removeTodo({ removeId: removeId });
   //   handleClose();
@@ -117,22 +138,36 @@ function TableMobile({ data,
   // interface IchangeToEditModeParameter {
   //   editId: number;
   // }
-  // function changeToEditMode({ editId }: IchangeToEditModeParameter) {
-  //   setIdMode({ id: editId, mode: "edit" });
-  //   setOpenEdit(true);
-  //   console.log("test");
-  // }
-  // interface IchangeToViewbtnParameter {
-  //   viewId: number;
-  // }
-  // function changeToViewbtn({ viewId }: IchangeToViewbtnParameter) {
-  //   setViewId({ id: viewId });
-  //   setViewOpen(true);
-  //   console.log(id);
-  // }
-  // function closeViewModal() {
-  //   setViewOpen(false);
-  // }
+  function changeToEditMode( editId : number) {
+    setIdMode({ id: editId, mode: "edit" });
+    setOpenEdit(true);
+    console.log("test");
+  }
+  interface IchangeToViewbtnParameter {
+    viewId: number;
+  }
+  function changeToViewbtn({ viewId }: IchangeToViewbtnParameter) {
+    setViewId({ id: viewId });
+    setViewOpen(true);
+    console.log(id);
+    
+  }
+  function handleDeleteBTN() {
+    setOpenDelete(true);
+  }
+  function handleClose() {
+    setOpenDelete(false);
+  }
+  function closeViewModal() {
+    setViewOpen(false);
+  }
+  interface IHandleRemoveTodoButton {
+    removeId: number;
+  }
+  function handleButtonClick({ removeId }: IHandleRemoveTodoButton) {
+    removeTodo({ removeId: removeId });
+    handleClose();
+  }
   return (
     <div>
       <table className="w-full flex flex-col justify-between ">
@@ -176,18 +211,58 @@ function TableMobile({ data,
             <div className="flex justify-between items-center ">
               <p className="font-bold">Action</p>
               <div className=" flex justify-between items-center gap-[12px]">
-                <button>
+                <Button onClickHandler={() => changeToViewbtn({ viewId: id })}>
                   <IoEyeSharp color={"#757575"} />
-                </button>
-                <button>
+                </Button>
+                <Button onClickHandler={() => changeToEditMode(id)}>
                   <BsFillPencilFill color={"#757575"} />
-                </button>
-                <button>
+                </Button>
+                <Button onClickHandler={() => handleDeleteBTN()}>
                   <FaTrash color={"#757575"} />
-                </button>
+                </Button>
               </div>
             </div>
           </td>
+          <DeleteModal
+        openDelete={openDelete}
+        removeId={removeId}
+        id={id}
+        handleButtonClick={handleButtonClick}
+        onClose={handleClose}
+      />
+      {data.map((item) => {
+        if (item.id == idMode.id)
+          return (
+            <Edite2Modal
+              openEdite={openEdite}
+              setOpenEdit={setOpenEdit}
+              data={data}
+              setData={setData}
+              idMode={idMode}
+              setIdMode={setIdMode}
+              taskName={item.taskName}
+              priority={item.priority}
+              status={item.status}
+              deadline={item.deadline}
+              taskDetails={item.taskDetails}
+            />
+          );
+      })}
+      {data.map((item) => {
+        if (item.id == viewId.id)
+          return (
+            <ViewModal
+              taskName={item.taskName}
+              priority={item.priority}
+              status={item.status}
+              deadline={item.deadline}
+              taskDetails={item.taskDetails}
+              viewOpen={viewOpen}
+              setViewOpen={setViewOpen}
+              closeViewModal={closeViewModal}
+            />
+          );
+      })}
         </tr>
       </table>
     </div>

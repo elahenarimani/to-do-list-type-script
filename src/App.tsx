@@ -156,9 +156,8 @@ function App() {
           </table>           
            {filteredData.
            filter(item =>{
-            // const taskName = (item?.taskName as string).toLowerCase();
-            // return taskName.includes((search as string).toLowerCase());
-          
+            const taskName = (item?.taskName as string).toLowerCase();
+            return taskName.includes((search as string).toLowerCase());  
          })
            .map((item) => {
               return (
