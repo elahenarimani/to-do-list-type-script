@@ -13,6 +13,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import Input from "./components/input/Input";
+import FilterToDo from "./components/filterToDo/FilterToDo"
 // import Select from 'react-select';
 export const DataContext = createContext<{data:Idata[] , setData:Function } | null>(null)
 interface Idata {
@@ -35,6 +36,7 @@ function App() {
   const startIndex = (currenPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
   const [search , setSearch] = useState<string | number>("")
+  const [openFilterToDo , setOpenFilterToDo] = useState <boolean>(false);
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
@@ -67,12 +69,14 @@ function App() {
   function handleArrowBack ()  {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
- 
+ function filterToDoHandler(){
+  setOpenFilterToDo(true)
+ }
   return (
     <>
       <DataContext.Provider value={{data , setData}}>
        <div className="App">   
-       <header className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+       <div className="w-full h-[50px] flex justify-between items-center gap-[20px] bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
         <div className="min-w-[80px] flex justify-between items-center gap-[5px]">
           <div>
             <VscChecklist size={20}/>
@@ -94,14 +98,14 @@ function App() {
               <CiSearch size={20}/>
             </div>
           </div>
-          <button>
+          <Button onClickHandler={() => filterToDoHandler()}>
             <FaFilter size={20}/>
-          </button>
+          </Button>
           <Button onClickHandler={() => handleOpen()}>
             <TbPencilPlus size={20}/>
           </Button>
         </div>
-      </header>
+      </div>
       <main className="w-full h-full">
         <div className=" w-full">
           <table className=" hidden md:table w-full h-full  ">
@@ -231,6 +235,12 @@ function App() {
           idMode={idMode}
           setIdMode={setIdMode}
         />
+        <div className="">
+        <FilterToDo
+          openFilterToDo = {openFilterToDo}
+         />
+        </div>
+        
       </main> 
     </div>
     </DataContext.Provider>

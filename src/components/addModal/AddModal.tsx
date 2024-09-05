@@ -180,13 +180,13 @@ function AddModal({ openAddModal, onClose, data }: ImodalParameter) {
           </div>
         </div> */}
         <div className=" w-full h-full  grid grid-cols-1 md:grid-cols-3 gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
-          <div className="w-full md:w-[400px]  md:col-start-1 md:col-end-4 border-gray-500 rounded-[5px] border-[1px] h-[40px]">
+          <div className="w-full md:w-[400px]  md:col-start-1 md:col-end-4 border-gray-500 rounded-[5px] border-[1px] h-[40px] pt-[4px]">
             <Input
               valueState={inpval}
               type="text"
               inputHandler={(e: any) => setInpval(e.target.value)}
               placeholder="Task Name"
-              className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
+              className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
           {/* <div className="w-[400px] h-[40px] flex  flex-row justify-between items-center "> */}
@@ -231,16 +231,16 @@ function AddModal({ openAddModal, onClose, data }: ImodalParameter) {
               />
             </div>
           {/* </div> */}
-          <div className="w-full md:w-[400px] h-[150px] md:col-start-1 md:col-end-4 border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start">
+          <div className="w-full md:w-[400px] h-[150px] md:col-start-1 md:col-end-4 border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start pt-[4px]">
             <Input
               valueState={inpvalDetail}
               type="text"
               inputHandler={(e: any) => setInpvalDetail(e.target.value)}
               placeholder="Task Details (Optional)"
-              className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top"
+              className="taske-Details w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top"
             />
           </div>
-          <div className="w-full  md:w-[400px] h-[40px] flex justify-between items-center ">
+          <div className="w-full  md:w-[400px] h-[40px] flex justify-between items-center md:pb-[25px]">
             <Button
               onClickHandler={() => onClose()}
               className=" text-[#3091E7] text-[17px] "

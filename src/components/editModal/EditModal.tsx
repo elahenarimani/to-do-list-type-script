@@ -176,7 +176,6 @@ function EditModal({
             //  defaultValue={selectedOptionPriority}
              placeholder={"Priority"}
              components={{DropdownIndicator}}
-            
              styles={customStyles}  
              options={[
                 {value:1 , label:"High"},

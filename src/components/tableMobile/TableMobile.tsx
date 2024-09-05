@@ -1,17 +1,22 @@
-import { IoMdArrowDropdown } from "react-icons/io";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
+import { useEffect , useContext } from "react";
 import { FaTrash } from "react-icons/fa";
+import { IoMdArrowDropdown , } from "react-icons/io";
+import Select, {
+  components,
+  DropdownIndicatorProps,
+  StylesConfig,
+} from "react-select";
 
-// import { IoEyeSharp } from "react-icons/io5";
-// import { BsFillPencilFill } from "react-icons/bs";
-// import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edite2Modal from "../edite2Modal/Edite2Modal";
+import { DataContext } from "../../App";
+
 interface Idata {
   id: number;
   taskName: string | number;
@@ -19,6 +24,7 @@ interface Idata {
   status: string;
   deadline: number;
   taskDetails: string | number;
+ 
 }
 interface ITableMobileParameter {
   data: Idata[];
@@ -41,9 +47,14 @@ function TableMobile({ data,
   id,
   removeId,
 }: ITableMobileParameter)  {
+  interface ISelectedData {
+    value: string | number | null;
+    label: string | null;
+  }
   const [openEdite, setOpenEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
+  const [selectedData, setSelectedData] = useState<string | null>(null);
   interface IIdModeParameter {
     id: null | number;
     mode: string;
@@ -52,10 +63,8 @@ function TableMobile({ data,
     id: null,
     mode: "add",
   });
-  // const [idMode, setIdMode] = useState<IIdModeParameter>({
-  //   id: null,
-  //   mode: "add",
-  // });
+  const DataUse = useContext(DataContext);
+  
   interface IViewParameter {
     id: null | number;
   }
@@ -80,6 +89,7 @@ function TableMobile({ data,
         <p className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px]"> Low</p>
       );
     }
+    
   }
   interface IRemoveTodoParameter {
     removeId: number;
@@ -95,22 +105,7 @@ function TableMobile({ data,
     id: null | number;
     mode: string;
   }
-  // interface IchangeToEditModeParameter {
-  //   editId: number;
-  // }
-  // function changeToEdit2Mode({ editId }: IchangeToEditModeParameter) {
-  //   setIdMode({ id: editId, mode: "edit" });
-  //   setOpenEdit(true);
-  //   console.log("test");
-  // }
-  // const [idMode, setIdMode] = useState<IIdModeParameter>({
-  //   id: null,
-  //   mode: "add",
-  // });
-  // function handleButtonClick({ removeId }: IHandleRemoveTodoButton) {
-  //   removeTodo({ removeId: removeId });
-  //   handleClose();
-  // }
+ 
   interface IStatusParameter {
     status: string | number;
   }
@@ -129,15 +124,7 @@ function TableMobile({ data,
       );
     }
   }
-  // function handleDeleteOpen() {
-  //   setDeleteOpen(true);
-  // }
-  // function handleClose() {
-  //   setDeleteOpen(false);
-  // }
-  // interface IchangeToEditModeParameter {
-  //   editId: number;
-  // }
+ 
   function changeToEditMode( editId : number) {
     setIdMode({ id: editId, mode: "edit" });
     setOpenEdit(true);
@@ -150,7 +137,7 @@ function TableMobile({ data,
     setViewId({ id: viewId });
     setViewOpen(true);
     console.log(id);
-    
+   
   }
   function handleDeleteBTN() {
     setOpenDelete(true);
@@ -168,6 +155,87 @@ function TableMobile({ data,
     removeTodo({ removeId: removeId });
     handleClose();
   }
+
+  const CaretDownIcon = () => {
+    
+    return (
+      <button className="dropBTN">
+        {" "}
+        <IoMdArrowDropdown size={25} color={"#757575"} />
+      </button>
+    );
+  };
+  const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
+    console.log(selectedData)
+    return (
+      <components.DropdownIndicator {...props}>
+        <CaretDownIcon />
+      </components.DropdownIndicator>
+       
+    );
+  };
+  const formatOptionLabel = ({ label }: { label: string }) => (
+   
+    <div style={{ textAlign: 'left' }}>{label}</div>
+  );
+  const customStyles: StylesConfig = {
+    indicatorSeparator: (provided, state) => ({
+      ...provided,
+      display: "none",
+    }),
+    control: (provided, state) => ({
+      ...provided,
+      width: '100%',
+      height: 40,
+      borderColor: "#757575",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      textAlign: "left",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: "inherit",
+      backgroundColor: state.isSelected ? "#3091E7" : "transparent",
+      "&:hover": {
+        backgroundColor: "#A8A8A8",
+        color: "inherit",
+      },
+    }),
+  
+  };
+  
+  // function sortData(sortBy: string | null){
+  //   if (!sortBy) return;
+  //   let sortedData:Idata[] = [...data];
+  //   console.log( sortedData?.priority)
+  //   switch (sortBy) {
+  //     case 'Priority':
+  //       sortedData.sort((a, b) => {
+          
+      
+  //         if (data.priority === "High") {
+  //           return a.priority === b.priority ? 0 : a.priority === 'High' ? -1 : 1;
+  //         } else if (DataUse?.data.priority === 'Medium') {
+  //           return a.priority === b.priority ? 0 : a.priority === 'Medium' ? -1 : 1;
+  //         } else if (DataUse?.data?.priority === 'Low') {
+  //           return a.priority === b.priority ? 0 : a.priority === 'Low' ? -1 : 1;
+  //         }
+  //         return 0;
+  //       });
+  //       break;
+  //     case 'Status':
+  //       const statusOrder: { [key: string]: number } = { 'Doing': 1, 'Done': 2, 'To do': 3 };
+  //       sortedData.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+  //       break;
+  //     case 'Deadline':
+  //       sortedData.sort((a, b) => a.deadline - b.deadline);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
+
   return (
     <div>
       <table className="w-full flex flex-col justify-between ">
@@ -175,11 +243,24 @@ function TableMobile({ data,
           <p className="text-left text-[#747474] text-[10px]  mb-[1px]">
             Sort by
           </p>
-          <div className="flex justify-between items-center pl-[10px] border-b-[2px] border-[#E0E0E0] pb-[4px]">
-            <button className="w-[100px]  bg-[#E0E0E0] rounded-[10px] pt-[2px] pb-[2px]">
-              Deadline
-            </button>
-            <IoMdArrowDropdown color={"#757575"} />
+          <div className="w-full md:hidden">
+            <Select
+              onChange={(e: any) => {
+                setSelectedData(e.label);
+                console.log(e.label);
+              }}
+              placeholder={<div style={{ textAlign: 'left' }}>Deadline</div>}
+              components={{ DropdownIndicator }}
+              styles={customStyles}
+              options={[
+                { value: 1, label: "Priority" },
+                { value: 2, label: "Status" },
+                { value: 3, label: "Deadline" },
+              ]}
+            />
+            <ul>
+       
+      </ul>
           </div>
         </th>
         <tr className="w-full flex flex-col justify-between  border-b-[1px] border-[#ECECEC]  pl-[13px] pr-[13px]">
