@@ -9,11 +9,17 @@ import EditModal from "../editModal/EditModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edite2Modal from "../edite2Modal/Edite2Modal"
+interface ISelectOption {
+  value: string | number | null;
+  label: string | null;
+}
 interface Idata {
   id: number;
   taskName: string | number;
-  priority: string;
-  status: string;
+  // priority: string;
+  // status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
 }
@@ -21,8 +27,8 @@ interface ITableDesktopParameter {
   data: Idata[];
   setData: Function;
   taskName: string | number;
-  priority: string;
-  status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
   id: number;
@@ -59,7 +65,7 @@ function TableDesktop({
  
   
   interface IPriorityParameter {
-    priority: number | string;
+    priority: ISelectOption | null | string;
   }
   function renderPriority({ priority }: IPriorityParameter) {
     if (priority === "High") {
@@ -95,7 +101,7 @@ function TableDesktop({
     handleClose();
   }
   interface IStatusParameter {
-    status: string | number;
+    status: ISelectOption | null | string;
   }
   function renderStatus({ status }: IStatusParameter) {
     if (status === "To do") {

@@ -6,11 +6,17 @@ import Button from "../button/Button";
 import selectContext from "../addModal/AddModal";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Select ,{ components, DropdownIndicatorProps, StylesConfig } from 'react-select';
+interface ISelectOption {
+  value: string | number | null;
+  label: string | null;
+}
 interface Idata {
   id: number;
   taskName: string | number;
-  priority: string;
-  status: string;
+  // priority: string;
+  // status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
 }

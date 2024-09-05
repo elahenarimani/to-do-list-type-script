@@ -33,8 +33,8 @@ interface IEditModalParameter {
   idMode: IIdModeParameter;
   setIdMode: Function;
   taskName: string | number;
-  priority: string;
-  status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
 }
@@ -53,10 +53,10 @@ function Edite2Modal({
 }: IEditModalParameter) {
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
   const [selectedOptionPriorityEdit, setSelectedOptionPriorityEdite] = useState<
-    ISelectOption | string
+    ISelectOption | string |null
   >(priority);
   const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
-    ISelectOption | string
+    ISelectOption | string |null
   >(status);
   const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(deadline);
   const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>(

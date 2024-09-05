@@ -16,13 +16,23 @@ import Input from "./components/input/Input";
 import FilterToDo from "./components/filterToDo/FilterToDo"
 // import Select from 'react-select';
 export const DataContext = createContext<{data:Idata[] , setData:Function } | null>(null)
-interface Idata {
+interface ISelectOption {
+  value: string | number | null;
+  label: string | null;
+}
+interface Idata{
   id: number;
   taskName: string | number;
-  priority: string;
-  status: string;
+  // priority: string;
+  // status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
+}
+interface ISort{
+  sortKay : "priority" | "status"| "deadline"| null;
+  sortDirection:  "downToUp"| "upToDown"| null;
 }
 let removeId: number;
 function App() {
@@ -37,6 +47,11 @@ function App() {
   const endIndex = startIndex + itemPerPage;
   const [search , setSearch] = useState<string | number>("")
   const [openFilterToDo , setOpenFilterToDo] = useState <boolean>(false);
+  const [sortState , setSortState] =useState<ISort>(
+    {sortKay : null ,
+      sortDirection: null
+    }
+  )
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
@@ -88,7 +103,7 @@ function App() {
         <div className="max-w-[80%]  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
           <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
             <Input
-              className="w-full h-full bg-[#6200EA] border-none outline-none"
+              className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
               placeholder="Search"
               valueState={search}
               inputHandler={((e:any) => setSearch(e.target.value))}
@@ -114,7 +129,17 @@ function App() {
                 Task
               </th>
               <th className=" text-center h-full">
-                <div className="flex  justify-center gap-[2px] items-center">
+                <div className="flex  justify-center gap-[2px] items-center" 
+                onClick={() => setSortState(
+                  {sortKay : sortState.sortDirection === "downToUp" ? null : 'priority',
+                    sortDirection: sortState.sortDirection === null ? "upToDown" :
+                    sortState.sortDirection === "upToDown" ? "downToUp" :
+                    null
+                  
+                  }
+                  
+                )}
+                >
                   <p className=" text-[#666666]">Priority</p>
                   <FaArrowUp />
                 </div>
@@ -141,7 +166,44 @@ function App() {
               // const search.toLowerCase() = String()
               // return taskName.toLowerCase().includes(search.toLowerCase());
            })
-  
+            .sort((a: any, b: any) => {
+              if(sortState.sortKay === 'priority'){
+                let tempA = {...a , priority :
+                  a.priority?.toLocaleLowerCase() === 'high' ?  3 :
+                  a.priority?.toLocaleLowerCase() === 'medium' ? 2 :
+                  1
+                }
+
+                let tempB = {...b , priority :
+                  b.priority.toLocaleLowerCase() === 'high' ?  3 :
+                  b.priority.toLocaleLowerCase() === 'medium' ? 2 :
+                  1
+                }
+                if(sortState.sortDirection === 'upToDown'){
+                  return tempA.priority - tempB.priority
+                }else{
+                  return tempB.priority - tempA.priority
+                }
+              }else if(sortState.sortKay === 'status'){
+                let tempA = {...a , status :
+                  a.status.toLocaleLowerCase() === 'done' ?  3 :
+                  a.status.toLocaleLowerCase() === 'doing' ? 2 :
+                  1
+                }
+
+                let tempB = {...b , status :
+                  b.status.toLocaleLowerCase() === 'done' ?  3 :
+                  b.status.toLocaleLowerCase() === 'doing' ? 2 :
+                  1
+                }
+                if(sortState.sortDirection === 'upToDown'){
+                  return tempA.status - tempB.status
+                }else{
+                  return tempB.status - tempA.status
+                }
+              }
+              return true
+            })    
            .map((item) => {
               return (
                 <TableDesktop

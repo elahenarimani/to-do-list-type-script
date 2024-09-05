@@ -13,8 +13,10 @@ import "./addModal.css"
 interface Idata {
   id: number;
   taskName: string | number;
-  priority: string;
-  status: string;
+  // priority: string;
+  // status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
 }
@@ -243,13 +245,13 @@ function AddModal({ openAddModal, onClose, data }: ImodalParameter) {
           <div className="w-full  md:w-[400px] h-[40px] flex justify-between items-center md:pb-[25px]">
             <Button
               onClickHandler={() => onClose()}
-              className=" text-[#3091E7] text-[17px] "
+              className=" text-[#3091E7] text-[14px] "
             >
               CANCEL
             </Button>
             <Button
               onClickHandler={() => addData()}
-              className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]"
+              className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[14px]"
             >
               SAVE
             </Button>

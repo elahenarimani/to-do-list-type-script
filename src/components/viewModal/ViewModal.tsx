@@ -1,8 +1,14 @@
 import { useRef, useEffect } from "react";
+interface ISelectOption {
+  value: string | number | null;
+  label: string | null;
+}
 interface IViewModalParameter {
   taskName: string | number;
-  priority: string;
-  status: string;
+  // priority: string;
+  // status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
   viewOpen: boolean;
@@ -48,14 +54,26 @@ function ViewModal({
           {/* <div className="w-[400px] h-[40px] flex justify-between items-center "> */}
           <div className="priority-drop-down-container w-full md:w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
             <p className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left">
-              {priority}
+              {priority
+                ? typeof priority === "string"
+                  ? priority
+                  : priority?.label || ""
+                : "No priority"}
             </p>
           </div>
           <div className=" w-full md:w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
-            <p className="w-full h-full pl-[15px] text-[17px] text-left">{status}</p>
+            <p className="w-full h-full pl-[15px] text-[17px] text-left">
+              {status
+                ? typeof status === "string"
+                  ? status
+                  : status?.label || ""
+                : "No priority"}
+            </p>
           </div>
           <div className=" w-full md:w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
-            <p className="w-full h-full pl-[15px] text-[17px] text-left ">{deadline}</p>
+            <p className="w-full h-full pl-[15px] text-[17px] text-left ">
+              {deadline}
+            </p>
           </div>
           {/* </div> */}
           <div className="w-full md:w-[400px] h-[150px] md:col-start-1 md:col-end-4 border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start">
