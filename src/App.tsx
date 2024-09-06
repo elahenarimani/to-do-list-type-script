@@ -48,33 +48,33 @@ let removeId: number;
 function App() {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [data, setData] = useState<Idata[]>([
-    {
-      id: 1,
-      taskName: "test1",
+    // {
+    //   id: 1,
+    //   taskName: "test1",
 
-      priority: "high",
-      status: "doing",
-      deadline: 4,
-      taskDetails: "dfssf",
-    },
-    {
-      id: 2,
-      taskName: "test2",
+    //   priority: "high",
+    //   status: "doing",
+    //   deadline: 4,
+    //   taskDetails: "dfssf",
+    // },
+    // {
+    //   id: 2,
+    //   taskName: "test2",
 
-      priority: "low",
-      status: "to do",
-      deadline: 10,
-      taskDetails: "dfssf",
-    },
-    {
-      id: 2,
-      taskName: "test3",
+    //   priority: "low",
+    //   status: "to do",
+    //   deadline: 10,
+    //   taskDetails: "dfssf",
+    // },
+    // {
+    //   id: 2,
+    //   taskName: "test3",
 
-      priority: "medium",
-      status: "done",
-      deadline: 1,
-      taskDetails: "dfssf",
-    },
+    //   priority: "medium",
+    //   status: "done",
+    //   deadline: 1,
+    //   taskDetails: "dfssf",
+    // },
   ]);
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
@@ -89,7 +89,7 @@ function App() {
     sortKay: null,
     sortDirection: null,
   });
-  const [selectedMob , setSelectedMob] = useState<ISelectedMob|null>(null);
+  const [selectedMob , setSelectedMob] = useState< "Priority" |"Status" | "Deadline" |null>(null);
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
@@ -363,7 +363,10 @@ function App() {
               }).sort((a:Idata , b:Idata) => {
               
                 if( selectedMob == "Deadline"){
-                 
+                  let tempA = new Date(a.deadline).getTime();
+                  let tempB = new Date(b.deadline).getTime();
+                  console.log(tempA)
+                    return tempA - tempB;
                 }else if( selectedMob == "Priority"){
 
                 }else{

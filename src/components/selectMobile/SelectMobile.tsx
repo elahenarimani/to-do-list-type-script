@@ -15,11 +15,11 @@ import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edite2Modal from "../edite2Modal/Edite2Modal";
 import { DataContext } from "../../App";
-interface ISelectedMob {
+// interface ISelectedMob {
     
-    value: string | number | null;
-    label: "Priority" |"Status" | "Deadline" | null;
-  }
+//     value: string | number | null;
+//     label: "Priority" |"Status" | "Deadline" | null;
+//   }
 interface ISelectMobile{
     selectedMob : "Priority" |"Status" | "Deadline" | null;
     setSelectedMob : Function

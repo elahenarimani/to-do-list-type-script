@@ -45,7 +45,7 @@ interface ITableMobileParameter {
   taskDetails: string | number;
   id: number;
   removeId: number;
-  selectedMob  : ISelectedMob|null;
+  selectedMob  :  "Priority" |"Status" | "Deadline" | null;
   setSelectedMob : Function
 }
 function TableMobile({ data,
