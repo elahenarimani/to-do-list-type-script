@@ -31,13 +31,41 @@ interface Idata{
   taskDetails: string | number;
 }
 interface ISort{
-  sortKay : "priority" | "status"| "deadline"| null;
-  sortDirection:  "downToUp"| "upToDown"| null;
+  sortKay : "priority" | "status" | "deadline" | null;
+  sortDirection:  "downToUp"| "upToDown" | null;
 }
 let removeId: number;
 function App() {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const [data, setData] = useState<Idata[]>([]);
+  const [data, setData] = useState<Idata[]>([
+    // {
+    //   id: 1,
+    //   taskName: "test1",
+     
+    //   priority: "high",
+    //   status:"doing",
+    //   deadline: 4,
+    //   taskDetails:"dfssf"
+    // },
+    // {
+    //   id: 2,
+    //   taskName: "test2",
+    
+    //   priority: "low",
+    //   status:"to do",
+    //   deadline: 10,
+    //   taskDetails:"dfssf"
+    // },
+    // {
+    //   id: 2,
+    //   taskName: "test3",
+  
+    //   priority: "medium",
+    //   status:"done",
+    //   deadline: 1,
+    //   taskDetails:"dfssf"
+    // }
+  ]);
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
   );
@@ -122,6 +150,8 @@ function App() {
         </div>
       </div>
       <main className="w-full h-full">
+        {console.log(sortState)}
+    
         <div className=" w-full">
           <table className=" hidden md:table w-full h-full  ">
             <tr className=" w-full h-[50px] border-b-[2px] border-[#E0E0E0] ">
@@ -132,12 +162,10 @@ function App() {
                 <div className="flex  justify-center gap-[2px] items-center" 
                 onClick={() => setSortState(
                   {sortKay : sortState.sortDirection === "downToUp" ? null : 'priority',
-                    sortDirection: sortState.sortDirection === null ? "upToDown" :
+                    sortDirection : sortState.sortDirection === null ? "upToDown" :
                     sortState.sortDirection === "upToDown" ? "downToUp" :
                     null
-                  
                   }
-                  
                 )}
                 >
                   <p className=" text-[#666666]">Priority</p>
@@ -145,13 +173,32 @@ function App() {
                 </div>
               </th>
               <th >
-                <div className="status  flex  justify-center gap-[2px] items-center">
+                <div className="status  flex  justify-center gap-[2px] items-center"
+                onClick={() => setSortState(
+                  {
+                    sortKay : sortState.sortDirection === "downToUp" ? null : "status",
+                    sortDirection: sortState.sortDirection === null ? "upToDown"  :
+                    sortState.sortDirection === "upToDown" ? "downToUp" :
+                    null
+                   
+                  }
+                )}>
                   <p className=" text-[#666666]">Status</p>
                   <FaArrowUp />
                 </div>
               </th>
               <th >
-                <div className=" deadline  flex justify-center gap-[2px] items-center">
+                <div className=" deadline  flex justify-center gap-[2px] items-center"
+                onClick={() => setSortState(
+                  {
+                    sortKay : sortState.sortDirection === "downToUp" ? null : "deadline",
+                    sortDirection: sortState.sortDirection === null ? "upToDown"  :
+                    sortState.sortDirection === "upToDown" ? "downToUp" :
+                    null
+                   
+                  }
+                )}
+                >
                   <p className=" text-[#666666]">Deadline</p>
                   <FaArrowUp />
                 </div>
@@ -167,13 +214,14 @@ function App() {
               // return taskName.toLowerCase().includes(search.toLowerCase());
            })
             .sort((a: any, b: any) => {
+              {console.log(a)}
               if(sortState.sortKay === 'priority'){
                 let tempA = {...a , priority :
                   a.priority?.toLocaleLowerCase() === 'high' ?  3 :
                   a.priority?.toLocaleLowerCase() === 'medium' ? 2 :
                   1
                 }
-
+                console.log(a)
                 let tempB = {...b , priority :
                   b.priority.toLocaleLowerCase() === 'high' ?  3 :
                   b.priority.toLocaleLowerCase() === 'medium' ? 2 :
@@ -201,6 +249,15 @@ function App() {
                 }else{
                   return tempB.status - tempA.status
                 }
+              }else if(sortState.sortKay === "deadline"){
+                let tempA = new Date(a.deadline).getTime();
+                let tempB = new Date(b.deadline).getTime();
+                if(sortState.sortDirection === "upToDown"){
+                  return tempA - tempB
+                }else{
+                  return tempB - tempA
+                }
+                
               }
               return true
             })    
