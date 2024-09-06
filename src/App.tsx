@@ -14,7 +14,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import Input from "./components/input/Input";
 import FilterToDo from "./components/filterToDo/FilterToDo";
-import { FaArrowDown } from "react-icons/fa6";
+import { FaArrowDown } from "react-icons/fa";
 // import Select from 'react-select';
 export const DataContext = createContext<{
   data: Idata[];
@@ -180,11 +180,12 @@ function App() {
                       }
                     >
                       <p className=" text-[#666666]">Priority</p>
-                      {sortState.sortDirection === "upToDown" ? (
-                         <FaArrowDown />
-                      ) : sortState.sortDirection === "downToUp" ? (
-                        
-                        <FaArrowUp /> 
+                      {sortState.sortDirection === "upToDown" &&
+                      sortState.sortKay === "priority" ? (
+                        <FaArrowDown />
+                      ) : sortState.sortDirection === "downToUp" &&
+                        sortState.sortKay === "priority" ? (
+                        <FaArrowUp />
                       ) : null}
                     </div>
                   </th>
@@ -208,11 +209,12 @@ function App() {
                     >
                       <p className=" text-[#666666]">Status</p>
                       {/* <FaArrowUp /> */}
-                      {sortState.sortDirection === "upToDown" ? (
-                         <FaArrowDown />
-                      ) : sortState.sortDirection === "downToUp" ? (
-                        
-                        <FaArrowUp /> 
+                      {sortState.sortDirection === "upToDown" &&
+                      sortState.sortKay === "status" ? (
+                        <FaArrowDown />
+                      ) : sortState.sortDirection === "downToUp" &&
+                        sortState.sortKay === "status" ? (
+                        <FaArrowUp />
                       ) : null}
                     </div>
                   </th>
@@ -236,11 +238,12 @@ function App() {
                     >
                       <p className=" text-[#666666]">Deadline</p>
                       {/* <FaArrowUp /> */}
-                      {sortState.sortDirection === "upToDown" ? (
-                         <FaArrowDown />
-                      ) : sortState.sortDirection === "downToUp" ? (
-                        
-                        <FaArrowUp /> 
+                      {sortState.sortDirection === "upToDown" &&
+                      sortState.sortKay === "deadline" ? (
+                        <FaArrowDown />
+                      ) : sortState.sortDirection === "downToUp" &&
+                        sortState.sortKay === "deadline" ? (
+                        <FaArrowUp />
                       ) : null}
                     </div>
                   </th>
