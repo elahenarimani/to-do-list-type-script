@@ -195,7 +195,6 @@ function AddModal({ openAddModal, onClose, data }: ImodalParameter) {
             <div className="w-full md:w-[120px]">
             <Select  
                onChange={(e:any) => {setSelectedOptionPriority(e.label)}}
-            
                placeholder={"Priority"}
                components={{DropdownIndicator}}
                styles={customStyles}  

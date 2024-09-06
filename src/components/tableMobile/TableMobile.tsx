@@ -245,10 +245,10 @@ function TableMobile({ data,
     <div>
       <table className="w-full flex flex-col justify-between ">
         <th className="border-b-[1px] border-[#ECECEC] pb-[8px] pl-[13px] pr-[13px]">
-          <p className="text-left text-[#747474] text-[10px]  mb-[1px]">
+          {/* <p className="text-left text-[#747474] text-[10px]  mb-[1px]">
             Sort by
-          </p>
-          <div className="w-full md:hidden">
+          </p> */}
+          {/* <div className="w-full md:hidden">
             <Select
               onChange={(e: any) => {
                 setSelectedData(e.label);
@@ -266,7 +266,7 @@ function TableMobile({ data,
             <ul>
        
       </ul>
-          </div>
+          </div> */}
         </th>
         <tr className="w-full flex flex-col justify-between  border-b-[1px] border-[#ECECEC]  pl-[13px] pr-[13px]">
           <td className="h-[50px] pt-[15px] pb-[15px]">
