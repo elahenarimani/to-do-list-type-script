@@ -40,6 +40,10 @@ interface ISort {
   sortKay: "priority" | "status" | "deadline" | null;
   sortDirection: "downToUp" | "upToDown" | null;
 }
+interface ISelectedMob {
+  value: string | number | null;
+  label: "Priority" |"Status" | "Deadline" | null;
+}
 let removeId: number;
 function App() {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
@@ -85,6 +89,7 @@ function App() {
     sortKay: null,
     sortDirection: null,
   });
+  const [selectedMob , setSelectedMob] = useState<ISelectedMob|null>(null);
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
@@ -124,8 +129,8 @@ function App() {
     <>
       <DataContext.Provider value={{ data, setData }}>
         <div className="App">
-          <div className="header-wrapper w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
-            <div className="header-left basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
+          <div className="header-wrapper-mob w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
               </div>
@@ -135,7 +140,7 @@ function App() {
               <ul></ul>
             </div>
           {/* </div> */}
-          <div className="header-right h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
+          <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
             <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
               <Input
                 className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
@@ -157,10 +162,15 @@ function App() {
           </div>
           </div>
         </div>
-        <p className="text-left text-[#747474] text-[16px]  mb-[1px] h-full ml-[15px]">
+        <p className="text-left text-[#747474] text-[16px]  mb-[1px] h-full pl-[13px] pr-[13px]">
             Sort by
-          </p>
-        <SelectMobile />
+        </p>
+       <div className="pl-[13px] pr-[13px]">
+          <SelectMobile 
+            selectedMob={selectedMob}
+            setSelectedMob = {setSelectedMob}
+         />
+       </div>
         <main className="w-full h-full">
           <div className=" w-full">
             <table className=" hidden md:table w-full h-full  ">
@@ -350,6 +360,15 @@ function App() {
               .filter((item) => {
                 const taskName = (item?.taskName as string).toLowerCase();
                 return taskName.includes((search as string).toLowerCase());
+              }).sort((a:Idata , b:Idata) => {
+              
+                if( selectedMob == "Deadline"){
+                 
+                }else if( selectedMob == "Priority"){
+
+                }else{
+                  
+                }
               })
               .map((item) => {
                 return (
@@ -364,6 +383,8 @@ function App() {
                       taskDetails={item.taskDetails}
                       id={item.id}
                       removeId={removeId}
+                      selectedMob = { selectedMob} 
+                      setSelectedMob ={setSelectedMob}
                     />
                   </div>
                 );

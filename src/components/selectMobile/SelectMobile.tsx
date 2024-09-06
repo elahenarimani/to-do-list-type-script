@@ -15,13 +15,18 @@ import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edite2Modal from "../edite2Modal/Edite2Modal";
 import { DataContext } from "../../App";
-interface ISelectedDataMob {
+interface ISelectedMob {
+    
     value: string | number | null;
-    label: string | null;
+    label: "Priority" |"Status" | "Deadline" | null;
   }
-
-const SelectMobile = () => {
-    const [selectedDataMob, setSelectedDataMob] = useState<ISelectedDataMob|null>(null);
+interface ISelectMobile{
+    selectedMob : "Priority" |"Status" | "Deadline" | null;
+    setSelectedMob : Function
+}
+const SelectMobile = ({selectedMob ,  setSelectedMob }:ISelectMobile) => {
+    const DataUse = useContext(DataContext);
+    // const [selectedMob , setSelectedMob] = useState<ISelectedMob|null>(null);
     const CaretDownIcon = () => {
     
         return (
@@ -32,7 +37,7 @@ const SelectMobile = () => {
         );
       };
       const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
-        console.log(selectedDataMob)
+        console.log(selectedMob)
         return (
           <components.DropdownIndicator {...props}>
             <CaretDownIcon />
@@ -53,7 +58,13 @@ const SelectMobile = () => {
           ...provided,
           width: '100%',
           height: 40,
-          borderColor: "#757575",
+        
+          border: "none",
+          borderBottom: "2px solid #757575", 
+          boxShadow: "none", 
+          '&:hover': {
+            borderBottom: "2px solid #6200EA", 
+          },
         }),
         menu: (provided) => ({
           ...provided,
@@ -68,16 +79,53 @@ const SelectMobile = () => {
             color: "inherit",
           },
         }),
+        placeholder: (provided: any) => ({
+            ...provided,
+            textAlign: "left", // Maintain left-aligned placeholder text
+          }),
       
       };
+
+
+    //   const handlePriority = () => {
+    //     console.log("Priority selected");
+      
+    //   };
+    
+    //   const handleStatus = () => {
+    //     console.log("Status selected");
+       
+    //   };
+    
+    //   const handleDeadline = () => {
+    //     console.log("Deadline selected");
+       
+    //   };
   return (
     
       <div className="w-full md:hidden">
                 <Select
                   onChange={(e: any) => {
-                    setSelectedDataMob(e.label);
+                    setSelectedMob(e.label);
                     console.log(e.label);
                   }}
+                // onChange={(e: any) => {
+                //     setSelectedDataMob(e.label);
+                //     // Execute different functions based on the selected value
+                //     switch (e.label) {
+                //       case "Priority":
+                //         handlePriority();
+                //         break;
+                //       case "Status":
+                //         handleStatus();
+                //         break;
+                //       case "Deadline":
+                //         handleDeadline();
+                //         break;
+                //       default:
+                //         break;
+                //     }
+                //   }}
                   placeholder={
                     <div style={{ textAlign: "left" }}>Deadline</div>
                   }
@@ -92,5 +140,4 @@ const SelectMobile = () => {
     </div>
   )
 }
-
 export default SelectMobile

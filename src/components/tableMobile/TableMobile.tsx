@@ -31,6 +31,10 @@ interface Idata {
   taskDetails: string | number;
  
 }
+interface ISelectedMob {
+  value: string | number | null;
+  label: string | null;
+}
 interface ITableMobileParameter {
   data: Idata[];
   setData: Function;
@@ -41,6 +45,8 @@ interface ITableMobileParameter {
   taskDetails: string | number;
   id: number;
   removeId: number;
+  selectedMob  : ISelectedMob|null;
+  setSelectedMob : Function
 }
 function TableMobile({ data,
   setData,
@@ -51,6 +57,8 @@ function TableMobile({ data,
   taskDetails,
   id,
   removeId,
+  selectedMob, 
+  setSelectedMob
 }: ITableMobileParameter)  {
   interface ISelectedData {
     value: string | number | null;
@@ -244,7 +252,7 @@ function TableMobile({ data,
   return (
     <div>
       <table className="w-full flex flex-col justify-between ">
-        <th className="border-b-[1px] border-[#ECECEC] pb-[8px] pl-[13px] pr-[13px]">
+        <th className=" pb-[8px] pl-[13px] pr-[13px]">
           {/* <p className="text-left text-[#747474] text-[10px]  mb-[1px]">
             Sort by
           </p> */}
