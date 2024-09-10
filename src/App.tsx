@@ -26,13 +26,21 @@ interface ISelectOption {
   value: string | number | null;
   label: string | null;
 }
+interface ISelectMobile{
+  value: "Priority" |"Status" | "Deadline" ;
+  label: string | null;
+}
+// interface ISelectMobile{
+//   selectedMob : "Priority" |"Status" | "Deadline" ;
+//   setSelectedMob : Function
+// }
 interface Idata {
   id: number;
   taskName: string | number;
   // priority: string;
   // status: string;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
+  priority: ISelectOption | null | string|ISelectMobile  ;
+  status: ISelectOption | null | string |ISelectMobile;
   deadline: number;
   taskDetails: string | number;
 }
@@ -41,8 +49,8 @@ interface ISort {
   sortDirection: "downToUp" | "upToDown" | null;
 }
 interface ISelectedMob {
-  value: string | number | null;
-  label: "Priority" |"Status" | "Deadline" | null;
+  sortSeleKay: "priority" | "status" | "deadline" | null;
+  sortSelDirection: null;
 }
 let removeId: number;
 function App() {
@@ -89,7 +97,11 @@ function App() {
     sortKay: null,
     sortDirection: null,
   });
-  const [selectedMob , setSelectedMob] = useState< "Priority" |"Status" | "Deadline" |null>(null);
+  const [sortSelectState, setSortSlectState] = useState<ISelectedMob>({
+    sortSeleKay: null,
+    sortSelDirection: null,
+  });
+  // const [selectedMob , setSelectedMob] = useState< "Priority" |"Status" | "Deadline" >();
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
@@ -167,8 +179,7 @@ function App() {
         </p>
        <div className="pl-[13px] pr-[13px]">
           <SelectMobile 
-            selectedMob={selectedMob}
-            setSelectedMob = {setSelectedMob}
+          
          />
        </div>
         <main className="w-full h-full">
@@ -276,9 +287,6 @@ function App() {
                   // return taskName.toLowerCase().includes(search.toLowerCase());
                 })
                 .sort((a: any, b: any) => {
-                  {
-                    console.log(a);
-                  }
                   if (sortState.sortKay === "priority") {
                     let tempA = {
                       ...a,
@@ -360,18 +368,58 @@ function App() {
               .filter((item) => {
                 const taskName = (item?.taskName as string).toLowerCase();
                 return taskName.includes((search as string).toLowerCase());
-              }).sort((a:Idata , b:Idata) => {
-              
-                if( selectedMob == "Deadline"){
-                  let tempA = new Date(a.deadline).getTime();
+              })
+              // .sort((a, b) => {
+              // console.log(a)
+              //    if( sortSelectState.sortSeleKay === "priority"){
+              //     let tempA = {
+              //       ...a,
+              //       priority:
+              //       a.priority?.toLocaleLowerCase() === "high"
+              //           ? 3
+              //            :a.priority?.toLocaleLowerCase()=== "medium"
+              //           ? 2
+              //           : 1,   
+              //     };
+              //     let tempB = {
+              //       ...b,
+              //       priority:
+              //           b.priority?.toLocaleLowerCase() === "high"
+              //           ? 3
+              //            :b.priority?.toLocaleLowerCase()=== "medium"
+              //           ? 2
+              //           : 1,
+              //     };
+              //     console.log(a);
+              //     return tempA.priority - tempB.priority;
+              //   }else{
+              //     let tempA = {
+              //       ...a,
+              //       status:
+              //           a?.status?.toLocaleLowerCase() === "done"
+              //           ? 3
+              //           : a?.status?.toLocaleLowerCase() === "doing"
+              //           ? 2
+              //           : 1,
+              //     };
+
+              //     let tempB = {
+              //       ...b,
+              //       status:
+              //           b.status.toLocaleLowerCase() === "done"
+              //           ? 3
+              //           : b.status.toLocaleLowerCase() === "doing"
+              //           ? 2
+              //           : 1,
+              //     };
+              //     return tempA.status - tempB.status;
+              //   }
+              // })
+              .sort((a,b) => {
+                let tempA = new Date(a.deadline).getTime();
                   let tempB = new Date(b.deadline).getTime();
                   console.log(tempA)
                     return tempA - tempB;
-                }else if( selectedMob == "Priority"){
-
-                }else{
-                  
-                }
               })
               .map((item) => {
                 return (
@@ -386,8 +434,8 @@ function App() {
                       taskDetails={item.taskDetails}
                       id={item.id}
                       removeId={removeId}
-                      selectedMob = { selectedMob} 
-                      setSelectedMob ={setSelectedMob}
+                      // selectedMob = { selectedMob} 
+                      // setSelectedMob ={setSelectedMob}
                     />
                   </div>
                 );

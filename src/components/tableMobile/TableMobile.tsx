@@ -31,10 +31,10 @@ interface Idata {
   taskDetails: string | number;
  
 }
-interface ISelectedMob {
-  value: string | number | null;
-  label: string | null;
-}
+// interface ISelectedMob {
+//   value: string | number | null;
+//   label: string | null;
+// }
 interface ITableMobileParameter {
   data: Idata[];
   setData: Function;
@@ -45,8 +45,8 @@ interface ITableMobileParameter {
   taskDetails: string | number;
   id: number;
   removeId: number;
-  selectedMob  :  "Priority" |"Status" | "Deadline" | null;
-  setSelectedMob : Function
+  // selectedMob  :  "Priority" |"Status" | "Deadline" | null;
+  // setSelectedMob : Function
 }
 function TableMobile({ data,
   setData,
@@ -57,8 +57,8 @@ function TableMobile({ data,
   taskDetails,
   id,
   removeId,
-  selectedMob, 
-  setSelectedMob
+  // selectedMob, 
+  // setSelectedMob
 }: ITableMobileParameter)  {
   interface ISelectedData {
     value: string | number | null;

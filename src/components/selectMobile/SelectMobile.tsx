@@ -15,16 +15,22 @@ import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edite2Modal from "../edite2Modal/Edite2Modal";
 import { DataContext } from "../../App";
+interface IMobSel {
+  value: string | number | null;
+  label: string | null;
+}
 // interface ISelectedMob {
     
 //     value: string | number | null;
 //     label: "Priority" |"Status" | "Deadline" | null;
 //   }
 interface ISelectMobile{
-    selectedMob : "Priority" |"Status" | "Deadline" | null;
-    setSelectedMob : Function
+    value: "Priority" |"Status" | "Deadline" ;
+    label: string | null;
 }
-const SelectMobile = ({selectedMob ,  setSelectedMob }:ISelectMobile) => {
+const SelectMobile = () => {
+  const [selectedMob,  setSelectedMob] =
+  useState<ISelectMobile | null>(null);
     const DataUse = useContext(DataContext);
     // const [selectedMob , setSelectedMob] = useState<ISelectedMob|null>(null);
     const CaretDownIcon = () => {
@@ -42,11 +48,9 @@ const SelectMobile = ({selectedMob ,  setSelectedMob }:ISelectMobile) => {
           <components.DropdownIndicator {...props}>
             <CaretDownIcon />
           </components.DropdownIndicator>
-           
         );
       };
       const formatOptionLabel = ({ label }: { label: string }) => (
-       
         <div style={{ textAlign: 'left' }}>{label}</div>
       );
       const customStyles: StylesConfig = {
@@ -105,27 +109,11 @@ const SelectMobile = ({selectedMob ,  setSelectedMob }:ISelectMobile) => {
     
       <div className="w-full md:hidden">
                 <Select
+                 defaultValue={{ value: 3, label: "Deadline" }}
                   onChange={(e: any) => {
                     setSelectedMob(e.label);
                     console.log(e.label);
                   }}
-                // onChange={(e: any) => {
-                //     setSelectedDataMob(e.label);
-                //     // Execute different functions based on the selected value
-                //     switch (e.label) {
-                //       case "Priority":
-                //         handlePriority();
-                //         break;
-                //       case "Status":
-                //         handleStatus();
-                //         break;
-                //       case "Deadline":
-                //         handleDeadline();
-                //         break;
-                //       default:
-                //         break;
-                //     }
-                //   }}
                   placeholder={
                     <div style={{ textAlign: "left" }}>Deadline</div>
                   }
