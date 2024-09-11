@@ -21,21 +21,24 @@ html {
 }
 
 .search-wrapper:hover {
-  border: 2px solid white;
+  /* border: 2px solid white; */
   max-width: 200px;
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
+  outline: hidden;
 }
 
 .search-wrapper div:hover {
   border: none;
+  outline: hidden;
 }
 
 .search-wrapper input:hover {
   border: none;
+  outline: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {

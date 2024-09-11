@@ -1,8 +1,8 @@
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
-import { useEffect , useContext } from "react";
+import { useEffect, useContext } from "react";
 import { FaTrash } from "react-icons/fa";
-import { IoMdArrowDropdown , } from "react-icons/io";
+import { IoMdArrowDropdown } from "react-icons/io";
 import Select, {
   components,
   DropdownIndicatorProps,
@@ -29,7 +29,6 @@ interface Idata {
   status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
- 
 }
 // interface ISelectedMob {
 //   value: string | number | null;
@@ -48,7 +47,8 @@ interface ITableMobileParameter {
   // selectedMob  :  "Priority" |"Status" | "Deadline" | null;
   // setSelectedMob : Function
 }
-function TableMobile({ data,
+function TableMobile({
+  data,
   setData,
   taskName,
   priority,
@@ -57,9 +57,9 @@ function TableMobile({ data,
   taskDetails,
   id,
   removeId,
-  // selectedMob, 
-  // setSelectedMob
-}: ITableMobileParameter)  {
+}: // selectedMob,
+// setSelectedMob
+ITableMobileParameter) {
   interface ISelectedData {
     value: string | number | null;
     label: string | null;
@@ -77,7 +77,7 @@ function TableMobile({ data,
     mode: "add",
   });
   const DataUse = useContext(DataContext);
-  
+
   interface IViewParameter {
     id: null | number;
   }
@@ -102,7 +102,6 @@ function TableMobile({ data,
         <p className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px]"> Low</p>
       );
     }
-    
   }
   interface IRemoveTodoParameter {
     removeId: number;
@@ -118,7 +117,7 @@ function TableMobile({ data,
     id: null | number;
     mode: string;
   }
- 
+
   interface IStatusParameter {
     status: ISelectOption | null | string;
   }
@@ -127,7 +126,7 @@ function TableMobile({ data,
       return (
         <p className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]">To do </p>
       );
-    } else if (status === "Doing" ) {
+    } else if (status === "Doing") {
       return (
         <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
       );
@@ -137,8 +136,8 @@ function TableMobile({ data,
       );
     }
   }
- 
-  function changeToEditMode( editId : number) {
+
+  function changeToEditMode(editId: number) {
     setIdMode({ id: editId, mode: "edit" });
     setOpenEdit(true);
     console.log("test");
@@ -150,7 +149,6 @@ function TableMobile({ data,
     setViewId({ id: viewId });
     setViewOpen(true);
     console.log(id);
-   
   }
   function handleDeleteBTN() {
     setOpenDelete(true);
@@ -170,7 +168,6 @@ function TableMobile({ data,
   }
 
   const CaretDownIcon = () => {
-    
     return (
       <button className="dropBTN">
         {" "}
@@ -179,17 +176,15 @@ function TableMobile({ data,
     );
   };
   const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
-    console.log(selectedData)
+    console.log(selectedData);
     return (
       <components.DropdownIndicator {...props}>
         <CaretDownIcon />
       </components.DropdownIndicator>
-       
     );
   };
   const formatOptionLabel = ({ label }: { label: string }) => (
-   
-    <div style={{ textAlign: 'left' }}>{label}</div>
+    <div style={{ textAlign: "left" }}>{label}</div>
   );
   const customStyles: StylesConfig = {
     indicatorSeparator: (provided, state) => ({
@@ -198,7 +193,7 @@ function TableMobile({ data,
     }),
     control: (provided, state) => ({
       ...provided,
-      width: '100%',
+      width: "100%",
       height: 40,
       borderColor: "#757575",
     }),
@@ -215,9 +210,8 @@ function TableMobile({ data,
         color: "inherit",
       },
     }),
-  
   };
-  
+
   // function sortData(sortBy: string | null){
   //   if (!sortBy) return;
   //   let sortedData:Idata[] = [...data];
@@ -225,8 +219,7 @@ function TableMobile({ data,
   //   switch (sortBy) {
   //     case 'Priority':
   //       sortedData.sort((a, b) => {
-          
-      
+
   //         if (data.priority === "High") {
   //           return a.priority === b.priority ? 0 : a.priority === 'High' ? -1 : 1;
   //         } else if (DataUse?.data.priority === 'Medium') {
@@ -247,7 +240,6 @@ function TableMobile({ data,
   //     default:
   //       break;
   //   }
-
 
   return (
     <div>
@@ -286,19 +278,21 @@ function TableMobile({ data,
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Priority</p>
-              <p>{renderPriority({ priority })}</p>
+              <p className="text-center">{renderPriority({ priority })}</p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
               <p className="font-bold">Status</p>
-              <p>{renderStatus({ status })}</p>
+                <p className="text-center">{renderStatus({ status })}</p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">
             <div className="flex justify-between items-center ">
-              <p className="font-bold">Deadline</p>
-              <p>{deadline}</p>
+              <p className="font-bold text-center">Deadline</p>
+              <p className="h-[25px] w-[85px] border-[1px] border-[#F44438] rounded-[20px] text-center text-[#F44438]">
+                {deadline}
+              </p>
             </div>
           </td>
           <td className="h-[50px] pt-[15px] pb-[15px]">
@@ -318,45 +312,45 @@ function TableMobile({ data,
             </div>
           </td>
           <DeleteModal
-        openDelete={openDelete}
-        removeId={removeId}
-        id={id}
-        handleButtonClick={handleButtonClick}
-        onClose={handleClose}
-      />
-      {data.map((item) => {
-        if (item.id == idMode.id)
-          return (
-            <Edite2Modal
-              openEdite={openEdite}
-              setOpenEdit={setOpenEdit}
-              data={data}
-              setData={setData}
-              idMode={idMode}
-              setIdMode={setIdMode}
-              taskName={item.taskName}
-              priority={item.priority}
-              status={item.status}
-              deadline={item.deadline}
-              taskDetails={item.taskDetails}
-            />
-          );
-      })}
-      {data.map((item) => {
-        if (item.id == viewId.id)
-          return (
-            <ViewModal
-              taskName={item.taskName}
-              priority={item.priority}
-              status={item.status}
-              deadline={item.deadline}
-              taskDetails={item.taskDetails}
-              viewOpen={viewOpen}
-              setViewOpen={setViewOpen}
-              closeViewModal={closeViewModal}
-            />
-          );
-      })}
+            openDelete={openDelete}
+            removeId={removeId}
+            id={id}
+            handleButtonClick={handleButtonClick}
+            onClose={handleClose}
+          />
+          {data.map((item) => {
+            if (item.id == idMode.id)
+              return (
+                <Edite2Modal
+                  openEdite={openEdite}
+                  setOpenEdit={setOpenEdit}
+                  data={data}
+                  setData={setData}
+                  idMode={idMode}
+                  setIdMode={setIdMode}
+                  taskName={item.taskName}
+                  priority={item.priority}
+                  status={item.status}
+                  deadline={item.deadline}
+                  taskDetails={item.taskDetails}
+                />
+              );
+          })}
+          {data.map((item) => {
+            if (item.id == viewId.id)
+              return (
+                <ViewModal
+                  taskName={item.taskName}
+                  priority={item.priority}
+                  status={item.status}
+                  deadline={item.deadline}
+                  taskDetails={item.taskDetails}
+                  viewOpen={viewOpen}
+                  setViewOpen={setViewOpen}
+                  closeViewModal={closeViewModal}
+                />
+              );
+          })}
         </tr>
       </table>
     </div>

@@ -8,7 +8,7 @@ import TableMobile from "./components/tableMobile/TableMobile";
 import TableDesktop from "./components/tableDesktop/TableDesktop";
 import { FaArrowUp } from "react-icons/fa";
 import Button from "./components/button/Button";
-import AddModal from "./components/addModal/AddModal";
+import AddModal from "./components/addModalDes/AddModalDes";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
@@ -17,6 +17,10 @@ import FilterToDo from "./components/filterToDo/FilterToDo";
 import { FaArrowDown } from "react-icons/fa";
 import Select from "./components/select/Select2";
 import SelectMobile from "./components/selectMobile/SelectMobile";
+import DesktopHeader from "./components/mobileHeader/MobileHeader";
+import MobileHeader from "./components/mobileHeader/MobileHeader";
+import AddModalMob from "./components/addModalMob/AddModalMob";
+import AddModalDes from "./components/addModalDes/AddModalDes";
 // import Select from 'react-select';
 export const DataContext = createContext<{
   data: Idata[];
@@ -26,8 +30,8 @@ interface ISelectOption {
   value: string | number | null;
   label: string | null;
 }
-interface ISelectMobile{
-  value: "Priority" |"Status" | "Deadline" ;
+interface ISelectMobile {
+  value: "Priority" | "Status" | "Deadline";
   label: string | null;
 }
 // interface ISelectMobile{
@@ -39,8 +43,8 @@ interface Idata {
   taskName: string | number;
   // priority: string;
   // status: string;
-  priority: ISelectOption | null | string|ISelectMobile  ;
-  status: ISelectOption | null | string |ISelectMobile;
+  priority: ISelectOption | null | string | ISelectMobile;
+  status: ISelectOption | null | string | ISelectMobile;
   deadline: number;
   taskDetails: string | number;
 }
@@ -59,7 +63,6 @@ function App() {
     // {
     //   id: 1,
     //   taskName: "test1",
-
     //   priority: "high",
     //   status: "doing",
     //   deadline: 4,
@@ -68,7 +71,6 @@ function App() {
     // {
     //   id: 2,
     //   taskName: "test2",
-
     //   priority: "low",
     //   status: "to do",
     //   deadline: 10,
@@ -77,7 +79,6 @@ function App() {
     // {
     //   id: 2,
     //   taskName: "test3",
-
     //   priority: "medium",
     //   status: "done",
     //   deadline: 1,
@@ -141,7 +142,12 @@ function App() {
     <>
       <DataContext.Provider value={{ data, setData }}>
         <div className="App">
-          <div className="header-wrapper-mob w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+        <div className="mobile-header invisible w-full h-[50px]  lg:hidden">
+          <MobileHeader />
+        </div>
+        <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  lg:hidden">
+          {/* <MobileHeader /> */}
+          <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
@@ -151,37 +157,108 @@ function App() {
               </div>
               <ul></ul>
             </div>
-          {/* </div> */}
-          <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
-            <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
-              <Input
-                className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
-                placeholder="Search"
-                valueState={search}
-                inputHandler={(e: any) => setSearch(e.target.value)}
-                type="text"
-              />
-              <div className="">
-                <CiSearch size={20} />
+            {/* </div> */}
+            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
+              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
+                <Input
+                  className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
+                  placeholder="Search"
+                  valueState={search}
+                  inputHandler={(e: any) => setSearch(e.target.value)}
+                  type="text"
+                />
+                <div className="">
+                  <CiSearch size={20} />
+                </div>
               </div>
+              <Button onClickHandler={() => filterToDoHandler()}>
+                <FaFilter size={20} />
+              </Button>
+              <Button onClickHandler={() => handleOpen()}>
+                <TbPencilPlus size={20} />
+              </Button>
             </div>
-            <Button onClickHandler={() => filterToDoHandler()}>
-              <FaFilter size={20} />
-            </Button>
-            <Button onClickHandler={() => handleOpen()}>
-              <TbPencilPlus size={20} />
-            </Button>
-          </div>
           </div>
         </div>
-        <p className="text-left text-[#747474] text-[16px]  mb-[1px] h-full pl-[13px] pr-[13px]">
-            Sort by
-        </p>
-       <div className="pl-[13px] pr-[13px]">
-          <SelectMobile 
+        <div className="desktop-header hidden  lg:block w-full h-auto">
+          {/* <DesktopHeader /> */}
+          <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
+              <div>
+                <VscChecklist size={20} />
+              </div>
+              <div className="my-to-do-wrapper ">
+                <p className="truncate w-full text-[20px]"> My To-Do Tasks </p>
+              </div>
+              <ul></ul>
+            </div>
+            {/* </div> */}
+            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
+              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
+                <Input
+                  className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
+                  placeholder="Search"
+                  valueState={search}
+                  inputHandler={(e: any) => setSearch(e.target.value)}
+                  type="text"
+                />
+                <div className="">
+                  <CiSearch size={20} />
+                </div>
+              </div>
+              <Button onClickHandler={() => filterToDoHandler()}>
+                <FaFilter size={20} />
+              </Button>
+              <Button onClickHandler={() => handleOpen()}>
+                <TbPencilPlus size={20} />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
+              <div>
+                <VscChecklist size={20} />
+              </div>
+              <div className="my-to-do-wrapper ">
+                <p className="truncate w-full text-[20px]"> My To-Do Tasks </p>
+              </div>
+              <ul></ul>
+            </div> 
           
-         />
-       </div>
+            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
+              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
+                <Input
+                  className="w-full h-full bg-[#6200EA] border-none  outline-none pb-[4px]"
+                  placeholder="Search"
+                  valueState={search}
+                  inputHandler={(e: any) => setSearch(e.target.value)}
+                  type="text"
+                />
+                <div className="">
+                  <CiSearch size={20} />
+                </div>
+              </div>
+              <Button onClickHandler={() => filterToDoHandler()}>
+                <FaFilter size={20} />
+              </Button>
+              <Button onClickHandler={() => handleOpen()}>
+                <TbPencilPlus size={20} />
+              </Button>
+            </div>
+          </div> */}
+
+
+
+
+        </div>
+        <p className="text-left text-[#747474] text-[16px]  mb-[1px] h-full pl-[13px] pr-[13px] lg:hidden">
+          Sort by
+        </p>
+        <div className="pl-[13px] pr-[13px]">
+          <SelectMobile />
+        </div>
         <main className="w-full h-full">
           <div className=" w-full">
             <table className=" hidden md:table w-full h-full  ">
@@ -277,14 +354,11 @@ function App() {
                 </th>
                 <th className="  text-center text-[#666666]  ">Action</th>
               </tr>
-
               {filteredData
                 .filter((item) => {
                   const taskName = (item?.taskName as string).toLowerCase();
                   return taskName.includes((search as string).toLowerCase());
-                  // const taskName = String(item?.taskName); // Ensure taskName is a string
-                  // const search.toLowerCase() = String()
-                  // return taskName.toLowerCase().includes(search.toLowerCase());
+                 
                 })
                 .sort((a: any, b: any) => {
                   if (sortState.sortKay === "priority") {
@@ -322,7 +396,6 @@ function App() {
                           ? 2
                           : 1,
                     };
-
                     let tempB = {
                       ...b,
                       status:
@@ -379,7 +452,7 @@ function App() {
               //           ? 3
               //            :a.priority?.toLocaleLowerCase()=== "medium"
               //           ? 2
-              //           : 1,   
+              //           : 1,
               //     };
               //     let tempB = {
               //       ...b,
@@ -415,11 +488,11 @@ function App() {
               //     return tempA.status - tempB.status;
               //   }
               // })
-              .sort((a,b) => {
+              .sort((a, b) => {
                 let tempA = new Date(a.deadline).getTime();
-                  let tempB = new Date(b.deadline).getTime();
-                  console.log(tempA)
-                    return tempA - tempB;
+                let tempB = new Date(b.deadline).getTime();
+                console.log(tempA);
+                return tempA - tempB;
               })
               .map((item) => {
                 return (
@@ -434,7 +507,7 @@ function App() {
                       taskDetails={item.taskDetails}
                       id={item.id}
                       removeId={removeId}
-                      // selectedMob = { selectedMob} 
+                      // selectedMob = { selectedMob}
                       // setSelectedMob ={setSelectedMob}
                     />
                   </div>
@@ -488,13 +561,26 @@ function App() {
               </div>
             </div>
           </div>
-          <AddModal
+         
+         <div className="md:hidden">
+         <AddModalMob
+           openAddModal={openAddModal}
+           onClose={onClose}
+           data={data}
+           idMode={idMode}
+           setIdMode={setIdMode}
+          />
+         </div >
+         <div className="hidden md:block">
+         <AddModalDes
             openAddModal={openAddModal}
             onClose={onClose}
             data={data}
             idMode={idMode}
             setIdMode={setIdMode}
           />
+         </div>
+        
           <div className="">
             <FilterToDo openFilterToDo={openFilterToDo} />
           </div>

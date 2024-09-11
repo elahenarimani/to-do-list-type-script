@@ -70,15 +70,24 @@ function TableDesktop({
   function renderPriority({ priority }: IPriorityParameter) {
     if (priority === "High") {
       return (
-        <p className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px]">High </p>
+        <div className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px] flex justify-center items-center">
+             <p >High </p>
+        </div>
+      
       );
     } else if (priority === "Medium") {
       return (
-        <p className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px]">Medium</p>
+        <div className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px] flex justify-center items-center">
+              <p>Medium</p>
+        </div>
+       
       );
     } else if (priority === "Low"){
       return (
-        <p className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px]"> Low</p>
+        <div  className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px] flex justify-center items-center">
+             <p> Low</p>
+        </div>
+       
       );
     }else {
       return (
@@ -106,15 +115,24 @@ function TableDesktop({
   function renderStatus({ status }: IStatusParameter) {
     if (status === "To do") {
       return (
-        <p className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]">To do </p>
+        <div className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]  flex justify-center items-center">
+           <p >To do </p>
+        </div>
+       
       );
     } else if (status === "Doing" ) {
       return (
-        <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
+        <div className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]  flex justify-center items-center">
+           <p >Doing</p>
+        </div>
+       
       );}
       else if (status === "Done" ) {
         return (
-          <p className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]">Done</p>
+          <div className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]  flex justify-center items-center">
+             <p >Done</p>
+          </div>
+         
         );} else {
       return (
         <p></p>
@@ -147,7 +165,7 @@ function TableDesktop({
     setViewOpen(false);
   }
   return (
-    <tr className=" w-full w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
+    <tr className=" w-[25%] h-[40px] border-b-[2px] border-[#E0E0E0]">
       <td className=" border-r-[2px] border-[#E0E0E0] text-[#1F1F1F] text-left  pl-[15px]">
         {taskName}
       </td>
@@ -163,7 +181,7 @@ function TableDesktop({
       </td>
       <td className=" text-[#F44438] ">
         <div className="flex justify-center items-center">
-          <p className="h-[25px] w-[85px] border-[1px] border-[#F44438] rounded-[20px]">
+          <p className="h-[25px] w-[85px] border-[1px] border-[#F44438] rounded-[20px] text-center">
             {deadline}
           </p>
         </div>

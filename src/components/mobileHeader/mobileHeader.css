@@ -1,0 +1,24 @@
+/* .search-wrapper:hover {
+ 
+    max-width: 200px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    outline: hidden;
+   
+  } */
+  input:hover{
+    outline: none;
+    border:none
+  }
+  /* .search-wrapper div:hover {
+    border: none;
+    outline: hidden;
+  } */
+  
+  /* .search-wrapper input:hover {
+    border: none;
+    outline: hidden;
+  } */
