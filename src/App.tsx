@@ -4,20 +4,20 @@ import { VscChecklist } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
 import { FaFilter } from "react-icons/fa6";
 import { TbPencilPlus, TbSettingsSearch } from "react-icons/tb";
-import TableMobile from "./components/tableMobile/TableMobile";
-import TableDesktop from "./components/tableDesktop/TableDesktop";
 import { FaArrowUp } from "react-icons/fa";
-import Button from "./components/button/Button";
-import AddModal from "./components/addModalDes/AddModalDes";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import { FaArrowDown } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import Input from "./components/input/Input";
 import FilterToDo from "./components/filterToDo/FilterToDo";
-import { FaArrowDown } from "react-icons/fa";
+import TableMobile from "./components/tableMobile/TableMobile";
+import TableDesktop from "./components/tableDesktop/TableDesktop";
+import Button from "./components/button/Button";
+
 import Select from "./components/select/Select2";
 import SelectMobile from "./components/selectMobile/SelectMobile";
-import DesktopHeader from "./components/mobileHeader/MobileHeader";
+import DesktopHeader from "./components/desktopHeader/DesktopHeader"
 import MobileHeader from "./components/mobileHeader/MobileHeader";
 import AddModalMob from "./components/addModalMob/AddModalMob";
 import AddModalDes from "./components/addModalDes/AddModalDes";
@@ -38,6 +38,7 @@ interface ISelectMobile {
 //   selectedMob : "Priority" |"Status" | "Deadline" ;
 //   setSelectedMob : Function
 // }
+
 interface Idata {
   id: number;
   taskName: string | number;
@@ -142,12 +143,12 @@ function App() {
     <>
       <DataContext.Provider value={{ data, setData }}>
         <div className="App">
-        <div className="mobile-header invisible w-full h-[50px]  lg:hidden">
+        <div className="mobile-header invisible w-full h-[50px]  md:hidden">
           <MobileHeader />
         </div>
-        <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  lg:hidden">
-          {/* <MobileHeader /> */}
-          <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+        <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  md:hidden">
+          <MobileHeader />
+          {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
@@ -157,7 +158,6 @@ function App() {
               </div>
               <ul></ul>
             </div>
-            {/* </div> */}
             <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
               <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
                 <Input
@@ -178,11 +178,15 @@ function App() {
                 <TbPencilPlus size={20} />
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
-        <div className="desktop-header hidden  lg:block w-full h-auto">
-          {/* <DesktopHeader /> */}
-          <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+        <div className="desktop-header invisible  hidden  md:block w-full h-auto  invisible ">
+          <DesktopHeader />
+         
+        </div>
+        <div className="desktop-header hidden  md:block w-full h-auto  fixed top-0 z-[1] ">
+          <DesktopHeader />
+          {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
@@ -192,7 +196,6 @@ function App() {
               </div>
               <ul></ul>
             </div>
-            {/* </div> */}
             <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
               <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
                 <Input
@@ -213,7 +216,7 @@ function App() {
                 <TbPencilPlus size={20} />
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
@@ -360,72 +363,78 @@ function App() {
                   return taskName.includes((search as string).toLowerCase());
                  
                 })
-                .sort((a: any, b: any) => {
-                  if (sortState.sortKay === "priority") {
-                    let tempA = {
-                      ...a,
-                      priority:
-                        a.priority?.toLocaleLowerCase() === "high"
-                          ? 3
-                          : a.priority?.toLocaleLowerCase() === "medium"
-                          ? 2
-                          : 1,
-                    };
-                    console.log(a);
-                    let tempB = {
-                      ...b,
-                      priority:
-                        b.priority.toLocaleLowerCase() === "high"
-                          ? 3
-                          : b.priority.toLocaleLowerCase() === "medium"
-                          ? 2
-                          : 1,
-                    };
-                    if (sortState.sortDirection === "upToDown") {
-                      return tempA.priority - tempB.priority;
-                    } else {
-                      return tempB.priority - tempA.priority;
-                    }
-                  } else if (sortState.sortKay === "status") {
-                    let tempA = {
-                      ...a,
-                      status:
-                        a.status.toLocaleLowerCase() === "done"
-                          ? 3
-                          : a.status.toLocaleLowerCase() === "doing"
-                          ? 2
-                          : 1,
-                    };
-                    let tempB = {
-                      ...b,
-                      status:
-                        b.status.toLocaleLowerCase() === "done"
-                          ? 3
-                          : b.status.toLocaleLowerCase() === "doing"
-                          ? 2
-                          : 1,
-                    };
-                    if (sortState.sortDirection === "upToDown") {
-                      return tempA.status - tempB.status;
-                    } else {
-                      return tempB.status - tempA.status;
-                    }
-                  } else if (sortState.sortKay === "deadline") {
-                    let tempA = new Date(a.deadline).getTime();
-                    let tempB = new Date(b.deadline).getTime();
-                    if (sortState.sortDirection === "upToDown") {
-                      return tempA - tempB;
-                    } else {
-                      return tempB - tempA;
-                    }
-                  }
-                  return true;
-                })
+
+
+                // .sort((a:any, b: any) => {
+                //   if (sortState.sortKay === "priority") {
+                //     let tempA = {
+                //       ...a,
+                //       priority:
+                //         a.priority?.toLocaleLowerCase() === "high"
+                //           ? 3
+                //           : a.priority?.toLocaleLowerCase() === "medium"
+                //           ? 2
+                //           : 1,
+                          
+                //     };
+                //     console.log(a);
+                //     let tempB = {
+                //       ...b,
+                //       priority:
+                //         b.priority.toLocaleLowerCase() === "high"
+                //           ? 3
+                //           : b.priority.toLocaleLowerCase() === "medium"
+                //           ? 2
+                //           : 1,
+                //     };
+                //     if (sortState.sortDirection === "upToDown") {
+                //       return tempA.priority - tempB.priority;
+                //     } else {
+                //       return tempB.priority - tempA.priority;
+                //     }
+                //   } else if (sortState.sortKay === "status") {
+                //     let tempA = {
+                //       ...a,
+                //       status:
+                //         a.status.toLocaleLowerCase() === "done"
+                //           ? 3
+                //           : a.status.toLocaleLowerCase() === "doing"
+                //           ? 2
+                //           : 1,
+                //     };
+                //     let tempB = {
+                //       ...b,
+                //       status:
+                //         b.status.toLocaleLowerCase() === "done"
+                //           ? 3
+                //           : b.status.toLocaleLowerCase() === "doing"
+                //           ? 2
+                //           : 1,
+                //     };
+                //     if (sortState.sortDirection === "upToDown") {
+                //       return tempA.status - tempB.status;
+                //     } else {
+                //       return tempB.status - tempA.status;
+                //     }
+                //   } else if (sortState.sortKay === "deadline") {
+                //     let tempA = new Date(a.deadline).getTime();
+                //     let tempB = new Date(b.deadline).getTime();
+                //     if (sortState.sortDirection === "upToDown") {
+                //       return tempA - tempB;
+                //     } else {
+                //       return tempB - tempA;
+                //     }
+                //   }
+                //   return true;
+                // })
+
+
+
+
                 .map((item) => {
                   return (
                     <TableDesktop
-                      data={data}
-                      setData={setData}
+                     
                       taskName={item?.taskName}
                       priority={item?.priority}
                       status={item?.status}
@@ -442,7 +451,7 @@ function App() {
                 const taskName = (item?.taskName as string).toLowerCase();
                 return taskName.includes((search as string).toLowerCase());
               })
-              // .sort((a, b) => {
+              // .sort((a:any, b:any) => {
               // console.log(a)
               //    if( sortSelectState.sortSeleKay === "priority"){
               //     let tempA = {
@@ -488,12 +497,31 @@ function App() {
               //     return tempA.status - tempB.status;
               //   }
               // })
-              .sort((a, b) => {
-                let tempA = new Date(a.deadline).getTime();
-                let tempB = new Date(b.deadline).getTime();
-                console.log(tempA);
-                return tempA - tempB;
-              })
+              //   .sort((a:any , b:any) => {
+              //  console.log(a)
+              //    if( sortSelectState.sortSeleKay === "priority"){
+              //     let Atemp = a?.priority
+              //     let Btemp = b?.priority
+              //      return  Atemp.value - Btemp.value
+              //   }else{
+              //     let Atemp = a?.staus
+              //     let Btemp = b?.staus
+              //      return  Atemp.value - Btemp.value
+              //   }
+              // })
+
+
+
+
+
+
+
+              // .sort((a, b) => {
+              //   let tempA = new Date(a.deadline).getTime();
+              //   let tempB = new Date(b.deadline).getTime();
+              //   console.log(tempA);
+              //   return tempA - tempB;
+              // })
               .map((item) => {
                 return (
                   <div className="block md:hidden">
@@ -562,16 +590,14 @@ function App() {
             </div>
           </div>
          
-         <div className="md:hidden">
+         {/* <div className="md:hidden">
          <AddModalMob
-           openAddModal={openAddModal}
-           onClose={onClose}
-           data={data}
+          
            idMode={idMode}
            setIdMode={setIdMode}
           />
-         </div >
-         <div className="hidden md:block">
+         </div > */}
+         {/* <div className="hidden md:block">
          <AddModalDes
             openAddModal={openAddModal}
             onClose={onClose}
@@ -579,7 +605,7 @@ function App() {
             idMode={idMode}
             setIdMode={setIdMode}
           />
-         </div>
+         </div> */}
         
           <div className="">
             <FilterToDo openFilterToDo={openFilterToDo} />

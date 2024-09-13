@@ -5,6 +5,8 @@ import { FaFilter } from 'react-icons/fa6'
 import { CiSearch } from 'react-icons/ci'
 import { VscChecklist } from 'react-icons/vsc'
 import Input from '../input/Input'
+import "./desktopHeader.css"
+import AddModalDes from '../addModalDes/AddModalDes'
 const DesktopHeader = () => {
     const [search, setSearch] = useState<string | number>("");
     const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
@@ -17,8 +19,8 @@ const DesktopHeader = () => {
       }
   return (
     <div>
-        <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
-            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
+        <div className="header-wrapper-des  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+            <div className="header-left-des basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
               </div>
@@ -28,8 +30,8 @@ const DesktopHeader = () => {
               <ul></ul>
             </div>
             {/* </div> */}
-            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
-              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
+            <div className="header-right-des h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
+              <div className="search-wrapper-des h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
                 <Input
                   className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
                   placeholder="Search"
@@ -37,7 +39,7 @@ const DesktopHeader = () => {
                   inputHandler={(e: any) => setSearch(e.target.value)}
                   type="text"
                 />
-                <div className="">
+                <div >
                   <CiSearch size={20} />
                 </div>
               </div>
@@ -49,6 +51,12 @@ const DesktopHeader = () => {
               </Button>
             </div>
           </div>
+          <div className="hidden md:block">
+         <AddModalDes
+             openAddModal={openAddModal}
+             setOpenAddModal={setOpenAddModal}
+          />
+         </div>
     </div>
   )
 }

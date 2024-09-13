@@ -11,10 +11,13 @@ import Select, {
 
 import { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
-import EditModal from "../editModal/EditModal";
+
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
-import Edite2Modal from "../edite2Modal/Edite2Modal";
+
+
+import Edit2ModalMob from "../edit2ModalMob/Edit2ModalMob";
+
 import { DataContext } from "../../App";
 interface ISelectOption {
   value: string | number | null;
@@ -60,6 +63,7 @@ function TableMobile({
 }: // selectedMob,
 // setSelectedMob
 ITableMobileParameter) {
+ 
   interface ISelectedData {
     value: string | number | null;
     label: string | null;
@@ -107,7 +111,7 @@ ITableMobileParameter) {
     removeId: number;
   }
   function removeTodo({ removeId }: IRemoveTodoParameter) {
-    setData(data.filter((item) => item.id !== removeId));
+    DataUse?.setData(DataUse?.data.filter((item) => item.id !== removeId));
     console.log(removeId);
   }
   interface IHandleRemoveTodoButton {
@@ -318,14 +322,14 @@ ITableMobileParameter) {
             handleButtonClick={handleButtonClick}
             onClose={handleClose}
           />
-          {data.map((item) => {
+          {DataUse?.data.map((item) => {
             if (item.id == idMode.id)
               return (
-                <Edite2Modal
+                <Edit2ModalMob
                   openEdite={openEdite}
                   setOpenEdit={setOpenEdit}
-                  data={data}
-                  setData={setData}
+                  // data={data}
+                  // setData={setData}
                   idMode={idMode}
                   setIdMode={setIdMode}
                   taskName={item.taskName}
@@ -336,7 +340,7 @@ ITableMobileParameter) {
                 />
               );
           })}
-          {data.map((item) => {
+          {DataUse?.data.map((item) => {
             if (item.id == viewId.id)
               return (
                 <ViewModal

@@ -6,10 +6,35 @@ import { CiSearch } from 'react-icons/ci'
 import { VscChecklist } from 'react-icons/vsc'
 import Input from '../input/Input'
 import "./mobileHeader.css"
+import AddModalMob from '../addModalMob/AddModalMob'
+import { useContext } from 'react'
+import { DataContext } from "../../App";
+interface ISelectOption {
+  value: string | number | null;
+  label: string | null;
+}
+interface Idata {
+  id: number;
+  taskName: string | number;
+  // priority: string;
+  // status: string;
+  priority: ISelectOption | null | string;
+  status: ISelectOption | null | string;
+  deadline: number;
+  taskDetails: string | number;
+}
+interface ImodalParameter {
+  // openAddModal: boolean;
+  onClose: Function;
+  data: Idata[];
+  // idMode: IIdModeParameter;
+  // setOpenAddModal: Function;
+}
 const MobileHeader = () => {
     const [search, setSearch] = useState<string | number>("");
     const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+    const DataUse = useContext(DataContext);
     function filterToDoHandler() {
         setOpenFilterToDo(true);
       }
@@ -30,7 +55,7 @@ const MobileHeader = () => {
             </div>
             {/* </div> */}
             <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
-              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
+              <div className="search-wrapper-mob h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
                 <Input
                   className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
                   placeholder="Search"
@@ -50,6 +75,14 @@ const MobileHeader = () => {
               </Button>
             </div>
           </div>
+          <div className="md:hidden">
+         <AddModalMob
+           openAddModal={openAddModal}
+           setOpenAddModal={setOpenAddModal}
+          //  idMode={idMode}
+          //  setIdMode={setIdMode}
+          />
+         </div > 
     </div>
   )
 }

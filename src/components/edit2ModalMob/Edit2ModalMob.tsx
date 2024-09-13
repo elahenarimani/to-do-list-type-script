@@ -25,11 +25,15 @@ interface IIdModeParameter {
   id: null | number;
   mode: string;
 }
+interface ISelectMobile {
+  value: "Priority" | "Status" | "Deadline";
+  label: string | null;
+}
 interface IEditModalParameter {
   openEdite: boolean;
   setOpenEdit: Function;
-  data: Idata[];
-  setData: Function;
+  // data: Idata[];
+  // setData: Function;
   idMode: IIdModeParameter;
   setIdMode: Function;
   taskName: string | number;
@@ -38,11 +42,11 @@ interface IEditModalParameter {
   deadline: number;
   taskDetails: string | number;
 }
-function Edite2Modal({
+function Edit2ModalMob({
   openEdite,
   setOpenEdit,
-  data,
-  setData,
+  // data,
+  // setData,
   idMode,
   setIdMode,
   taskName,
@@ -51,13 +55,14 @@ function Edite2Modal({
   deadline,
   taskDetails,
 }: IEditModalParameter) {
+  const DataUse = useContext(DataContext);
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
   const [selectedOptionPriorityEdit, setSelectedOptionPriorityEdite] = useState<
-    ISelectOption | string |null
-  >(priority);
-  const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
-    ISelectOption | string |null
-  >(status);
+  ISelectOption | string |null
+>(priority);
+const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
+  ISelectOption | string |null
+>(status);
   const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(deadline);
   const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>(
     taskDetails
@@ -69,7 +74,7 @@ function Edite2Modal({
     newTaskName: string | number;
     newPriority: ISelectOption | null | string;
     newStatus: ISelectOption | null | string;
-    newDeadline: number | undefined;
+    newDeadline: number ;
     newTaskDetails: string | number;
   }
   function editTodo({
@@ -80,8 +85,8 @@ function Edite2Modal({
     newDeadline,
     newTaskDetails,
   }: IEditTodoParameter) {
-    setData(
-      data.map((item) => {
+    DataUse?.setData(
+      DataUse?.data.map((item) => {
         if (item.id == editId) {
           item.taskName = newTaskName;
           item.priority = newPriority;
@@ -143,20 +148,21 @@ function Edite2Modal({
   }
   if (!openEdite) return null;
   return (
-    <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center">
-      <div className="modal w-full md:w-[500px] overflow-y-scroll md:overflow-y-hidden h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] ">
-        <p className="text-[20px] text-left pb-[5px]">New task </p>
-        <div className="modal w-full h-full  grid grid-cols-1 md:grid-cols-3 gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
-          <div className="w-full md:w-[400px]  md:col-start-1 md:col-end-4 border-gray-500 rounded-[5px] border-[1px] h-[40px]">
+    <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center z-[3]">
+      <div className="modal w-full  overflow-y-scroll  h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] ">
+        <p className="text-[20px] text-left pb-[5px]">Edit task </p>
+        <div className=" w-full h-full  grid grid-cols-1  gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
+          <div className="w-full    border-gray-500 rounded-[5px] border-[1px] h-[40px] pt-[4px]">
             <Input
               valueState={inpvalEdit}
               type="text"
               inputHandler={(e: any) => setInpvalEdit(e.target.value)}
               placeholder="Task Name"
-              className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
+              className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-          <div className="w-full md:w-[120px]">
+          {/* <div className="w-[400px] h-[40px] flex  flex-row justify-between items-center "> */}
+          <div className="w-full ">
             <Select
               onChange={(e: any) => {
                 setSelectedOptionPriorityEdite(e.label);
@@ -164,10 +170,10 @@ function Edite2Modal({
               defaultValue={
                 editId
                   ? {
-                      value: data
+                      value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.priority?.toString(),
-                      label: data.find((item) => item.id === editId)?.priority,
+                      label: DataUse?.data.find((item) => item.id === editId)?.priority,
                     }
                   : null
               }
@@ -182,18 +188,19 @@ function Edite2Modal({
             />
           </div>
 
-          <div className="w-full md:w-[120px]">
+          <div className="w-full ">
             <Select
               onChange={(e: any) => {
                 setSelectedOptionStatusEdit(e.label);
+                console.log(e)
               }}
               defaultValue={
                 editId
                   ? {
-                      value: data
+                      value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.status?.toString(),
-                      label: data.find((item) => item.id === editId)?.status,
+                      label: DataUse?.data.find((item) => item.id === editId)?.status,
                     }
                   : null
               }
@@ -207,7 +214,7 @@ function Edite2Modal({
               ]}
             />
           </div>
-          <div className=" w-full md:w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+          <div className=" w-full  h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
             <DateInput
               valueState={inpvalDateEdit}
               type="date"
@@ -216,20 +223,19 @@ function Edite2Modal({
               className="w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-
-          <div className="w-full md:w-[400px] h-[150px] md:col-start-1 md:col-end-4 border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start">
+          <div className="w-full  h-[150px]   border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start pt-[4px]">
             <Input
               valueState={inpvalDetailEdit}
               type="text"
               inputHandler={(e: any) => setInpvalDetailEdit(e.target.value)}
               placeholder="Task Details (Optional)"
-              className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top"
+              className="taske-Details w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top"
             />
           </div>
-          <div className="w-full  md:w-[400px] h-[40px] flex justify-between items-center ">
+          <div className="w-full   h-[40px] flex justify-between items-center pb-[20px]">
             <Button
               onClickHandler={() => handleClose()}
-              className=" text-[#3091E7] text-[17px] "
+              className=" text-[#3091E7] text-[14px] "
             >
               CANCEL
             </Button>
@@ -244,7 +250,7 @@ function Edite2Modal({
                   newTaskDetails: inpvalDetailEdit,
                 })
               }
-              className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[17px]"
+              className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[14px] "
             >
               SAVE
             </Button>
@@ -254,4 +260,4 @@ function Edite2Modal({
     </div>
   );
 }
-export default Edite2Modal;
+export default Edit2ModalMob;

@@ -191,7 +191,7 @@
 //   );
 // }
 // export default AddModal;
-import { createContext, useContext, useState } from "react";
+import {  useContext, useState } from "react";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
@@ -219,17 +219,17 @@ interface IIdModeParameter {
 }
 interface ImodalParameter {
   openAddModal: boolean;
-  onClose: Function;
-  data: Idata[];
-  idMode: IIdModeParameter;
-  setIdMode: Function;
+  setOpenAddModal: Function;
+  // data: Idata[];
+  // idMode: IIdModeParameter;
+  // setIdMode: Function;
 }
 interface ISelectOption {
   value: string | number | null;
   label: string | null;
 }
-function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
-  console.log(data);
+function AddModalDes({ openAddModal, setOpenAddModal  }: ImodalParameter) {
+  
   const [inpval, setInpval] = useState<string | number>("");
   const [selectedOptionPriority, setSelectedOptionPriority] =
     useState<ISelectOption | null>(null);
@@ -241,7 +241,7 @@ function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
   console.log(DataUse);
   function addData() {
     DataUse?.setData([
-      ...data,
+      ...DataUse?.data,
       {
         id: Date.now(),
         taskName: inpval,
@@ -252,7 +252,8 @@ function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
         openAddModal: false,
       },
     ]);
-    onClose();
+    setOpenAddModal(false)
+  
     setInpval("");
     setInpvalDetail("");
     setInpvalDate(undefined);
@@ -315,7 +316,7 @@ function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
         
             <div className="w-[120px]">
             <Select  
-               onChange={(e:any) => {setSelectedOptionPriority(e.label)}}
+               onChange={(e:any) => {setSelectedOptionPriority(  e.label ? e.label : null)}}
                placeholder={"Priority"}
                components={{DropdownIndicator}}
                styles={customStyles}  
@@ -325,13 +326,14 @@ function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
                 {value:2 , label:"Medium"},
                 {value:3 , label:"Low"}
                ]} 
+               defaultValue={null} 
              />
             </div>
             
             <div className="w-[120px]">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionStatus(e.label);
+                setSelectedOptionStatus( e.label ? e.label : null);
               }}
               placeholder={"status"}
               components={{ DropdownIndicator }}
@@ -342,6 +344,7 @@ function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
                 { value: 2, label: "Doing" },
                 { value: 3, label: "Done" },
               ]}
+              defaultValue={null} 
             />
             </div>
             <div className=" w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
@@ -365,7 +368,7 @@ function AddModalDes({ openAddModal, onClose, data }: ImodalParameter) {
           </div>
           <div className="w-[400px] h-[40px] flex justify-between items-center pb-[25px]">
             <Button
-              onClickHandler={() => onClose()}
+              onClickHandler={() => setOpenAddModal(false)}
               className=" text-[#3091E7] text-[14px] "
             >
               CANCEL

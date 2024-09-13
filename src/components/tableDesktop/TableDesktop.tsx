@@ -5,10 +5,13 @@ import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import TableMobile from "../tableMobile/TableMobile"
-import EditModal from "../editModal/EditModal";
+
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
-import Edite2Modal from "../edite2Modal/Edite2Modal"
+
+import Edite2ModalDes from "../edite2ModalDes/Edite2ModalDes";
+import { useContext } from 'react'
+import { DataContext } from "../../App";
 interface ISelectOption {
   value: string | number | null;
   label: string | null;
@@ -24,8 +27,8 @@ interface Idata {
   taskDetails: string | number;
 }
 interface ITableDesktopParameter {
-  data: Idata[];
-  setData: Function;
+  // data: Idata[];
+  // setData: Function;
   taskName: string | number;
   priority: ISelectOption | null | string;
   status: ISelectOption | null | string;
@@ -35,8 +38,8 @@ interface ITableDesktopParameter {
   removeId: number;
 }
 function TableDesktop({
-  data,
-  setData,
+  // data,
+  // setData,
   taskName,
   priority,
   status,
@@ -62,7 +65,7 @@ function TableDesktop({
     id: null,
     mode: "add",
   });
- 
+  const DataUse = useContext(DataContext);
   
   interface IPriorityParameter {
     priority: ISelectOption | null | string;
@@ -99,7 +102,7 @@ function TableDesktop({
     removeId: number;
   }
   function removeTodo({ removeId }: IRemoveTodoParameter) {
-    setData(data.filter((item) => item.id !== removeId));
+    DataUse?.setData(DataUse?.data.filter((item) => item.id !== removeId));
     console.log(removeId);
   }
   interface IHandleRemoveTodoButton {
@@ -118,21 +121,18 @@ function TableDesktop({
         <div className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]  flex justify-center items-center">
            <p >To do </p>
         </div>
-       
       );
     } else if (status === "Doing" ) {
       return (
         <div className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]  flex justify-center items-center">
            <p >Doing</p>
         </div>
-       
       );}
       else if (status === "Done" ) {
         return (
           <div className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]  flex justify-center items-center">
              <p >Done</p>
           </div>
-         
         );} else {
       return (
         <p></p>
@@ -224,14 +224,14 @@ function TableDesktop({
             />
           );
       })} */}
-      {data.map((item) => {
+      {DataUse?.data.map((item) => {
         if (item.id == idMode.id)
           return (
-            <Edite2Modal
+            <Edite2ModalDes
               openEdite={openEdite}
               setOpenEdit={setOpenEdit}
-              data={data}
-              setData={setData}
+              // data={data}
+              // setData={setData}
               idMode={idMode}
               setIdMode={setIdMode}
               taskName={item.taskName}
@@ -242,7 +242,7 @@ function TableDesktop({
             />
           );
       })}
-      {data.map((item) => {
+      {DataUse?.data.map((item) => {
         if (item.id == viewId.id)
           return (
             <ViewModal

@@ -26,50 +26,55 @@ interface IIdModeParameter {
 }
 interface ImodalParameter {
   openAddModal: boolean;
-  onClose: Function;
-  data: Idata[];
-  idMode: IIdModeParameter;
-  setIdMode: Function;
+  setOpenAddModal: Function;
+  // data: Idata[];
+  // idMode: IIdModeParameter;
+  // setIdMode: Function;
 }
 interface ISelectOption {
   value: string | number | null;
   label: string | null;
 }
-function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
-  console.log(data);
+function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
   const [inpval, setInpval] = useState<string | number>("");
-  const [selectedOptionPriority, setSelectedOptionPriority] =
+  const [selectedOptionPriorityMob, setSelectedOptionPriorityMob] =
     useState<ISelectOption | null>(null);
-  const [selectedOptionStatus, setSelectedOptionStatus] =
+  const [selectedOptionStatusMob, setSelectedOptionStatusMob] =
     useState<ISelectOption | null>(null);
   const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const DataUse = useContext(DataContext);
+  // const [isFormComplete , setIsFormComplete] = useState<Boolean>(false)
+  const isFormComplete = inpval !== "" && selectedOptionPriorityMob !== null && selectedOptionStatusMob !== null;
   console.log(DataUse);
   function addData() {
+    if (!inpval || !selectedOptionPriorityMob || !selectedOptionStatusMob || !inpvalDate) {
+      
+      return;
+    }
     DataUse?.setData([
-      ...data,
+      ...DataUse.data,
       {
         id: Date.now(),
         taskName: inpval,
-        priority: selectedOptionPriority,
-        status: selectedOptionStatus,
+        priority: selectedOptionPriorityMob,
+        status: selectedOptionStatusMob,
         deadline: inpvalDate,
         taskDetails: inpvalDetail,
         openAddModal: false,
       },
     ]);
-    onClose();
+    setOpenAddModal(false)
     setInpval("");
     setInpvalDetail("");
     setInpvalDate(undefined);
   }
   const CaretDownIcon = () => {
     return (
-      <button className="dropBTN">
-        {" "}
-        <IoMdArrowDropdown size={25} color={"#757575"} />
-      </button>
+      
+      <button className="dropBTN" style={{ padding: 0, margin: 0 }}>
+      <IoMdArrowDropdown size={25} color={"#757575"} />
+    </button>
     );
   };
   const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
@@ -89,7 +94,21 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
       width: '100%',
       height: 40,
       borderColor: "#757575",
+      padding: 0,
+      margin:0
     }),
+    valueContainer: (provided) => ({
+      ...provided,
+      paddingLeft: 0, // Make sure the placeholder has no padding
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      paddingLeft:0, // Remove any inherent padding between icon and placeholder
+    }),
+    // dropdownIndicator: (provided) => ({
+    //   ...provided,
+    //   padding: 0, // Ensure no padding in the dropdown icon container
+    // }),
     menu: (provided) => ({
       ...provided,
       textAlign: "left",
@@ -109,8 +128,8 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center">
       <div className="modal w-full  overflow-y-scroll  h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] ">
         <p className="text-[20px] text-left pb-[5px]">New task </p>
-        <div className=" w-full h-full  grid grid-cols-1  gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
-          <div className="w-full    border-gray-500 rounded-[5px] border-[1px] h-[40px] pt-[4px]">
+        <div className="w-full h-full  grid grid-cols-1  gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
+          <div className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px] ${!isFormComplete ? "border-red-800"  :"border-gray-500" }`}>
             <Input
               valueState={inpval}
               type="text"
@@ -119,26 +138,28 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
               className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-          {/* <div className="w-[400px] h-[40px] flex  flex-row justify-between items-center "> */}
-            <div className="w-full ">
+          <div className="min-w-[250px] h-[40px] ">
+            
             <Select  
-               onChange={(e:any) => {setSelectedOptionPriority(e.label)}}
-               placeholder={"Priority"}
+               onChange={(e:any) => {setSelectedOptionPriorityMob( e ? e.label : null)}}
+              // onChange={(e: ISelectOption | null) => setSelectedOptionPriority(e ? e.label : null)}
+               placeholder="Priority"
                components={{DropdownIndicator}}
                styles={customStyles}  
-                
+               
                options={[
                 {value:1 , label:"High"},
                 {value:2 , label:"Medium"},
                 {value:3 , label:"Low"}
                ]} 
+               defaultValue={null} 
              />
+        
             </div>
-            
-            <div className="w-full ">
+            <div className="min-w-[250px] h-[40px] ">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionStatus(e.label);
+                setSelectedOptionStatusMob( e ? e.label : null);
               }}
               placeholder={"status"}
               components={{ DropdownIndicator }}
@@ -149,9 +170,10 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
                 { value: 2, label: "Doing" },
                 { value: 3, label: "Done" },
               ]}
+              defaultValue={null} 
             />
             </div>
-            <div className=" w-full  h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+            <div className="  min-w-[250px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
               <DateInput
                 valueState={inpvalDate}
                 type="date"
@@ -161,7 +183,7 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
               />
             </div>
           {/* </div> */}
-          <div className="w-full  h-[150px]   border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start pt-[4px]">
+          <div className="min-w-[250px]  h-[150px]   border-gray-500 border-[1px] rounded-[5px] flext justify-stert items-start pt-[4px]">
             <Input
               valueState={inpvalDetail}
               type="text"
@@ -172,7 +194,7 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
           </div>
           <div className="w-full   h-[40px] flex justify-between items-center pb-[20px]">
             <Button
-              onClickHandler={() => onClose()}
+              onClickHandler={() => setOpenAddModal(false)}
               className=" text-[#3091E7] text-[14px] "
             >
               CANCEL
@@ -180,6 +202,7 @@ function AddModalMob({ openAddModal, onClose, data }: ImodalParameter) {
             <Button
               onClickHandler={() => addData()}
               className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[14px] "
+              disabled={!isFormComplete}
             >
               SAVE
             </Button>

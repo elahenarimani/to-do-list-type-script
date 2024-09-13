@@ -9,11 +9,11 @@ import Select, {
   DropdownIndicatorProps,
   StylesConfig,
 } from "react-select";
-import DeleteModal from "../DeleteModal/DeleteModal";
-import EditModal from "../editModal/EditModal";
+
+
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
-import Edite2Modal from "../edite2Modal/Edite2Modal";
+import Edite2Modal from "../edite2ModalDes/Edite2ModalDes";
 import { DataContext } from "../../App";
 interface IMobSel {
   value: string | number | null;
