@@ -26,19 +26,17 @@ export const DataContext = createContext<{
   data: Idata[];
   setData: Function;
 } | null>(null);
-interface ISelectOption {
-  value: string | number | null;
-  label: string | null;
-}
+
 interface ISelectMobile {
   value: "Priority" | "Status" | "Deadline";
   label: string | null;
 }
-// interface ISelectMobile{
-//   selectedMob : "Priority" |"Status" | "Deadline" ;
-//   setSelectedMob : Function
-// }
 
+
+interface ISelectOption {
+  label: "High"| "Medium"|"Low"  | "To do" |"Doing" |"Done" |null ,
+    value: 1|2|3 |null
+}
 interface Idata {
   id: number;
   taskName: string | number;
@@ -95,6 +93,11 @@ function App() {
   const endIndex = startIndex + itemPerPage;
   const [search, setSearch] = useState<string | number>("");
   const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
+  const [selectedOptionPriority , setSelectedOptionPriority] =
+  useState<ISelectOption | null>({
+    label: null ,
+    value:null
+  });
   const [sortState, setSortState] = useState<ISort>({
     sortKay: null,
     sortDirection: null,
@@ -139,6 +142,7 @@ function App() {
   function filterToDoHandler() {
     setOpenFilterToDo(true);
   }
+  
   return (
     <>
       <DataContext.Provider value={{ data, setData }}>
@@ -180,7 +184,7 @@ function App() {
             </div>
           </div> */}
         </div>
-        <div className="desktop-header invisible  hidden  md:block w-full h-auto  invisible ">
+        <div className="desktop-header invisible  hidden  md:block w-full h-auto">
           <DesktopHeader />
          
         </div>
@@ -278,7 +282,7 @@ function App() {
                           sortState.sortDirection === "downToUp"
                             ? null
                             : "priority",
-                        sortDirection:
+                          sortDirection:
                           sortState.sortDirection === null
                             ? "upToDown"
                             : sortState.sortDirection === "upToDown"
@@ -365,68 +369,73 @@ function App() {
                 })
 
 
-                // .sort((a:any, b: any) => {
-                //   if (sortState.sortKay === "priority") {
-                //     let tempA = {
-                //       ...a,
-                //       priority:
-                //         a.priority?.toLocaleLowerCase() === "high"
-                //           ? 3
-                //           : a.priority?.toLocaleLowerCase() === "medium"
-                //           ? 2
-                //           : 1,
+                .sort((a, b) => {
+                  if (sortState.sortKay === "priority") {
+                    console.log(a)
+                    // let tempA = {
+                    //   ...a,
+                    //   priority:
+                    //     a.priority?.toLocaleLowerCase() === "high"
+                    //       ? 3
+                    //       : a.priority?.toLocaleLowerCase() === "medium"
+                    //       ? 2
+                    //       : 1,
                           
-                //     };
-                //     console.log(a);
-                //     let tempB = {
-                //       ...b,
-                //       priority:
-                //         b.priority.toLocaleLowerCase() === "high"
-                //           ? 3
-                //           : b.priority.toLocaleLowerCase() === "medium"
-                //           ? 2
-                //           : 1,
-                //     };
-                //     if (sortState.sortDirection === "upToDown") {
-                //       return tempA.priority - tempB.priority;
-                //     } else {
-                //       return tempB.priority - tempA.priority;
-                //     }
-                //   } else if (sortState.sortKay === "status") {
-                //     let tempA = {
-                //       ...a,
-                //       status:
-                //         a.status.toLocaleLowerCase() === "done"
-                //           ? 3
-                //           : a.status.toLocaleLowerCase() === "doing"
-                //           ? 2
-                //           : 1,
-                //     };
-                //     let tempB = {
-                //       ...b,
-                //       status:
-                //         b.status.toLocaleLowerCase() === "done"
-                //           ? 3
-                //           : b.status.toLocaleLowerCase() === "doing"
-                //           ? 2
-                //           : 1,
-                //     };
-                //     if (sortState.sortDirection === "upToDown") {
-                //       return tempA.status - tempB.status;
-                //     } else {
-                //       return tempB.status - tempA.status;
-                //     }
-                //   } else if (sortState.sortKay === "deadline") {
-                //     let tempA = new Date(a.deadline).getTime();
-                //     let tempB = new Date(b.deadline).getTime();
-                //     if (sortState.sortDirection === "upToDown") {
-                //       return tempA - tempB;
-                //     } else {
-                //       return tempB - tempA;
-                //     }
-                //   }
-                //   return true;
-                // })
+                    // };
+                    // console.log(a);
+                    // let tempB = {
+                    //   ...b,
+                    //   priority:
+                    //     b.priority.toLocaleLowerCase() === "high"
+                    //       ? 3
+                    //       : b.priority.toLocaleLowerCase() === "medium"
+                    //       ? 2
+                    //       : 1,
+                    // };
+                    if (sortState.sortDirection === "upToDown") {
+                      console.log(a)
+                     const  temData ={...data ,  priority : selectedOptionPriority}
+                    //  const priorityA =  a?.priority
+                    //   return a.priority?.valueOf - b.priority;
+                    // } else {
+                    //   return tempB.priority - tempA.priority;
+                    }
+                  } else if (sortState.sortKay === "status") {
+                    console.log(a)
+                    let tempA = {
+                      ...a,
+                      status:
+                        a.status.toLocaleLowerCase() === "done"
+                          ? 3
+                          : a.status.toLocaleLowerCase() === "doing"
+                          ? 2
+                          : 1,
+                    };
+                    let tempB = {
+                      ...b,
+                      status:
+                        b.status.toLocaleLowerCase() === "done"
+                          ? 3
+                          : b.status.toLocaleLowerCase() === "doing"
+                          ? 2
+                          : 1,
+                    };
+                    if (sortState.sortDirection === "upToDown") {
+                      return tempA.status - tempB.status;
+                    } else {
+                      return tempB.status - tempA.status;
+                    }
+                  } else if (sortState.sortKay === "deadline") {
+                    let tempA = new Date(a.deadline).getTime();
+                    let tempB = new Date(b.deadline).getTime();
+                    if (sortState.sortDirection === "upToDown") {
+                      return tempA - tempB;
+                    } else {
+                      return tempB - tempA;
+                    }
+                  }
+                  return true;
+                })
 
 
 

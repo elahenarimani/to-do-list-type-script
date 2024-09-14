@@ -203,16 +203,15 @@ import Select, {
 } from "react-select";
 import { DataContext } from "../../App";
 import "./addModal.css"
-interface Idata {
-  id: number;
-  taskName: string | number;
-  // priority: string;
-  // status: string;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
-  deadline: number;
-  taskDetails: string | number;
-}
+// interface Idata {
+//   id: number;
+//   taskName: string | number;
+  
+//   priority: ISelectOption | null | string;
+//   status: ISelectOption | null | string;
+//   deadline: number;
+//   taskDetails: string | number;
+// }
 interface IIdModeParameter {
   id: null | number;
   mode: string;
@@ -225,7 +224,7 @@ interface ImodalParameter {
   // setIdMode: Function;
 }
 interface ISelectOption {
-  value: string | number | null;
+  value:  number | null;
   label: string | null;
 }
 function AddModalDes({ openAddModal, setOpenAddModal  }: ImodalParameter) {
@@ -245,8 +244,8 @@ function AddModalDes({ openAddModal, setOpenAddModal  }: ImodalParameter) {
       {
         id: Date.now(),
         taskName: inpval,
-        priority: selectedOptionPriority,
-        status: selectedOptionStatus,
+        priority: selectedOptionPriority?.label,
+        status: selectedOptionStatus?.label,
         deadline: inpvalDate,
         taskDetails: inpvalDetail,
         openAddModal: false,
@@ -316,7 +315,7 @@ function AddModalDes({ openAddModal, setOpenAddModal  }: ImodalParameter) {
         
             <div className="w-[120px]">
             <Select  
-               onChange={(e:any) => {setSelectedOptionPriority(  e.label ? e.label : null)}}
+               onChange={(e:any) => {setSelectedOptionPriority(e)}}
                placeholder={"Priority"}
                components={{DropdownIndicator}}
                styles={customStyles}  

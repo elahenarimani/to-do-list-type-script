@@ -79,8 +79,6 @@ const MobileHeader = () => {
          <AddModalMob
            openAddModal={openAddModal}
            setOpenAddModal={setOpenAddModal}
-          //  idMode={idMode}
-          //  setIdMode={setIdMode}
           />
          </div > 
     </div>

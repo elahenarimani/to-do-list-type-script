@@ -32,7 +32,7 @@ interface ImodalParameter {
   // setIdMode: Function;
 }
 interface ISelectOption {
-  value: string | number | null;
+  value:  number | null;
   label: string | null;
 }
 function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
@@ -48,10 +48,10 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
   const isFormComplete = inpval !== "" && selectedOptionPriorityMob !== null && selectedOptionStatusMob !== null;
   console.log(DataUse);
   function addData() {
-    if (!inpval || !selectedOptionPriorityMob || !selectedOptionStatusMob || !inpvalDate) {
+    // if (!inpval || !selectedOptionPriorityMob || !selectedOptionStatusMob || !inpvalDate) {
       
-      return;
-    }
+    //   return;
+    // }
     DataUse?.setData([
       ...DataUse.data,
       {
