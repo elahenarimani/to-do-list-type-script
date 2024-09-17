@@ -17,7 +17,7 @@ import Button from "./components/button/Button";
 
 import Select from "./components/select/Select2";
 import SelectMobile from "./components/selectMobile/SelectMobile";
-import DesktopHeader from "./components/desktopHeader/DesktopHeader"
+import DesktopHeader from "./components/desktopHeader/DesktopHeader";
 import MobileHeader from "./components/mobileHeader/MobileHeader";
 import AddModalMob from "./components/addModalMob/AddModalMob";
 import AddModalDes from "./components/addModalDes/AddModalDes";
@@ -27,23 +27,26 @@ export const DataContext = createContext<{
   setData: Function;
 } | null>(null);
 
-interface ISelectMobile {
-  value: "Priority" | "Status" | "Deadline";
-  label: string | null;
-}
+// interface ISelectMobile {
+//   value: "Priority" | "Status" | "Deadline";
+//   label: string | null;
+// }
 
-
+// interface ISelectOption {
+//   label: "High"| "Medium"|"Low"  | "To do" |"Doing" |"Done" |null ,
+//     value: 1|2|3 |null
+// }
 interface ISelectOption {
-  label: "High"| "Medium"|"Low"  | "To do" |"Doing" |"Done" |null ,
-    value: 1|2|3 |null
+  value: number | null;
+  label: string | null;
 }
 interface Idata {
   id: number;
   taskName: string | number;
   // priority: string;
   // status: string;
-  priority: ISelectOption | null | string | ISelectMobile;
-  status: ISelectOption | null | string | ISelectMobile;
+  priority: ISelectOption | null;
+  status: ISelectOption | null;
   deadline: number;
   taskDetails: string | number;
 }
@@ -56,6 +59,7 @@ interface ISelectedMob {
   sortSelDirection: null;
 }
 let removeId: number;
+
 function App() {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [data, setData] = useState<Idata[]>([
@@ -93,11 +97,14 @@ function App() {
   const endIndex = startIndex + itemPerPage;
   const [search, setSearch] = useState<string | number>("");
   const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
-  const [selectedOptionPriority , setSelectedOptionPriority] =
-  useState<ISelectOption | null>({
-    label: null ,
-    value:null
-  });
+  const [selectedOptionPriority, setSelectedOptionPriority] =
+    useState<ISelectOption | null>({
+      label: null,
+      value: null,
+    });
+  const [selectedOptionStatus, setSelectedOptionStatus] =
+    useState<ISelectOption | null>(null);
+
   const [sortState, setSortState] = useState<ISort>({
     sortKay: null,
     sortDirection: null,
@@ -110,6 +117,27 @@ function App() {
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
+  }
+  function handleSort(kay: "priority" | "status" | "deadline") {
+    setSortState((item:ISort) => {
+      if (item.sortKay === kay) {
+        const newDirection =
+          item.sortDirection === "upToDown"
+            ? "downToUp"
+            : item.sortDirection === "downToUp"
+            ? null
+            : "upToDown";
+            return {
+              sortKay: newDirection ? kay : null, // Reset key if direction is null
+              sortDirection: newDirection,
+            };
+      } else {
+        return {
+          sortKay: kay,
+          sortDirection: "upToDown",
+        };
+      }
+    });
   }
   function handleOpen() {
     setOpenAddModal(true);
@@ -142,17 +170,17 @@ function App() {
   function filterToDoHandler() {
     setOpenFilterToDo(true);
   }
-  
+
   return (
     <>
       <DataContext.Provider value={{ data, setData }}>
         <div className="App">
-        <div className="mobile-header invisible w-full h-[50px]  md:hidden">
-          <MobileHeader />
-        </div>
-        <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  md:hidden">
-          <MobileHeader />
-          {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+          <div className="mobile-header invisible w-full h-[50px]  md:hidden">
+            <MobileHeader />
+          </div>
+          <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  md:hidden">
+            <MobileHeader />
+            {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
@@ -183,14 +211,13 @@ function App() {
               </Button>
             </div>
           </div> */}
-        </div>
-        <div className="desktop-header invisible  hidden  md:block w-full h-auto">
-          <DesktopHeader />
-         
-        </div>
-        <div className="desktop-header hidden  md:block w-full h-auto  fixed top-0 z-[1] ">
-          <DesktopHeader />
-          {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+          </div>
+          <div className="desktop-header invisible  hidden  md:block w-full h-auto">
+            <DesktopHeader />
+          </div>
+          <div className="desktop-header hidden  md:block w-full h-auto  fixed top-0 z-[1] ">
+            <DesktopHeader />
+            {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
@@ -221,9 +248,9 @@ function App() {
               </Button>
             </div>
           </div> */}
-        </div>
+          </div>
 
-        {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
+          {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
                 <VscChecklist size={20} />
@@ -255,10 +282,6 @@ function App() {
               </Button>
             </div>
           </div> */}
-
-
-
-
         </div>
         <p className="text-left text-[#747474] text-[16px]  mb-[1px] h-full pl-[13px] pr-[13px] lg:hidden">
           Sort by
@@ -276,19 +299,23 @@ function App() {
                 <th className=" text-center h-full">
                   <div
                     className="flex  justify-center gap-[2px] items-center"
-                    onClick={() =>
-                      setSortState({
-                        sortKay:
-                          sortState.sortDirection === "downToUp"
-                            ? null
-                            : "priority",
-                          sortDirection:
-                          sortState.sortDirection === null
-                            ? "upToDown"
-                            : sortState.sortDirection === "upToDown"
-                            ? "downToUp"
-                            : null,
-                      })
+                    onClick={
+                      () => handleSort("priority")
+                      //   setSortState(
+                      //     {
+
+                      //     sortKay:
+                      //       sortState.sortDirection === "downToUp"
+                      //         ? null
+                      //         : "priority",
+                      //       sortDirection:
+                      //       sortState.sortDirection === null
+                      //         ? "upToDown"
+                      //         : sortState.sortDirection === "upToDown"
+                      //         ? "downToUp"
+                      //         : null,
+                      //   }
+                      // )
                     }
                   >
                     <p className=" text-[#666666]">Priority</p>
@@ -304,19 +331,20 @@ function App() {
                 <th>
                   <div
                     className="status  flex  justify-center gap-[2px] items-center"
-                    onClick={() =>
-                      setSortState({
-                        sortKay:
-                          sortState.sortDirection === "downToUp"
-                            ? null
-                            : "status",
-                        sortDirection:
-                          sortState.sortDirection === null
-                            ? "upToDown"
-                            : sortState.sortDirection === "upToDown"
-                            ? "downToUp"
-                            : null,
-                      })
+                    onClick={
+                      () => handleSort("status")
+                      // setSortState({
+                      //   sortKay:
+                      //     sortState.sortDirection === "downToUp"
+                      //       ? null
+                      //       : "status",
+                      //   sortDirection:
+                      //     sortState.sortDirection === null
+                      //       ? "upToDown"
+                      //       : sortState.sortDirection === "upToDown"
+                      //       ? "downToUp"
+                      //       : null,
+                      // })
                     }
                   >
                     <p className=" text-[#666666]">Status</p>
@@ -333,19 +361,20 @@ function App() {
                 <th>
                   <div
                     className=" deadline  flex justify-center gap-[2px] items-center"
-                    onClick={() =>
-                      setSortState({
-                        sortKay:
-                          sortState.sortDirection === "downToUp"
-                            ? null
-                            : "deadline",
-                        sortDirection:
-                          sortState.sortDirection === null
-                            ? "upToDown"
-                            : sortState.sortDirection === "upToDown"
-                            ? "downToUp"
-                            : null,
-                      })
+                    onClick={
+                      () => handleSort("deadline")
+                      // setSortState({
+                      //   sortKay:
+                      //     sortState.sortDirection === "downToUp"
+                      //       ? null
+                      //       : "deadline",
+                      //   sortDirection:
+                      //     sortState.sortDirection === null
+                      //       ? "upToDown"
+                      //       : sortState.sortDirection === "upToDown"
+                      //       ? "downToUp"
+                      //       : null,
+                      // })
                     }
                   >
                     <p className=" text-[#666666]">Deadline</p>
@@ -365,67 +394,22 @@ function App() {
                 .filter((item) => {
                   const taskName = (item?.taskName as string).toLowerCase();
                   return taskName.includes((search as string).toLowerCase());
-                 
                 })
-
-
-                .sort((a, b) => {
+                .sort((a: any, b: any) => {
                   if (sortState.sortKay === "priority") {
-                    console.log(a)
-                    // let tempA = {
-                    //   ...a,
-                    //   priority:
-                    //     a.priority?.toLocaleLowerCase() === "high"
-                    //       ? 3
-                    //       : a.priority?.toLocaleLowerCase() === "medium"
-                    //       ? 2
-                    //       : 1,
-                          
-                    // };
-                    // console.log(a);
-                    // let tempB = {
-                    //   ...b,
-                    //   priority:
-                    //     b.priority.toLocaleLowerCase() === "high"
-                    //       ? 3
-                    //       : b.priority.toLocaleLowerCase() === "medium"
-                    //       ? 2
-                    //       : 1,
-                    // };
                     if (sortState.sortDirection === "upToDown") {
-                      console.log(a)
-                     const  temData ={...data ,  priority : selectedOptionPriority}
-                    //  const priorityA =  a?.priority
-                    //   return a.priority?.valueOf - b.priority;
-                    // } else {
-                    //   return tempB.priority - tempA.priority;
+                      console.log(a.priority?.value)
+                      return a.priority?.value - b.priority?.value;
+                    } else {
+                      return b.priority?.value - a.priority?.value;
                     }
                   } else if (sortState.sortKay === "status") {
-                    console.log(a)
-                    let tempA = {
-                      ...a,
-                      status:
-                        a.status.toLocaleLowerCase() === "done"
-                          ? 3
-                          : a.status.toLocaleLowerCase() === "doing"
-                          ? 2
-                          : 1,
-                    };
-                    let tempB = {
-                      ...b,
-                      status:
-                        b.status.toLocaleLowerCase() === "done"
-                          ? 3
-                          : b.status.toLocaleLowerCase() === "doing"
-                          ? 2
-                          : 1,
-                    };
                     if (sortState.sortDirection === "upToDown") {
-                      return tempA.status - tempB.status;
+                      return a.status?.value - b.status?.value;
                     } else {
-                      return tempB.status - tempA.status;
+                      return b.status?.value - a.status?.value;
                     }
-                  } else if (sortState.sortKay === "deadline") {
+                  } else {
                     let tempA = new Date(a.deadline).getTime();
                     let tempB = new Date(b.deadline).getTime();
                     if (sortState.sortDirection === "upToDown") {
@@ -434,16 +418,79 @@ function App() {
                       return tempB - tempA;
                     }
                   }
-                  return true;
                 })
 
+                // .sort((a, b) => {
+                //   if (sortState.sortKay === "priority") {
+                //     console.log(a)
+                // let tempA = {
+                //   ...a,
+                //   priority:
+                //     a.priority?.toLocaleLowerCase() === "high"
+                //       ? 3
+                //       : a.priority?.toLocaleLowerCase() === "medium"
+                //       ? 2
+                //       : 1,
 
-
+                // };
+                // console.log(a);
+                // let tempB = {
+                //   ...b,
+                //   priority:
+                //     b.priority.toLocaleLowerCase() === "high"
+                //       ? 3
+                //       : b.priority.toLocaleLowerCase() === "medium"
+                //       ? 2
+                //       : 1,
+                // };
+                //     if (sortState.sortDirection === "upToDown") {
+                //       console.log(a)
+                //      const  temData ={...data ,  priority : selectedOptionPriority}
+                //     //  const priorityA =  a?.priority
+                //     //   return a.priority?.valueOf - b.priority;
+                //     // } else {
+                //     //   return tempB.priority - tempA.priority;
+                //     }
+                //   } else if (sortState.sortKay === "status") {
+                //     console.log(a)
+                //     let tempA = {
+                //       ...a,
+                //       status:
+                //         a.status.toLocaleLowerCase() === "done"
+                //           ? 3
+                //           : a.status.toLocaleLowerCase() === "doing"
+                //           ? 2
+                //           : 1,
+                //     };
+                //     let tempB = {
+                //       ...b,
+                //       status:
+                //         b.status.toLocaleLowerCase() === "done"
+                //           ? 3
+                //           : b.status.toLocaleLowerCase() === "doing"
+                //           ? 2
+                //           : 1,
+                //     };
+                //     if (sortState.sortDirection === "upToDown") {
+                //       return tempA.status - tempB.status;
+                //     } else {
+                //       return tempB.status - tempA.status;
+                //     }
+                //   } else if (sortState.sortKay === "deadline") {
+                //     let tempA = new Date(a.deadline).getTime();
+                //     let tempB = new Date(b.deadline).getTime();
+                //     if (sortState.sortDirection === "upToDown") {
+                //       return tempA - tempB;
+                //     } else {
+                //       return tempB - tempA;
+                //     }
+                //   }
+                //   return true;
+                // })
 
                 .map((item) => {
                   return (
                     <TableDesktop
-                     
                       taskName={item?.taskName}
                       priority={item?.priority}
                       status={item?.status}
@@ -519,12 +566,6 @@ function App() {
               //   }
               // })
 
-
-
-
-
-
-
               // .sort((a, b) => {
               //   let tempA = new Date(a.deadline).getTime();
               //   let tempB = new Date(b.deadline).getTime();
@@ -598,15 +639,15 @@ function App() {
               </div>
             </div>
           </div>
-         
-         {/* <div className="md:hidden">
+
+          {/* <div className="md:hidden">
          <AddModalMob
           
            idMode={idMode}
            setIdMode={setIdMode}
           />
          </div > */}
-         {/* <div className="hidden md:block">
+          {/* <div className="hidden md:block">
          <AddModalDes
             openAddModal={openAddModal}
             onClose={onClose}
@@ -615,7 +656,7 @@ function App() {
             setIdMode={setIdMode}
           />
          </div> */}
-        
+
           <div className="">
             <FilterToDo openFilterToDo={openFilterToDo} />
           </div>

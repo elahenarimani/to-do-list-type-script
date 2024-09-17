@@ -332,7 +332,7 @@ function AddModalDes({ openAddModal, setOpenAddModal  }: ImodalParameter) {
             <div className="w-[120px]">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionStatus( e.label ? e.label : null);
+                setSelectedOptionStatus( e);
               }}
               placeholder={"status"}
               components={{ DropdownIndicator }}

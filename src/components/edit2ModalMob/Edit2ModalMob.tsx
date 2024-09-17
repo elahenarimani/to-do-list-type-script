@@ -9,24 +9,28 @@ import Select, {
   StylesConfig,
 } from "react-select";
 import { DataContext } from "../../App";
-interface ISelectOption {
-  value: string | number | null;
-  label: string | null;
-}
-interface Idata {
-  id: number;
-  taskName: string | number;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
-  deadline: number | undefined;
-  taskDetails: string | number;
-}
+// interface ISelectOption {
+//   value: string | number | null;
+//   label: string | null;
+// }
+// interface Idata {
+//   id: number;
+//   taskName: string | number;
+//   priority: ISelectOption | null | string;
+//   status: ISelectOption | null | string;
+//   deadline: number | undefined;
+//   taskDetails: string | number;
+// }
 interface IIdModeParameter {
   id: null | number;
   mode: string;
 }
 interface ISelectMobile {
   value: "Priority" | "Status" | "Deadline";
+  label: string | null;
+}
+interface ISelectOption {
+  value:  number | null;
   label: string | null;
 }
 interface IEditModalParameter {
@@ -37,8 +41,8 @@ interface IEditModalParameter {
   idMode: IIdModeParameter;
   setIdMode: Function;
   taskName: string | number;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
+  priority: ISelectOption |null;
+  status: ISelectOption |null;
   deadline: number;
   taskDetails: string | number;
 }
@@ -58,11 +62,17 @@ function Edit2ModalMob({
   const DataUse = useContext(DataContext);
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
   const [selectedOptionPriorityEdit, setSelectedOptionPriorityEdite] = useState<
-  ISelectOption | string |null
->(priority);
+  ISelectOption 
+>({
+  value:   null,
+  label: null
+});
 const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
-  ISelectOption | string |null
->(status);
+  ISelectOption
+>({
+  value:   null,
+  label: null
+});
   const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(deadline);
   const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>(
     taskDetails
@@ -72,8 +82,8 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
   interface IEditTodoParameter {
     editId: number | null;
     newTaskName: string | number;
-    newPriority: ISelectOption | null | string;
-    newStatus: ISelectOption | null | string;
+    newPriority: ISelectOption |null ;
+    newStatus: ISelectOption |null ;
     newDeadline: number ;
     newTaskDetails: string | number;
   }
@@ -165,7 +175,7 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
           <div className="w-full ">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionPriorityEdite(e.label);
+                setSelectedOptionPriorityEdite(e);
               }}
               defaultValue={
                 editId
@@ -191,7 +201,7 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
           <div className="w-full ">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionStatusEdit(e.label);
+                setSelectedOptionStatusEdit(e);
                 console.log(e)
               }}
               defaultValue={
