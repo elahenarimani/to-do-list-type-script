@@ -102,13 +102,17 @@ function App() {
       label: null,
       value: null,
     });
-  const [selectedOptionStatus, setSelectedOptionStatus] =
-    useState<ISelectOption | null>(null);
+    const [selectedOptionStatus, setSelectedOptionStatus] =
+    useState<ISelectOption | null>({
+      label: null,
+      value: null,
+    });
 
   const [sortState, setSortState] = useState<ISort>({
     sortKay: null,
     sortDirection: null,
   });
+  const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
   const [sortSelectState, setSortSlectState] = useState<ISelectedMob>({
     sortSeleKay: null,
     sortSelDirection: null,
@@ -119,6 +123,7 @@ function App() {
     filteredData = data.slice(startIndex, endIndex);
   }
   function handleSort(kay: "priority" | "status" | "deadline") {
+    
     setSortState((item:ISort) => {
       if (item.sortKay === kay) {
         const newDirection =
@@ -398,7 +403,7 @@ function App() {
                 .sort((a: any, b: any) => {
                   if (sortState.sortKay === "priority") {
                     if (sortState.sortDirection === "upToDown") {
-                      console.log(a.priority?.value)
+                      console.log(a.priority.value)
                       return a.priority?.value - b.priority?.value;
                     } else {
                       return b.priority?.value - a.priority?.value;
@@ -409,7 +414,7 @@ function App() {
                     } else {
                       return b.status?.value - a.status?.value;
                     }
-                  } else {
+                  } else if (sortState.sortKay === "deadline") {
                     let tempA = new Date(a.deadline).getTime();
                     let tempB = new Date(b.deadline).getTime();
                     if (sortState.sortDirection === "upToDown") {
@@ -418,6 +423,7 @@ function App() {
                       return tempB - tempA;
                     }
                   }
+                  return 0
                 })
 
                 // .sort((a, b) => {
@@ -497,6 +503,7 @@ function App() {
                       deadline={item?.deadline}
                       taskDetails={item?.taskDetails}
                       id={item.id}
+                      
                       removeId={removeId}
                     />
                   );
@@ -572,6 +579,34 @@ function App() {
               //   console.log(tempA);
               //   return tempA - tempB;
               // })
+              .sort((a: any, b: any) => {
+                if (sortState.sortKay === "priority") {
+                  if (sortState.sortDirection === "upToDown") {
+                    console.log(a.priority.value)
+                    return a.priority?.value - b.priority?.value;
+                  } else {
+                    return b.priority?.value - a.priority?.value;
+                  }
+                } else if (sortState.sortKay === "status") {
+                  if (sortState.sortDirection === "upToDown") {
+                    return a.status?.value - b.status?.value;
+                  } else {
+                    return b.status?.value - a.status?.value;
+                  }
+                } else if (sortState.sortKay === "deadline") {
+                  let tempA = new Date(a.deadline).getTime();
+                  let tempB = new Date(b.deadline).getTime();
+                  if (sortState.sortDirection === "upToDown") {
+                    return tempA - tempB;
+                  } else {
+                    return tempB - tempA;
+                  }
+                }
+                return 0
+              })
+
+
+
               .map((item) => {
                 return (
                   <div className="block md:hidden">

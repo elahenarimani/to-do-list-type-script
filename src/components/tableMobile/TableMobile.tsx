@@ -41,8 +41,8 @@ interface ITableMobileParameter {
   data: Idata[];
   setData: Function;
   taskName: string | number;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
+  priority: ISelectOption | null ;
+  status: ISelectOption | null ;
   deadline: number;
   taskDetails: string | number;
   id: number;
@@ -90,14 +90,14 @@ ITableMobileParameter) {
   });
 
   interface IPriorityParameter {
-    priority: ISelectOption | null | string;
+    priority: ISelectOption | null ;
   }
   function renderPriority({ priority }: IPriorityParameter) {
-    if (priority === "High") {
+    if (priority?.label === "High") {
       return (
         <p className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px]">High </p>
       );
-    } else if (priority === "Medium") {
+    } else if (priority?.label === "Medium") {
       return (
         <p className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px]">Medium</p>
       );
@@ -123,14 +123,14 @@ ITableMobileParameter) {
   }
 
   interface IStatusParameter {
-    status: ISelectOption | null | string;
+    status: ISelectOption | null ;
   }
   function renderStatus({ status }: IStatusParameter) {
-    if (status === "To do") {
+    if (status?.label === "To do") {
       return (
         <p className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]">To do </p>
       );
-    } else if (status === "Doing") {
+    } else if (status?.label === "Doing") {
       return (
         <p className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]">Doing</p>
       );

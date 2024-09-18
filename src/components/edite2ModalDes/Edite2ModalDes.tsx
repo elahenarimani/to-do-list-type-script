@@ -18,13 +18,16 @@ interface ISelectMobile {
   value: "Priority" | "Status" | "Deadline";
   label: string | null;
 }
+interface ISelectOption {
+  value: number | null;
+  label: string | null;
+}
 interface Idata {
   id: number;
   taskName: string | number;
-  // priority: ISelectOption | null | string;
-  // status: ISelectOption | null | string;
-  priority: ISelectOption ;
-  status: ISelectOption ;
+  
+  priority: ISelectOption |null;
+  status: ISelectOption |null;
   deadline: number | undefined;
   taskDetails: string | number;
 }
@@ -32,10 +35,7 @@ interface IIdModeParameter {
   id: null | number;
   mode: string;
 }
-interface ISelectOption {
-  value:  number | null;
-  label: string | null;
-}
+
 interface IEditModalParameter {
   openEdite: boolean;
   setOpenEdit: Function;
@@ -65,13 +65,13 @@ function Edite2ModalDes({
   const DataUse = useContext(DataContext);
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
   const [selectedOptionPriorityEdit, setSelectedOptionPriorityEdite] = useState<
-    ISelectOption 
+  ISelectOption |null
   >({
     value:   null,
     label: null
   });
   const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
-    ISelectOption 
+  ISelectOption | null
   >({
     value:   null,
     label: null
@@ -90,6 +90,31 @@ function Edite2ModalDes({
     newDeadline: number ;
     newTaskDetails: string | number;
   }
+  // function editTodo({
+  //   editId,
+  //   newTaskName,
+  //   newPriority,
+  //   newStatus,
+  //   newDeadline,
+  //   newTaskDetails,
+  // }: IEditTodoParameter) {
+  //   DataUse?.setData(
+  //     DataUse?.data.map((item) => {
+  //       if (item.id == editId) {
+  //         item.taskName = newTaskName;
+  //         item.priority = newPriority;
+  //         item.status = newStatus;
+  //         item.deadline = newDeadline;
+  //         item.taskDetails = newTaskDetails;
+  //         console.log(status);
+  //         return item;
+  //       } else {
+  //         return item;
+  //       }
+  //     })
+  //   );
+  //   setIdMode({ id: null, mode: "add" });
+  // }
   function editTodo({
     editId,
     newTaskName,
@@ -100,17 +125,17 @@ function Edite2ModalDes({
   }: IEditTodoParameter) {
     DataUse?.setData(
       DataUse?.data.map((item) => {
-        if (item.id == editId) {
-          item.taskName = newTaskName;
-          item.priority = newPriority;
-          item.status = newStatus;
-          item.deadline = newDeadline;
-          item.taskDetails = newTaskDetails;
-          console.log(status);
-          return item;
-        } else {
-          return item;
+        if (item.id === editId) {
+          return {
+            ...item, // Spread the current item properties to preserve existing values
+            taskName: newTaskName || item.taskName, // Preserve old value if new one is not provided
+            priority: newPriority?.label !== null ? newPriority : item.priority, // Check if a new value is provided
+            status: newStatus?.label !== null ? newStatus : item.status,
+            deadline: newDeadline || item.deadline, 
+            taskDetails: newTaskDetails || item.taskDetails,
+          };
         }
+        return item;
       })
     );
     setIdMode({ id: null, mode: "add" });
@@ -276,7 +301,7 @@ function Edite2ModalDes({
           <div className="w-[120px]">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionPriorityEdite(e.label);
+                setSelectedOptionPriorityEdite(e);
               }}
               defaultValue={
                 editId
@@ -284,7 +309,7 @@ function Edite2ModalDes({
                       value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.priority?.toString(),
-                      label: DataUse?.data.find((item) => item.id === editId)?.priority,
+                      label: DataUse?.data.find((item) => item.id === editId)?.priority?.label,
                     }
                   : null
               }
@@ -301,7 +326,7 @@ function Edite2ModalDes({
           <div className="w-[120px]">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionStatusEdit(e.label);
+                setSelectedOptionStatusEdit(e);
               }}
               defaultValue={
                 editId
@@ -309,7 +334,7 @@ function Edite2ModalDes({
                       value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.status?.toString(),
-                      label: DataUse?.data.find((item) => item.id === editId)?.status,
+                      label: DataUse?.data.find((item) => item.id === editId)?.status?.label,
                     }
                   : null
               }

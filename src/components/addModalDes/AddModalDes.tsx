@@ -244,8 +244,8 @@ function AddModalDes({ openAddModal, setOpenAddModal  }: ImodalParameter) {
       {
         id: Date.now(),
         taskName: inpval,
-        priority: selectedOptionPriority?.label,
-        status: selectedOptionStatus?.label,
+        priority: selectedOptionPriority,
+        status: selectedOptionStatus,
         deadline: inpvalDate,
         taskDetails: inpvalDetail,
         openAddModal: false,

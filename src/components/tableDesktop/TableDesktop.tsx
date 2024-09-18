@@ -12,8 +12,9 @@ import ViewModal from "../viewModal/ViewModal";
 import Edite2ModalDes from "../edite2ModalDes/Edite2ModalDes";
 import { useContext } from 'react'
 import { DataContext } from "../../App";
+// import { DataContext } from "../../App";
 interface ISelectOption {
-  value: string | number | null;
+  value: number | null;
   label: string | null;
 }
 interface Idata {
@@ -21,8 +22,8 @@ interface Idata {
   taskName: string | number;
   // priority: string;
   // status: string;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
+  priority: ISelectOption | null ;
+  status: ISelectOption | null ;
   deadline: number;
   taskDetails: string | number;
 }
@@ -30,8 +31,8 @@ interface ITableDesktopParameter {
   // data: Idata[];
   // setData: Function;
   taskName: string | number;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
+  priority: ISelectOption | null ;
+  status: ISelectOption | null ;
   deadline: number;
   taskDetails: string | number;
   id: number;
@@ -57,6 +58,7 @@ function TableDesktop({
   const [openEdite, setOpenEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
+  const DataUse = useContext(DataContext);
   interface IIdModeParameter {
     id: null | number;
     mode: string;
@@ -65,27 +67,28 @@ function TableDesktop({
     id: null,
     mode: "add",
   });
-  const DataUse = useContext(DataContext);
+
   
   interface IPriorityParameter {
-    priority: ISelectOption | null | string;
+    priority: ISelectOption | null ;
   }
   function renderPriority({ priority }: IPriorityParameter) {
-    if (priority === "High") {
+    
+    if (priority?.label === "High") {
       return (
         <div className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px] flex justify-center items-center">
              <p >High </p>
         </div>
       
       );
-    } else if (priority === "Medium") {
+    } else if (priority?.label === "Medium") {
       return (
         <div className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px] flex justify-center items-center">
               <p>Medium</p>
         </div>
        
       );
-    } else if (priority === "Low"){
+    } else if (priority?.label === "Low"){
       return (
         <div  className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px] flex justify-center items-center">
              <p> Low</p>
@@ -113,22 +116,22 @@ function TableDesktop({
     handleClose();
   }
   interface IStatusParameter {
-    status: ISelectOption | null | string;
+    status: ISelectOption | null ;
   }
   function renderStatus({ status }: IStatusParameter) {
-    if (status === "To do") {
+    if (status?.label === "To do") {
       return (
         <div className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]  flex justify-center items-center">
            <p >To do </p>
         </div>
       );
-    } else if (status === "Doing" ) {
+    } else if (status?.label === "Doing" ) {
       return (
         <div className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]  flex justify-center items-center">
            <p >Doing</p>
         </div>
       );}
-      else if (status === "Done" ) {
+      else if (status?.label === "Done" ) {
         return (
           <div className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]  flex justify-center items-center">
              <p >Done</p>
