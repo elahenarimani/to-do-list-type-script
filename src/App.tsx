@@ -86,6 +86,7 @@ function App() {
     //   taskDetails: "dfssf",
     // },
   ]);
+ 
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
   );
@@ -178,10 +179,16 @@ function App() {
       <DataContext.Provider value={{ data, setData }}>
         <div className="App">
           <div className="mobile-header invisible w-full h-[50px]  md:hidden">
-            <MobileHeader />
+            <MobileHeader
+            search={search}
+            setSearch={setSearch} 
+            />
           </div>
           <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  md:hidden">
-            <MobileHeader />
+            <MobileHeader
+            search={search}
+            setSearch={setSearch}
+            />
             {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
@@ -215,10 +222,16 @@ function App() {
           </div> */}
           </div>
           <div className="desktop-header invisible  hidden  md:block w-full h-auto">
-            <DesktopHeader />
+            <DesktopHeader 
+            search={search}
+            setSearch={setSearch}
+            />
           </div>
           <div className="desktop-header hidden  md:block w-full h-auto  fixed top-0 z-[1] ">
-            <DesktopHeader />
+            <DesktopHeader
+             search={search}
+             setSearch={setSearch}
+              />
             {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
             <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
               <div>
@@ -576,31 +589,31 @@ function App() {
               //   console.log(tempA);
               //   return tempA - tempB;
               // })
-              .sort((a: any, b: any) => {
-                if (sortState.sortKay === "priority") {
-                  if (sortState.sortDirection === "upToDown") {
-                    console.log(a.priority.value)
-                    return a.priority?.value - b.priority?.value;
-                  } else {
-                    return b.priority?.value - a.priority?.value;
-                  }
-                } else if (sortState.sortKay === "status") {
-                  if (sortState.sortDirection === "upToDown") {
-                    return a.status?.value - b.status?.value;
-                  } else {
-                    return b.status?.value - a.status?.value;
-                  }
-                } else if (sortState.sortKay === "deadline") {
-                  let tempA = new Date(a.deadline).getTime();
-                  let tempB = new Date(b.deadline).getTime();
-                  if (sortState.sortDirection === "upToDown") {
-                    return tempA - tempB;
-                  } else {
-                    return tempB - tempA;
-                  }
-                }
-                return 0
-              })
+              // .sort((a: any, b: any) => {
+              //   if (sortState.sortKay === "priority") {
+              //     if (sortState.sortDirection === "upToDown") {
+              //       console.log(a.priority.value)
+              //       return a.priority?.value - b.priority?.value;
+              //     } else {
+              //       return b.priority?.value - a.priority?.value;
+              //     }
+              //   } else if (sortState.sortKay === "status") {
+              //     if (sortState.sortDirection === "upToDown") {
+              //       return a.status?.value - b.status?.value;
+              //     } else {
+              //       return b.status?.value - a.status?.value;
+              //     }
+              //   } else if (sortState.sortKay === "deadline") {
+              //     let tempA = new Date(a.deadline).getTime();
+              //     let tempB = new Date(b.deadline).getTime();
+              //     if (sortState.sortDirection === "upToDown") {
+              //       return tempA - tempB;
+              //     } else {
+              //       return tempB - tempA;
+              //     }
+              //   }
+              //   return 0
+              // })
 
 
 

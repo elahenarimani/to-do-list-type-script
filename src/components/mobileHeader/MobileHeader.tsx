@@ -30,8 +30,12 @@ interface ImodalParameter {
   // idMode: IIdModeParameter;
   // setOpenAddModal: Function;
 }
-const MobileHeader = () => {
-    const [search, setSearch] = useState<string | number>("");
+interface IMobHeader{
+  search:string | number,
+  setSearch: Function
+}
+const MobileHeader = ({search , setSearch}:IMobHeader) => {
+    // const [search, setSearch] = useState<string | number>("");
     const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
     const DataUse = useContext(DataContext);

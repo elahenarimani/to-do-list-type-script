@@ -7,8 +7,12 @@ import { VscChecklist } from 'react-icons/vsc'
 import Input from '../input/Input'
 import "./desktopHeader.css"
 import AddModalDes from '../addModalDes/AddModalDes'
-const DesktopHeader = () => {
-    const [search, setSearch] = useState<string | number>("");
+interface IDesHeader{
+  search :string | number,
+  setSearch : Function
+}
+const DesktopHeader = ({search ,setSearch}:IDesHeader) => {
+    // const [search, setSearch] = useState<string | number>("");
     const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
     function filterToDoHandler() {
