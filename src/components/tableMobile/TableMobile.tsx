@@ -28,8 +28,8 @@ interface Idata {
   taskName: string | number;
   // priority: string;
   // status: string;
-  priority: ISelectOption | null | string;
-  status: ISelectOption | null | string;
+  priority: ISelectOption | null ;
+  status: ISelectOption | null ;
   deadline: number;
   taskDetails: string | number;
 }

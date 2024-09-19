@@ -45,7 +45,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const DataUse = useContext(DataContext);
   // const [isFormComplete , setIsFormComplete] = useState<Boolean>(false)
-  const isFormComplete = inpval !== "" && selectedOptionPriorityMob !== null && selectedOptionStatusMob !== null;
+  // const isFormComplete = inpval !== "" && selectedOptionPriorityMob !== null && selectedOptionStatusMob !== null;
   console.log(DataUse);
   function addData() {
     // if (!inpval || !selectedOptionPriorityMob || !selectedOptionStatusMob || !inpvalDate) {
@@ -129,7 +129,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
       <div className="modal w-full  overflow-y-scroll  h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] ">
         <p className="text-[20px] text-left pb-[5px]">New task </p>
         <div className="w-full h-full  grid grid-cols-1  gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
-          <div className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px] ${!isFormComplete ? "border-red-800"  :"border-gray-500" }`}>
+          <div className="min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500" >
             <Input
               valueState={inpval}
               type="text"
@@ -141,7 +141,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
           <div className="min-w-[250px] h-[40px] ">
             
             <Select  
-               onChange={(e:any) => {setSelectedOptionPriorityMob( e ? e.label : null)}}
+               onChange={(e:any) => {setSelectedOptionPriorityMob( e )}}
               // onChange={(e: ISelectOption | null) => setSelectedOptionPriority(e ? e.label : null)}
                placeholder="Priority"
                components={{DropdownIndicator}}
@@ -159,7 +159,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
             <div className="min-w-[250px] h-[40px] ">
             <Select
               onChange={(e: any) => {
-                setSelectedOptionStatusMob( e ? e.label : null);
+                setSelectedOptionStatusMob( e );
               }}
               placeholder={"status"}
               components={{ DropdownIndicator }}
@@ -202,7 +202,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
             <Button
               onClickHandler={() => addData()}
               className="w-[70px] h-full rounded-[5px] bg-[#3091E7] text-[#ffffff] text-[14px] "
-              disabled={!isFormComplete}
+              // disabled={!isFormComplete}
             >
               SAVE
             </Button>

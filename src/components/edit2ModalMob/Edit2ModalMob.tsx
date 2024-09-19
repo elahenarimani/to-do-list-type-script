@@ -66,7 +66,7 @@ function Edit2ModalMob({
 >({
   value:   null,
   label: null
-});
+})
 const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
   ISelectOption
 >({
@@ -94,24 +94,43 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
     newStatus,
     newDeadline,
     newTaskDetails,
-  }: IEditTodoParameter) {
+  }: IEditTodoParameter)
+  {
     DataUse?.setData(
       DataUse?.data.map((item) => {
-        if (item.id == editId) {
-          item.taskName = newTaskName;
-          item.priority = newPriority;
-          item.status = newStatus;
-          item.deadline = newDeadline;
-          item.taskDetails = newTaskDetails;
-          console.log(status);
-          return item;
-        } else {
-          return item;
+        if (item.id === editId) {
+          return {
+            ...item, // Spread the current item properties to preserve existing values
+            taskName: newTaskName || item.taskName, // Preserve old value if new one is not provided
+            priority: newPriority?.label !== null ? newPriority : item.priority, // Check if a new value is provided
+            status: newStatus?.label !== null ? newStatus : item.status,
+            deadline: newDeadline || item.deadline, 
+            taskDetails: newTaskDetails || item.taskDetails,
+          };
         }
+        return item;
       })
     );
     setIdMode({ id: null, mode: "add" });
   }
+  //  {
+  //   DataUse?.setData(
+  //     DataUse?.data.map((item) => {
+  //       if (item.id == editId) {
+  //         item.taskName = newTaskName;
+  //         item.priority = newPriority;
+  //         item.status = newStatus;
+  //         item.deadline = newDeadline;
+  //         item.taskDetails = newTaskDetails;
+  //         console.log(status);
+  //         return item;
+  //       } else {
+  //         return item;
+  //       }
+  //     })
+  //   );
+  //   setIdMode({ id: null, mode: "add" });
+  // }
 
   const CaretDownIcon = () => {
     return (
@@ -183,7 +202,7 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
                       value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.priority?.toString(),
-                      label: DataUse?.data.find((item) => item.id === editId)?.priority,
+                      label: DataUse?.data.find((item) => item.id === editId)?.priority?.label,
                     }
                   : null
               }
@@ -210,7 +229,7 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
                       value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.status?.toString(),
-                      label: DataUse?.data.find((item) => item.id === editId)?.status,
+                      label: DataUse?.data.find((item) => item.id === editId)?.status?.label,
                     }
                   : null
               }

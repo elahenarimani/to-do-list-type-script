@@ -43,8 +43,6 @@ interface ISelectOption {
 interface Idata {
   id: number;
   taskName: string | number;
-  // priority: string;
-  // status: string;
   priority: ISelectOption | null;
   status: ISelectOption | null;
   deadline: number;
@@ -123,9 +121,8 @@ function App() {
     filteredData = data.slice(startIndex, endIndex);
   }
   function handleSort(kay: "priority" | "status" | "deadline") {
-    
     setSortState((item:ISort) => {
-      if (item.sortKay === kay) {
+      if (item.sortKay === kay) {//update direction
         const newDirection =
           item.sortDirection === "upToDown"
             ? "downToUp"
