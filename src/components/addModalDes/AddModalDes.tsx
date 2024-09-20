@@ -9,7 +9,7 @@ import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import { DataContext } from "../../App";
-import "./addModal.css";
+import "./AddModalDes";
 interface IIdModeParameter {
   id: null | number;
   mode: string;
@@ -31,8 +31,24 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
   const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const DataUse = useContext(DataContext);
+  const [inputError , setInputError] = useState({
+    taskName: false,
+    priority: false,
+    status: false,
+    deadline: false,
+  })
   console.log(DataUse);
   function addData() {
+    const error = {
+      taskName: inpval === "",
+      priority: selectedOptionPriority === null,
+      status: selectedOptionStatus  === null,
+      deadline: inpvalDate === undefined,
+    }
+    setInputError(error)
+    if (error.taskName || error.priority || error.status || error.deadline){
+      return;
+    }
     DataUse?.setData([
       ...DataUse?.data,
       {
@@ -49,6 +65,15 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
     setInpval("");
     setInpvalDetail("");
     setInpvalDate(undefined);
+  }
+  function hideModal(){
+    setOpenAddModal(false)
+    setInputError({
+      taskName: false,
+      priority: false,
+      status: false,
+      deadline: false,
+    });
   }
   const CaretDownIcon = () => {
     return (
@@ -72,9 +97,11 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
     }),
     control: (provided, state) => ({
       ...provided,
-      width: 120,
-      height: 40,
-      borderColor: "#757575",
+      // width: 120,
+      // height: 40,
+      // borderColor: "#757575",
+      border: "none",  // Remove the border
+      boxShadow: "none",
     }),
     menu: (provided) => ({
       ...provided,
@@ -96,7 +123,9 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
       <div className="modal w-[500px] overflow-y-hidden h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] ">
         <p className="text-[20px] text-left pb-[5px]">New task </p>
         <div className=" w-full h-full  grid grid-cols-3 gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
-          <div className="-[400px]  col-start-1 col-end-4 border-gray-500 rounded-[5px] border-[1px] h-[40px] pt-[4px]">
+          <div className={`-[400px] col-start-1 col-end-4 border-[1px] h-[40px] pt-[4px] ${
+              inputError.taskName ? "border-red-500 border-[2px]" : "border-gray-500"
+            } rounded-[5px]`}>
             <Input
               valueState={inpval}
               type="text"
@@ -105,7 +134,9 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
               className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-          <div className="w-[120px]">
+          <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px]  ${
+              inputError.priority ? "border-red-500 border-[2px]" : "border-gray-500"
+            } rounded-[5px]` }>
             <Select
               onChange={(e: any) => {
                 setSelectedOptionPriority(e);
@@ -113,7 +144,8 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
               placeholder={"Priority"}
               components={{ DropdownIndicator }}
               styles={customStyles}
-              className="w-full"
+              // className={` w-full ${inputError.priority ? "select-error" : ""}`}
+              className="w-full h-full"
               options={[
                 { value: 1, label: "High" },
                 { value: 2, label: "Medium" },
@@ -122,7 +154,9 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
               defaultValue={null}
             />
           </div>
-          <div className="w-[120px]">
+          <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px] ${
+              inputError.status ? "border-red-500 border-[2px]" : "border-gray-500"
+            } rounded-[5px]`}>
             <Select
               onChange={(e: any) => {
                 setSelectedOptionStatus(e);
@@ -130,7 +164,8 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
               placeholder={"status"}
               components={{ DropdownIndicator }}
               styles={customStyles}
-              className="w-full"
+              // className={` w-full ${inputError.priority ? "select-error" : ""}`}
+               className="w-full h-full"
               options={[
                 { value: 1, label: "To do" },
                 { value: 2, label: "Doing" },
@@ -139,7 +174,9 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
               defaultValue={null}
             />
           </div>
-          <div className=" w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+          <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px] ${
+              inputError.deadline ? "border-red-500 border-[2px]" : "border-gray-500"
+            } rounded-[5px]`}>
             <DateInput
               valueState={inpvalDate}
               type="date"
@@ -159,7 +196,7 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
           </div>
           <div className="w-[400px] h-[40px] flex justify-between items-center pb-[25px]">
             <Button
-              onClickHandler={() => setOpenAddModal(false)}
+              onClickHandler={() => hideModal()}
               className=" text-[#3091E7] text-[14px] "
             >
               CANCEL
