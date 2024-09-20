@@ -20,6 +20,12 @@ interface Idata {
   deadline: number;
   taskDetails: string | number;
 }
+interface InputError {
+  taskName: boolean;
+  priority: boolean;
+  status: boolean;
+  deadline: boolean;
+}
 interface IIdModeParameter {
   id: null | number;
   mode: string;
@@ -43,9 +49,25 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
     useState<ISelectOption | null>(null);
   const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
+  const [inputError , setInputError] = useState<InputError>({
+    taskName: false,
+    priority: false,
+    status: false,
+    deadline: false,
+  })
   const DataUse = useContext(DataContext);
   console.log(DataUse);
   function addData() {
+    const error = {
+      taskName: inpval === "",
+      priority: selectedOptionPriorityMob === null,
+      status: selectedOptionStatusMob  === null,
+      deadline: inpvalDate === undefined,
+    }
+    setInputError(error)
+    if (error.taskName || error.priority || error.status || error.deadline){
+      return;
+    }
     DataUse?.setData([
       ...DataUse.data,
       {
@@ -59,6 +81,18 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
       },
     ]);
     setOpenAddModal(false);
+    setInpval("");
+    setInpvalDetail("");
+    setInpvalDate(undefined);
+  }
+  function hideModal(){
+    setOpenAddModal(false)
+    setInputError({
+      taskName: false,
+      priority: false,
+      status: false,
+      deadline: false,
+    });
     setInpval("");
     setInpvalDetail("");
     setInpvalDate(undefined);
@@ -84,11 +118,13 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
     }),
     control: (provided, state) => ({
       ...provided,
-      width: "100%",
-      height: 40,
-      borderColor: "#757575",
+      // width: "98%",
+      // height: "98%",
+      // borderColor: "#757575",
       padding: 0,
       margin: 0,
+      border: "none",  // Remove the border
+      boxShadow: "none",
     }),
     valueContainer: (provided) => ({
       ...provided,
@@ -118,7 +154,9 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
       <div className="modal w-full  overflow-y-scroll  h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] ">
         <p className="text-[20px] text-left pb-[5px]">New task </p>
         <div className="w-full h-full  grid grid-cols-1  gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
-          <div className="min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500">
+          <div className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
+              inputError.taskName ? "border-red-500 border-[2px]" : "border-gray-500"
+            }`}>
             <Input
               valueState={inpval}
               type="text"
@@ -127,7 +165,9 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-          <div className="min-w-[250px] h-[40px] ">
+          <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
+              inputError.priority ? "border-red-500 border-[2px]" : "border-gray-500"
+            }`}>
             <Select
               onChange={(e: any) => {
                 setSelectedOptionPriorityMob(e);
@@ -143,7 +183,9 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               defaultValue={null}
             />
           </div>
-          <div className="min-w-[250px] h-[40px] ">
+          <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
+              inputError.status ? "border-red-500 !important border-[2px]" : "border-gray-500"
+            }`}>
             <Select
               onChange={(e: any) => {
                 setSelectedOptionStatusMob(e);
@@ -159,7 +201,9 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               defaultValue={null}
             />
           </div>
-          <div className="  min-w-[250px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
+          <div className={`min-w-[250px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]  ${
+              inputError.status ? "border-red-500 border-[2px]" : "border-gray-500"
+            }`}>
             <DateInput
               valueState={inpvalDate}
               type="date"
@@ -179,7 +223,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
           </div>
           <div className="w-full   h-[40px] flex justify-between items-center pb-[20px]">
             <Button
-              onClickHandler={() => setOpenAddModal(false)}
+              onClickHandler={() => hideModal()}
               className=" text-[#3091E7] text-[14px] "
             >
               CANCEL

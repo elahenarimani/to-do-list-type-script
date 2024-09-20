@@ -14,6 +14,12 @@ interface IIdModeParameter {
   id: null | number;
   mode: string;
 }
+interface InputError {
+  taskName: boolean;
+  priority: boolean;
+  status: boolean;
+  deadline: boolean;
+}
 interface ImodalParameter {
   openAddModal: boolean;
   setOpenAddModal: Function;
@@ -31,7 +37,7 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
   const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
   const [inpvalDetail, setInpvalDetail] = useState<string | number>("");
   const DataUse = useContext(DataContext);
-  const [inputError , setInputError] = useState({
+  const [inputError , setInputError] = useState<InputError>({
     taskName: false,
     priority: false,
     status: false,
@@ -74,6 +80,9 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
       status: false,
       deadline: false,
     });
+    setInpval("");
+    setInpvalDetail("");
+    setInpvalDate(undefined);
   }
   const CaretDownIcon = () => {
     return (
