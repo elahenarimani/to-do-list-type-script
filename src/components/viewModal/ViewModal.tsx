@@ -50,8 +50,6 @@ function ViewModal({
               {taskName}
             </p>
           </div>
-
-          {/* <div className="w-[400px] h-[40px] flex justify-between items-center "> */}
           <div className="priority-drop-down-container w-full md:w-[120px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]">
             <p className="w-full h-full pl-[15px] text-[17px] border-none outline-none text-left">
               {priority

@@ -1,26 +1,14 @@
 import { createContext, useContext, useState } from "react";
-import Input from "../input/Input";
-import DateInput from "../dateInput/DateInput";
-import Button from "../button/Button";
-import { IoMdArrowDropdown } from "react-icons/io";
 import Select, {
   components,
   DropdownIndicatorProps,
   StylesConfig,
 } from "react-select";
+import { IoMdArrowDropdown } from "react-icons/io";
+import Input from "../input/Input";
+import DateInput from "../dateInput/DateInput";
+import Button from "../button/Button";
 import { DataContext } from "../../App";
-// interface ISelectOption {
-//   value: string | number | null;
-//   label: string | null;
-// }
-// interface Idata {
-//   id: number;
-//   taskName: string | number;
-//   priority: ISelectOption | null | string;
-//   status: ISelectOption | null | string;
-//   deadline: number | undefined;
-//   taskDetails: string | number;
-// }
 interface IIdModeParameter {
   id: null | number;
   mode: string;
@@ -30,7 +18,7 @@ interface ISelectMobile {
   label: string | null;
 }
 interface ISelectOption {
-  value:  number | null;
+  value: number | null;
   label: string | null;
 }
 interface IEditModalParameter {
@@ -41,16 +29,14 @@ interface IEditModalParameter {
   idMode: IIdModeParameter;
   setIdMode: Function;
   taskName: string | number;
-  priority: ISelectOption |null;
-  status: ISelectOption |null;
+  priority: ISelectOption | null;
+  status: ISelectOption | null;
   deadline: number;
   taskDetails: string | number;
 }
 function Edit2ModalMob({
   openEdite,
   setOpenEdit,
-  // data,
-  // setData,
   idMode,
   setIdMode,
   taskName,
@@ -61,30 +47,27 @@ function Edit2ModalMob({
 }: IEditModalParameter) {
   const DataUse = useContext(DataContext);
   const [inpvalEdit, setInpvalEdit] = useState<string | number>(taskName);
-  const [selectedOptionPriorityEdit, setSelectedOptionPriorityEdite] = useState<
-  ISelectOption 
->({
-  value:   null,
-  label: null
-})
-const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
-  ISelectOption
->({
-  value:   null,
-  label: null
-});
+  const [selectedOptionPriorityEdit, setSelectedOptionPriorityEdite] =
+    useState<ISelectOption>({
+      value: null,
+      label: null,
+    });
+  const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] =
+    useState<ISelectOption>({
+      value: null,
+      label: null,
+    });
   const [inpvalDateEdit, setInpvalDateEdit] = useState<number>(deadline);
   const [inpvalDetailEdit, setInpvalDetailEdit] = useState<string | number>(
     taskDetails
   );
   const editId: null | number = idMode.id;
-
   interface IEditTodoParameter {
     editId: number | null;
     newTaskName: string | number;
-    newPriority: ISelectOption |null ;
-    newStatus: ISelectOption |null ;
-    newDeadline: number ;
+    newPriority: ISelectOption | null;
+    newStatus: ISelectOption | null;
+    newDeadline: number;
     newTaskDetails: string | number;
   }
   function editTodo({
@@ -94,8 +77,7 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
     newStatus,
     newDeadline,
     newTaskDetails,
-  }: IEditTodoParameter)
-  {
+  }: IEditTodoParameter) {
     DataUse?.setData(
       DataUse?.data.map((item) => {
         if (item.id === editId) {
@@ -104,7 +86,7 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
             taskName: newTaskName || item.taskName, // Preserve old value if new one is not provided
             priority: newPriority?.label !== null ? newPriority : item.priority, // Check if a new value is provided
             status: newStatus?.label !== null ? newStatus : item.status,
-            deadline: newDeadline || item.deadline, 
+            deadline: newDeadline || item.deadline,
             taskDetails: newTaskDetails || item.taskDetails,
           };
         }
@@ -113,25 +95,6 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
     );
     setIdMode({ id: null, mode: "add" });
   }
-  //  {
-  //   DataUse?.setData(
-  //     DataUse?.data.map((item) => {
-  //       if (item.id == editId) {
-  //         item.taskName = newTaskName;
-  //         item.priority = newPriority;
-  //         item.status = newStatus;
-  //         item.deadline = newDeadline;
-  //         item.taskDetails = newTaskDetails;
-  //         console.log(status);
-  //         return item;
-  //       } else {
-  //         return item;
-  //       }
-  //     })
-  //   );
-  //   setIdMode({ id: null, mode: "add" });
-  // }
-
   const CaretDownIcon = () => {
     return (
       <button className="dropBTN">
@@ -190,7 +153,6 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
               className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-          {/* <div className="w-[400px] h-[40px] flex  flex-row justify-between items-center "> */}
           <div className="w-full ">
             <Select
               onChange={(e: any) => {
@@ -202,7 +164,8 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
                       value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.priority?.toString(),
-                      label: DataUse?.data.find((item) => item.id === editId)?.priority?.label,
+                      label: DataUse?.data.find((item) => item.id === editId)
+                        ?.priority?.label,
                     }
                   : null
               }
@@ -216,12 +179,11 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
               ]}
             />
           </div>
-
           <div className="w-full ">
             <Select
               onChange={(e: any) => {
                 setSelectedOptionStatusEdit(e);
-                console.log(e)
+                console.log(e);
               }}
               defaultValue={
                 editId
@@ -229,7 +191,8 @@ const [selectedOptionStatusEdit, setSelectedOptionStatusEdit] = useState<
                       value: DataUse?.data
                         .find((item) => item.id === editId)
                         ?.status?.toString(),
-                      label: DataUse?.data.find((item) => item.id === editId)?.status?.label,
+                      label: DataUse?.data.find((item) => item.id === editId)
+                        ?.status?.label,
                     }
                   : null
               }

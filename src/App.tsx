@@ -1,41 +1,20 @@
 import { createContext, useState } from "react";
 import "./App.css";
-import { VscChecklist } from "react-icons/vsc";
-import { CiSearch } from "react-icons/ci";
-import { FaFilter } from "react-icons/fa6";
-import { TbPencilPlus, TbSettingsSearch } from "react-icons/tb";
 import { FaArrowUp } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaArrowDown } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
-import Input from "./components/input/Input";
 import FilterToDo from "./components/filterToDo/FilterToDo";
 import TableMobile from "./components/tableMobile/TableMobile";
 import TableDesktop from "./components/tableDesktop/TableDesktop";
-import Button from "./components/button/Button";
-
-import Select from "./components/select/Select2";
 import SelectMobile from "./components/selectMobile/SelectMobile";
 import DesktopHeader from "./components/desktopHeader/DesktopHeader";
 import MobileHeader from "./components/mobileHeader/MobileHeader";
-import AddModalMob from "./components/addModalMob/AddModalMob";
-import AddModalDes from "./components/addModalDes/AddModalDes";
-// import Select from 'react-select';
 export const DataContext = createContext<{
   data: Idata[];
   setData: Function;
 } | null>(null);
-
-// interface ISelectMobile {
-//   value: "Priority" | "Status" | "Deadline";
-//   label: string | null;
-// }
-
-// interface ISelectOption {
-//   label: "High"| "Medium"|"Low"  | "To do" |"Doing" |"Done" |null ,
-//     value: 1|2|3 |null
-// }
 interface ISelectOption {
   value: number | null;
   label: string | null;
@@ -56,37 +35,20 @@ interface ISelectedMob {
   sortSeleKay: "priority" | "status" | "deadline" | null;
   sortSelDirection: null;
 }
+// interface IIdModeParameter {
+//   id: null | number;
+//   mode: string;
+// }
+// const [idMode, setIdMode] = useState<IIdModeParameter>({
+//   id: null,
+//   mode: "add",
+// });
+interface IhandleSelectOptionParametere {
+  numberOfShow: string | number;
+}
 let removeId: number;
-
 function App() {
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const [data, setData] = useState<Idata[]>([
-    // {
-    //   id: 1,
-    //   taskName: "test1",
-    //   priority: "high",
-    //   status: "doing",
-    //   deadline: 4,
-    //   taskDetails: "dfssf",
-    // },
-    // {
-    //   id: 2,
-    //   taskName: "test2",
-    //   priority: "low",
-    //   status: "to do",
-    //   deadline: 10,
-    //   taskDetails: "dfssf",
-    // },
-    // {
-    //   id: 2,
-    //   taskName: "test3",
-    //   priority: "medium",
-    //   status: "done",
-    //   deadline: 1,
-    //   taskDetails: "dfssf",
-    // },
-  ]);
- 
+  const [data, setData] = useState<Idata[]>([]);
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
   );
@@ -101,7 +63,7 @@ function App() {
       label: null,
       value: null,
     });
-    const [selectedOptionStatus, setSelectedOptionStatus] =
+  const [selectedOptionStatus, setSelectedOptionStatus] =
     useState<ISelectOption | null>({
       label: null,
       value: null,
@@ -116,24 +78,24 @@ function App() {
     sortSeleKay: null,
     sortSelDirection: null,
   });
-  // const [selectedMob , setSelectedMob] = useState< "Priority" |"Status" | "Deadline" >();
   let filteredData = data;
   if (showSelectOption !== "All") {
     filteredData = data.slice(startIndex, endIndex);
   }
   function handleSort(kay: "priority" | "status" | "deadline") {
-    setSortState((item:ISort) => {
-      if (item.sortKay === kay) {//update direction
+    setSortState((item: ISort) => {
+      if (item.sortKay === kay) {
+        //update direction
         const newDirection =
           item.sortDirection === "upToDown"
             ? "downToUp"
             : item.sortDirection === "downToUp"
             ? null
             : "upToDown";
-            return {
-              sortKay: newDirection ? kay : null, // Reset key if direction is null
-              sortDirection: newDirection,
-            };
+        return {
+          sortKay: newDirection ? kay : null, // Reset key if direction is null
+          sortDirection: newDirection,
+        };
       } else {
         return {
           sortKay: kay,
@@ -142,28 +104,11 @@ function App() {
       }
     });
   }
-  function handleOpen() {
-    setOpenAddModal(true);
-  }
-  function onClose() {
-    setOpenAddModal(false);
-  }
-  interface IIdModeParameter {
-    id: null | number;
-    mode: string;
-  }
-  const [idMode, setIdMode] = useState<IIdModeParameter>({
-    id: null,
-    mode: "add",
-  });
-  interface IhandleSelectOptionParametere {
-    numberOfShow: string | number;
-  }
+
   function handleSelectOption({ numberOfShow }: IhandleSelectOptionParametere) {
     setShowSelectOption(numberOfShow);
     // setCurrentPage(1)
   }
-
   function handledArroeForward() {
     setCurrentPage((prevPage) => prevPage + 1);
   }
@@ -173,130 +118,22 @@ function App() {
   function filterToDoHandler() {
     setOpenFilterToDo(true);
   }
-
   return (
     <>
       <DataContext.Provider value={{ data, setData }}>
         <div className="App">
           <div className="mobile-header invisible w-full h-[50px]  md:hidden">
-            <MobileHeader
-            search={search}
-            setSearch={setSearch} 
-            />
+            <MobileHeader search={search} setSearch={setSearch} />
           </div>
           <div className="mobile-header w-full h-[50px] fixed top-0 z-[1]  md:hidden">
-            <MobileHeader
-            search={search}
-            setSearch={setSearch}
-            />
-            {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
-            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
-              <div>
-                <VscChecklist size={20} />
-              </div>
-              <div className="my-to-do-wrapper ">
-                <p className="truncate w-full text-[20px]"> My To-Do Tasks </p>
-              </div>
-              <ul></ul>
-            </div>
-            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
-              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
-                <Input
-                  className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
-                  placeholder="Search"
-                  valueState={search}
-                  inputHandler={(e: any) => setSearch(e.target.value)}
-                  type="text"
-                />
-                <div className="">
-                  <CiSearch size={20} />
-                </div>
-              </div>
-              <Button onClickHandler={() => filterToDoHandler()}>
-                <FaFilter size={20} />
-              </Button>
-              <Button onClickHandler={() => handleOpen()}>
-                <TbPencilPlus size={20} />
-              </Button>
-            </div>
-          </div> */}
+            <MobileHeader search={search} setSearch={setSearch} />
           </div>
           <div className="desktop-header invisible  hidden  md:block w-full h-auto">
-            <DesktopHeader 
-            search={search}
-            setSearch={setSearch}
-            />
+            <DesktopHeader search={search} setSearch={setSearch} />
           </div>
           <div className="desktop-header hidden  md:block w-full h-auto  fixed top-0 z-[1] ">
-            <DesktopHeader
-             search={search}
-             setSearch={setSearch}
-              />
-            {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
-            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
-              <div>
-                <VscChecklist size={20} />
-              </div>
-              <div className="my-to-do-wrapper ">
-                <p className="truncate w-full text-[20px]"> My To-Do Tasks </p>
-              </div>
-              <ul></ul>
-            </div>
-            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
-              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
-                <Input
-                  className="w-full h-full bg-[#6200EA] border-none outline-none pb-[4px]"
-                  placeholder="Search"
-                  valueState={search}
-                  inputHandler={(e: any) => setSearch(e.target.value)}
-                  type="text"
-                />
-                <div className="">
-                  <CiSearch size={20} />
-                </div>
-              </div>
-              <Button onClickHandler={() => filterToDoHandler()}>
-                <FaFilter size={20} />
-              </Button>
-              <Button onClickHandler={() => handleOpen()}>
-                <TbPencilPlus size={20} />
-              </Button>
-            </div>
-          </div> */}
+            <DesktopHeader search={search} setSearch={setSearch} />
           </div>
-
-          {/* <div className="header-wrapper-mob  w-full h-[50px] flex flex-row justify-between items-center gap-[20px]  bg-[#6200EA] pl-[20px] pr-[20px] text-[#FFFFFF]">
-            <div className="header-left-mob basis-auto shrink whitespace-nowrap overflow-hidden text-ellipsis min-w-[80px]! h-full flex justify-between items-center gap-[5px]">
-              <div>
-                <VscChecklist size={20} />
-              </div>
-              <div className="my-to-do-wrapper ">
-                <p className="truncate w-full text-[20px]"> My To-Do Tasks </p>
-              </div>
-              <ul></ul>
-            </div> 
-          
-            <div className="header-right-mob h-full  flex justify-between items-center gap-[20px]  bg-[#6200EA]">
-              <div className="search-wrapper h-[30px] max-w-[250px] flex justify-between items-center  border-[2px] border-gray-400 border-solid rounded-[5px] pl-[7px] pr-[7px]">
-                <Input
-                  className="w-full h-full bg-[#6200EA] border-none  outline-none pb-[4px]"
-                  placeholder="Search"
-                  valueState={search}
-                  inputHandler={(e: any) => setSearch(e.target.value)}
-                  type="text"
-                />
-                <div className="">
-                  <CiSearch size={20} />
-                </div>
-              </div>
-              <Button onClickHandler={() => filterToDoHandler()}>
-                <FaFilter size={20} />
-              </Button>
-              <Button onClickHandler={() => handleOpen()}>
-                <TbPencilPlus size={20} />
-              </Button>
-            </div>
-          </div> */}
         </div>
         <p className="text-left text-[#747474] text-[16px]  mb-[1px] h-full pl-[13px] pr-[13px] lg:hidden">
           Sort by
@@ -314,24 +151,7 @@ function App() {
                 <th className=" text-center h-full">
                   <div
                     className="flex  justify-center gap-[2px] items-center"
-                    onClick={
-                      () => handleSort("priority")
-                      //   setSortState(
-                      //     {
-
-                      //     sortKay:
-                      //       sortState.sortDirection === "downToUp"
-                      //         ? null
-                      //         : "priority",
-                      //       sortDirection:
-                      //       sortState.sortDirection === null
-                      //         ? "upToDown"
-                      //         : sortState.sortDirection === "upToDown"
-                      //         ? "downToUp"
-                      //         : null,
-                      //   }
-                      // )
-                    }
+                    onClick={() => handleSort("priority")}
                   >
                     <p className=" text-[#666666]">Priority</p>
                     {sortState.sortDirection === "upToDown" &&
@@ -346,21 +166,7 @@ function App() {
                 <th>
                   <div
                     className="status  flex  justify-center gap-[2px] items-center"
-                    onClick={
-                      () => handleSort("status")
-                      // setSortState({
-                      //   sortKay:
-                      //     sortState.sortDirection === "downToUp"
-                      //       ? null
-                      //       : "status",
-                      //   sortDirection:
-                      //     sortState.sortDirection === null
-                      //       ? "upToDown"
-                      //       : sortState.sortDirection === "upToDown"
-                      //       ? "downToUp"
-                      //       : null,
-                      // })
-                    }
+                    onClick={() => handleSort("status")}
                   >
                     <p className=" text-[#666666]">Status</p>
                     {/* <FaArrowUp /> */}
@@ -376,21 +182,7 @@ function App() {
                 <th>
                   <div
                     className=" deadline  flex justify-center gap-[2px] items-center"
-                    onClick={
-                      () => handleSort("deadline")
-                      // setSortState({
-                      //   sortKay:
-                      //     sortState.sortDirection === "downToUp"
-                      //       ? null
-                      //       : "deadline",
-                      //   sortDirection:
-                      //     sortState.sortDirection === null
-                      //       ? "upToDown"
-                      //       : sortState.sortDirection === "upToDown"
-                      //       ? "downToUp"
-                      //       : null,
-                      // })
-                    }
+                    onClick={() => handleSort("deadline")}
                   >
                     <p className=" text-[#666666]">Deadline</p>
                     {/* <FaArrowUp /> */}
@@ -413,7 +205,7 @@ function App() {
                 .sort((a: any, b: any) => {
                   if (sortState.sortKay === "priority") {
                     if (sortState.sortDirection === "upToDown") {
-                      console.log(a.priority.value)
+                      console.log(a.priority.value);
                       return a.priority?.value - b.priority?.value;
                     } else {
                       return b.priority?.value - a.priority?.value;
@@ -433,77 +225,8 @@ function App() {
                       return tempB - tempA;
                     }
                   }
-                  return 0
+                  return 0;
                 })
-
-                // .sort((a, b) => {
-                //   if (sortState.sortKay === "priority") {
-                //     console.log(a)
-                // let tempA = {
-                //   ...a,
-                //   priority:
-                //     a.priority?.toLocaleLowerCase() === "high"
-                //       ? 3
-                //       : a.priority?.toLocaleLowerCase() === "medium"
-                //       ? 2
-                //       : 1,
-
-                // };
-                // console.log(a);
-                // let tempB = {
-                //   ...b,
-                //   priority:
-                //     b.priority.toLocaleLowerCase() === "high"
-                //       ? 3
-                //       : b.priority.toLocaleLowerCase() === "medium"
-                //       ? 2
-                //       : 1,
-                // };
-                //     if (sortState.sortDirection === "upToDown") {
-                //       console.log(a)
-                //      const  temData ={...data ,  priority : selectedOptionPriority}
-                //     //  const priorityA =  a?.priority
-                //     //   return a.priority?.valueOf - b.priority;
-                //     // } else {
-                //     //   return tempB.priority - tempA.priority;
-                //     }
-                //   } else if (sortState.sortKay === "status") {
-                //     console.log(a)
-                //     let tempA = {
-                //       ...a,
-                //       status:
-                //         a.status.toLocaleLowerCase() === "done"
-                //           ? 3
-                //           : a.status.toLocaleLowerCase() === "doing"
-                //           ? 2
-                //           : 1,
-                //     };
-                //     let tempB = {
-                //       ...b,
-                //       status:
-                //         b.status.toLocaleLowerCase() === "done"
-                //           ? 3
-                //           : b.status.toLocaleLowerCase() === "doing"
-                //           ? 2
-                //           : 1,
-                //     };
-                //     if (sortState.sortDirection === "upToDown") {
-                //       return tempA.status - tempB.status;
-                //     } else {
-                //       return tempB.status - tempA.status;
-                //     }
-                //   } else if (sortState.sortKay === "deadline") {
-                //     let tempA = new Date(a.deadline).getTime();
-                //     let tempB = new Date(b.deadline).getTime();
-                //     if (sortState.sortDirection === "upToDown") {
-                //       return tempA - tempB;
-                //     } else {
-                //       return tempB - tempA;
-                //     }
-                //   }
-                //   return true;
-                // })
-
                 .map((item) => {
                   return (
                     <TableDesktop
@@ -513,7 +236,6 @@ function App() {
                       deadline={item?.deadline}
                       taskDetails={item?.taskDetails}
                       id={item.id}
-                      
                       removeId={removeId}
                     />
                   );
@@ -524,99 +246,6 @@ function App() {
                 const taskName = (item?.taskName as string).toLowerCase();
                 return taskName.includes((search as string).toLowerCase());
               })
-              // .sort((a:any, b:any) => {
-              // console.log(a)
-              //    if( sortSelectState.sortSeleKay === "priority"){
-              //     let tempA = {
-              //       ...a,
-              //       priority:
-              //       a.priority?.toLocaleLowerCase() === "high"
-              //           ? 3
-              //            :a.priority?.toLocaleLowerCase()=== "medium"
-              //           ? 2
-              //           : 1,
-              //     };
-              //     let tempB = {
-              //       ...b,
-              //       priority:
-              //           b.priority?.toLocaleLowerCase() === "high"
-              //           ? 3
-              //            :b.priority?.toLocaleLowerCase()=== "medium"
-              //           ? 2
-              //           : 1,
-              //     };
-              //     console.log(a);
-              //     return tempA.priority - tempB.priority;
-              //   }else{
-              //     let tempA = {
-              //       ...a,
-              //       status:
-              //           a?.status?.toLocaleLowerCase() === "done"
-              //           ? 3
-              //           : a?.status?.toLocaleLowerCase() === "doing"
-              //           ? 2
-              //           : 1,
-              //     };
-
-              //     let tempB = {
-              //       ...b,
-              //       status:
-              //           b.status.toLocaleLowerCase() === "done"
-              //           ? 3
-              //           : b.status.toLocaleLowerCase() === "doing"
-              //           ? 2
-              //           : 1,
-              //     };
-              //     return tempA.status - tempB.status;
-              //   }
-              // })
-              //   .sort((a:any , b:any) => {
-              //  console.log(a)
-              //    if( sortSelectState.sortSeleKay === "priority"){
-              //     let Atemp = a?.priority
-              //     let Btemp = b?.priority
-              //      return  Atemp.value - Btemp.value
-              //   }else{
-              //     let Atemp = a?.staus
-              //     let Btemp = b?.staus
-              //      return  Atemp.value - Btemp.value
-              //   }
-              // })
-
-              // .sort((a, b) => {
-              //   let tempA = new Date(a.deadline).getTime();
-              //   let tempB = new Date(b.deadline).getTime();
-              //   console.log(tempA);
-              //   return tempA - tempB;
-              // })
-              // .sort((a: any, b: any) => {
-              //   if (sortState.sortKay === "priority") {
-              //     if (sortState.sortDirection === "upToDown") {
-              //       console.log(a.priority.value)
-              //       return a.priority?.value - b.priority?.value;
-              //     } else {
-              //       return b.priority?.value - a.priority?.value;
-              //     }
-              //   } else if (sortState.sortKay === "status") {
-              //     if (sortState.sortDirection === "upToDown") {
-              //       return a.status?.value - b.status?.value;
-              //     } else {
-              //       return b.status?.value - a.status?.value;
-              //     }
-              //   } else if (sortState.sortKay === "deadline") {
-              //     let tempA = new Date(a.deadline).getTime();
-              //     let tempB = new Date(b.deadline).getTime();
-              //     if (sortState.sortDirection === "upToDown") {
-              //       return tempA - tempB;
-              //     } else {
-              //       return tempB - tempA;
-              //     }
-              //   }
-              //   return 0
-              // })
-
-
-
               .map((item) => {
                 return (
                   <div className="block md:hidden">
@@ -630,8 +259,6 @@ function App() {
                       taskDetails={item.taskDetails}
                       id={item.id}
                       removeId={removeId}
-                      // selectedMob = { selectedMob}
-                      // setSelectedMob ={setSelectedMob}
                     />
                   </div>
                 );
@@ -684,24 +311,6 @@ function App() {
               </div>
             </div>
           </div>
-
-          {/* <div className="md:hidden">
-         <AddModalMob
-          
-           idMode={idMode}
-           setIdMode={setIdMode}
-          />
-         </div > */}
-          {/* <div className="hidden md:block">
-         <AddModalDes
-            openAddModal={openAddModal}
-            onClose={onClose}
-            data={data}
-            idMode={idMode}
-            setIdMode={setIdMode}
-          />
-         </div> */}
-
           <div className="">
             <FilterToDo openFilterToDo={openFilterToDo} />
           </div>

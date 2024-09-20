@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import { IoEyeSharp } from "react-icons/io5";
-import { BsFillPencilFill } from "react-icons/bs";
-import { useEffect, useContext } from "react";
-import { FaTrash } from "react-icons/fa";
-import { IoMdArrowDropdown } from "react-icons/io";
+import React, { useContext, useState } from "react";
 import Select, {
   components,
   DropdownIndicatorProps,
   StylesConfig,
 } from "react-select";
-
-import Button from "../button/Button";
-import ViewModal from "../viewModal/ViewModal";
-import Edite2Modal from "../edite2ModalDes/Edite2ModalDes";
+import { IoMdArrowDropdown } from "react-icons/io";
 import { DataContext } from "../../App";
 interface IMobSel {
   value: string | number | null;
@@ -125,30 +117,16 @@ const SelectMobile = () => {
         break;
       case 3:
         sortedData?.sort((a, b) => {
-        let tempA = new Date(a.deadline).getTime();
-        let tempB = new Date(b.deadline).getTime();
+          let tempA = new Date(a.deadline).getTime();
+          let tempB = new Date(b.deadline).getTime();
           return tempA - tempB;
-      });
+        });
         break;
       default:
         break;
     }
     DataUse?.setData(sortedData);
   }
-  //   const handlePriority = () => {
-  //     console.log("Priority selected");
-
-  //   };
-
-  //   const handleStatus = () => {
-  //     console.log("Status selected");
-
-  //   };
-
-  //   const handleDeadline = () => {
-  //     console.log("Deadline selected");
-
-  //   };
   return (
     <div className="w-full md:hidden">
       <Select

@@ -1,21 +1,31 @@
-import "./tableDeaktop.css";
+import { useContext , useState} from 'react'
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
-import { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
-import TableMobile from "../tableMobile/TableMobile"
-
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
-
 import Edite2ModalDes from "../edite2ModalDes/Edite2ModalDes";
-import { useContext } from 'react'
+import "./tableDeaktop.css";
 import { DataContext } from "../../App";
-// import { DataContext } from "../../App";
+interface IchangeToViewbtnParameter {
+  viewId: number;
+}
 interface ISelectOption {
   value: number | null;
   label: string | null;
+}
+interface IchangeToEditModeParameter {
+  editId: number;
+}
+interface IHandleRemoveTodoButton {
+  removeId: number;
+}
+interface IViewParameter {
+  id: null | number;
+}
+interface IPriorityParameter {
+  priority: ISelectOption | null ;
 }
 interface Idata {
   id: number;
@@ -27,9 +37,14 @@ interface Idata {
   deadline: number;
   taskDetails: string | number;
 }
+interface IIdModeParameter {
+  id: null | number;
+  mode: string;
+}
+interface IRemoveTodoParameter {
+  removeId: number;
+}
 interface ITableDesktopParameter {
-  // data: Idata[];
-  // setData: Function;
   taskName: string | number;
   priority: ISelectOption | null ;
   status: ISelectOption | null ;
@@ -38,9 +53,10 @@ interface ITableDesktopParameter {
   id: number;
   removeId: number;
 }
+interface IStatusParameter {
+  status: ISelectOption | null ;
+}
 function TableDesktop({
-  // data,
-  // setData,
   taskName,
   priority,
   status,
@@ -49,9 +65,6 @@ function TableDesktop({
   id,
   removeId,
 }: ITableDesktopParameter) {
-  interface IViewParameter {
-    id: null | number;
-  }
   const [viewId, setViewId] = useState<IViewParameter>({
     id: null,
   });
@@ -59,19 +72,10 @@ function TableDesktop({
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [viewOpen, setViewOpen] = useState<boolean>(false);
   const DataUse = useContext(DataContext);
-  interface IIdModeParameter {
-    id: null | number;
-    mode: string;
-  }
   const [idMode, setIdMode] = useState<IIdModeParameter>({
     id: null,
     mode: "add",
   });
-
-  
-  interface IPriorityParameter {
-    priority: ISelectOption | null ;
-  }
   function renderPriority({ priority }: IPriorityParameter) {
     
     if (priority?.label === "High") {
@@ -101,22 +105,13 @@ function TableDesktop({
       );
     }
   }
-  interface IRemoveTodoParameter {
-    removeId: number;
-  }
   function removeTodo({ removeId }: IRemoveTodoParameter) {
     DataUse?.setData(DataUse?.data.filter((item) => item.id !== removeId));
     console.log(removeId);
   }
-  interface IHandleRemoveTodoButton {
-    removeId: number;
-  }
   function handleButtonClick({ removeId }: IHandleRemoveTodoButton) {
     removeTodo({ removeId: removeId });
     handleClose();
-  }
-  interface IStatusParameter {
-    status: ISelectOption | null ;
   }
   function renderStatus({ status }: IStatusParameter) {
     if (status?.label === "To do") {
@@ -148,16 +143,10 @@ function TableDesktop({
   function handleClose() {
     setOpenDelete(false);
   }
-  interface IchangeToEditModeParameter {
-    editId: number;
-  }
   function changeToEdit2Mode({ editId }: IchangeToEditModeParameter) {
     setIdMode({ id: editId, mode: "edit" });
     setOpenEdit(true);
     console.log("test");
-  }
-  interface IchangeToViewbtnParameter {
-    viewId: number;
   }
   function changeToViewbtn({ viewId }: IchangeToViewbtnParameter) {
     setViewId({ id: viewId });
@@ -209,24 +198,6 @@ function TableDesktop({
         handleButtonClick={handleButtonClick}
         onClose={handleClose}
       />
-      {/* {data.map((item) => {
-        if (item.id == idMode.id)
-          return (
-            <EditModal
-              openEdite={openEdite}
-              setOpenEdit={setOpenEdit}
-              data={data}
-              setData={setData}
-              idMode={idMode}
-              setIdMode={setIdMode}
-              taskName={item.taskName}
-              priority={item.priority}
-              status={item.status}
-              deadline={item.deadline}
-              taskDetails={item.taskDetails}
-            />
-          );
-      })} */}
       {DataUse?.data.map((item) => {
         if (item.id == idMode.id)
           return (
