@@ -13,9 +13,9 @@ import Select, {
   }
 interface IPrioritySelect {
     inputError : InputError
-    setSelectedOptionStatusMob:Function
+    setSelectedOptionPriorityMob:Function
   }
-const StatusSelect = ({inputError , setSelectedOptionStatusMob}:IPrioritySelect) => {
+const PrioritySelectMob = ({inputError , setSelectedOptionPriorityMob}:IPrioritySelect ) => {
     const CaretDownIcon = () => {
         return (
           <button className="dropBTN" style={{ padding: 0, margin: 0 }}>
@@ -39,8 +39,8 @@ const StatusSelect = ({inputError , setSelectedOptionStatusMob}:IPrioritySelect)
           ...provided,
           width: "100%",
           height: "100%",
-          borderColor: inputError.status ? "red" : "#757575",
-          borderWidth:"2px",
+          borderColor: inputError.priority ? "#ED1944" : "#757575",
+          borderWidth:"1px",
           paddingLeft: "10px",
           
           // borderStyle:"solid",
@@ -73,15 +73,15 @@ const StatusSelect = ({inputError , setSelectedOptionStatusMob}:IPrioritySelect)
     <div>
       <Select
               onChange={(e: any) => {
-                setSelectedOptionStatusMob(e);
+                setSelectedOptionPriorityMob(e);
               }}
-              placeholder={"status"}
+              placeholder="Priority"
               components={{ DropdownIndicator }}
               styles={customStyles}
               options={[
-                { value: 1, label: "To do" },
-                { value: 2, label: "Doing" },
-                { value: 3, label: "Done" },
+                { value: 1, label: "High" },
+                { value: 2, label: "Medium" },
+                { value: 3, label: "Low" },
               ]}
               defaultValue={null}
             />
@@ -89,4 +89,4 @@ const StatusSelect = ({inputError , setSelectedOptionStatusMob}:IPrioritySelect)
   )
 }
 
-export default StatusSelect
+export default PrioritySelectMob;

@@ -10,6 +10,8 @@ import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import { DataContext } from "../../App";
 import "./AddModalDes";
+import StatusSelectDes from "./statusSelectDes/StatusSelectDes";
+import PrioritySelectDes from "./prioritySelectDes/PrioritySelectDes";
 interface IIdModeParameter {
   id: null | number;
   mode: string;
@@ -44,6 +46,46 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
     deadline: false,
   })
   console.log(DataUse);
+  // function addData() {
+  //   const error = {
+  //     taskName: inpval === "",
+  //     priority: selectedOptionPriority === null,
+  //     status: selectedOptionStatus  === null,
+  //     deadline: inpvalDate === undefined,
+  //   }
+  //   setInputError(error)
+  //   if (error.taskName || error.priority || error.status || error.deadline){
+  //     return;
+  //   }
+  //   DataUse?.setData([
+  //     ...DataUse?.data,
+  //     {
+  //       id: Date.now(),
+  //       taskName: inpval,
+  //       priority: selectedOptionPriority,
+  //       status: selectedOptionStatus,
+  //       deadline: inpvalDate,
+  //       taskDetails: inpvalDetail,
+  //       openAddModal: false,
+  //     },
+  //   ]);
+  //   setOpenAddModal(false);
+  //   setInpval("");
+  //   setInpvalDetail("");
+  //   setInpvalDate(undefined);
+  // }
+  // function hideModal(){
+  //   setOpenAddModal(false)
+  //   setInputError({
+  //     taskName: false,
+  //     priority: false,
+  //     status: false,
+  //     deadline: false,
+  //   });
+  //   setInpval("");
+  //   setInpvalDetail("");
+  //   setInpvalDate(undefined);
+  // }
   function addData() {
     const error = {
       taskName: inpval === "",
@@ -56,7 +98,7 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
       return;
     }
     DataUse?.setData([
-      ...DataUse?.data,
+      ...DataUse.data,
       {
         id: Date.now(),
         taskName: inpval,
@@ -82,50 +124,49 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
     });
     setInpval("");
     setInpvalDetail("");
+    setSelectedOptionPriority(null);
+    setSelectedOptionStatus(null)
     setInpvalDate(undefined);
   }
-  const CaretDownIcon = () => {
-    return (
-      <button className="dropBTN">
-        {" "}
-        <IoMdArrowDropdown size={25} color={"#757575"} />
-      </button>
-    );
-  };
-  const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
-    return (
-      <components.DropdownIndicator {...props}>
-        <CaretDownIcon />
-      </components.DropdownIndicator>
-    );
-  };
-  const customStyles: StylesConfig = {
-    indicatorSeparator: (provided, state) => ({
-      ...provided,
-      display: "none",
-    }),
-    control: (provided, state) => ({
-      ...provided,
-      // width: 120,
-      // height: 40,
-      // borderColor: "#757575",
-      border: "none",  // Remove the border
-      boxShadow: "none",
-    }),
-    menu: (provided) => ({
-      ...provided,
-      textAlign: "left",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      color: "inherit",
-      backgroundColor: state.isSelected ? "#3091E7" : "transparent",
-      "&:hover": {
-        backgroundColor: "#A8A8A8",
-        color: "inherit",
-      },
-    }),
-  };
+  // const CaretDownIcon = () => {
+  //   return (
+  //     <button className="dropBTN">
+  //       {" "}
+  //       <IoMdArrowDropdown size={25} color={"#757575"} />
+  //     </button>
+  //   );
+  // };
+  // const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
+  //   return (
+  //     <components.DropdownIndicator {...props}>
+  //       <CaretDownIcon />
+  //     </components.DropdownIndicator>
+  //   );
+  // };
+  // const customStyles: StylesConfig = {
+  //   indicatorSeparator: (provided, state) => ({
+  //     ...provided,
+  //     display: "none",
+  //   }),
+  //   control: (provided, state) => ({
+  //     ...provided,
+  //     border: "none",  
+  //     boxShadow: "none",
+  //   }),
+  //   menu: (provided) => ({
+  //     ...provided,
+  //     textAlign: "left",
+  //   }),
+  //   option: (provided, state) => ({
+  //     ...provided,
+  //     color: "inherit",
+  //     backgroundColor: state.isSelected ? "#3091E7" : "transparent",
+  //     "&:hover": {
+  //       backgroundColor: "#A8A8A8",
+  //       color: "inherit",
+  //     },
+  //   }),
+  // };
   if (!openAddModal) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center">
@@ -133,7 +174,7 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
         <p className="text-[20px] text-left pb-[5px]">New task </p>
         <div className=" w-full h-full  grid grid-cols-3 gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
           <div className={`-[400px] col-start-1 col-end-4 border-[1px] h-[40px] pt-[4px] ${
-              inputError.taskName ? "border-red-500 border-[2px]" : "border-gray-500"
+              inputError.taskName ? "border-[#ED1944]" : "border-gray-500"
             } rounded-[5px]`}>
             <Input
               valueState={inpval}
@@ -143,17 +184,19 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
               className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
             />
           </div>
-          <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px]  ${
+          {/* <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px]  ${
               inputError.priority ? "border-red-500 border-[2px]" : "border-gray-500"
-            } rounded-[5px]` }>
-            <Select
+            } rounded-[5px]` }> */}
+              <div className="w-[120px] h-[38px]"> 
+              <PrioritySelectDes inputError={inputError}    setSelectedOptionPriority={   setSelectedOptionPriority}/>
+            {/* <Select
               onChange={(e: any) => {
                 setSelectedOptionPriority(e);
               }}
               placeholder={"Priority"}
               components={{ DropdownIndicator }}
               styles={customStyles}
-              // className={` w-full ${inputError.priority ? "select-error" : ""}`}
+             
               className="w-full h-full"
               options={[
                 { value: 1, label: "High" },
@@ -161,12 +204,14 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
                 { value: 3, label: "Low" },
               ]}
               defaultValue={null}
-            />
+            /> */}
           </div>
-          <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px] ${
+          {/* <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px] ${
               inputError.status ? "border-red-500 border-[2px]" : "border-gray-500"
-            } rounded-[5px]`}>
-            <Select
+            } rounded-[5px]`}> */}
+              <div className="w-[120px] h-[38px] ">
+              <StatusSelectDes inputError={inputError}  setSelectedOptionStatus={ setSelectedOptionStatus}/>
+            {/* <Select
               onChange={(e: any) => {
                 setSelectedOptionStatus(e);
               }}
@@ -181,10 +226,10 @@ function AddModalDes({ openAddModal, setOpenAddModal }: ImodalParameter) {
                 { value: 3, label: "Done" },
               ]}
               defaultValue={null}
-            />
+            /> */}
           </div>
           <div className={`w-[120px] h-[40px] border-[1px] flex justify-between items-center pr-[15px] ${
-              inputError.deadline ? "border-red-500 border-[2px]" : "border-gray-500"
+              inputError.deadline ? "border-[#ED1944]" : "border-gray-500"
             } rounded-[5px]`}>
             <DateInput
               valueState={inpvalDate}

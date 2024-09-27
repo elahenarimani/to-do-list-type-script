@@ -9,10 +9,10 @@ import { DataContext } from "../../App";
 import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
+import PrioritySelectMob from "./prioritySelectMob/PrioritySelectMob";
+import StatusSelectMob from "./statusSelectMob/StatusSelectMob";
 import "./addModalMob.css";
-import PrioritySelect from "./prioritySelect/PrioritySelect";
-// import StatusSelect from "./statusSelect/statusSelect"
-import StatusSelect from "./statusSelect/StatusSelect"
+
 interface Idata {
   id: number;
   taskName: string | number;
@@ -98,6 +98,8 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
     });
     setInpval("");
     setInpvalDetail("");
+    setSelectedOptionPriorityMob(null);
+    setSelectedOptionStatusMob(null);
     setInpvalDate(undefined);
   }
   // const CaretDownIcon = () => {
@@ -158,21 +160,21 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
         <p className="text-[20px] text-left pb-[5px]">New task </p>
         <div className="w-full h-full  grid grid-cols-1  gap-y-[50px] gap-x-[10px] pl-[10px] pr-[10px]   ">
           <div className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
-              inputError.taskName ? "border-red-500 border-[2px]" : "border-gray-500"
+              inputError.taskName ? "border-[#ED1944] " : "border-gray-500"
             }`}>
             <Input
               valueState={inpval}
               type="text"
               inputHandler={(e: any) => setInpval(e.target.value)}
               placeholder="Task Name"
-              className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none text-[13px]"
+              className="add-modal w-full h-full pl-[15px] border-none outline-none text-[13px]"
             />
           </div>
           {/* <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
               inputError.priority ? "border-red-500 border-[2px]" : "border-gray-500"
             }`}> */}
             <div className="min-w-[250px]">
-              <PrioritySelect inputError={inputError} setSelectedOptionPriorityMob={setSelectedOptionPriorityMob}/>
+              <PrioritySelectMob inputError={inputError} setSelectedOptionPriorityMob={setSelectedOptionPriorityMob}/>
             {/* <Select
               onChange={(e: any) => {
                 setSelectedOptionPriorityMob(e);
@@ -192,7 +194,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               inputError.status ? "border-red-500 !important border-[2px]" : "border-gray-500"
             }`}> */}
             <div className="min-w-[250px]">
-              <StatusSelect  inputError={inputError} setSelectedOptionStatusMob={setSelectedOptionStatusMob}/>
+              <StatusSelectMob  inputError={inputError} setSelectedOptionStatusMob={setSelectedOptionStatusMob}/>
             {/* <Select
               onChange={(e: any) => {
                 setSelectedOptionStatusMob(e);
@@ -209,7 +211,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
             /> */}
           </div>
           <div className={`min-w-[250px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]  ${
-              inputError.deadline ? "border-red-500 border-[2px]" : "border-gray-500"
+              inputError.deadline ? "border-[#ED1944] " : "border-gray-500"
             }`}>
             <DateInput
               valueState={inpvalDate}
@@ -225,10 +227,10 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               type="text"
               inputHandler={(e: any) => setInpvalDetail(e.target.value)}
               placeholder="Task Details (Optional)"
-              className="taske-Details w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top text-[13px]"
+              className="taske-Details w-full h-full pl-[15px]  border-none outline-none text-left text-top text-[13px]"
             />
           </div>
-          <div className="w-full   h-[40px] flex justify-between items-center pb-[20px]">
+          <div className="w-full h-[40px] flex justify-between items-center pb-[20px]">
             <Button
               onClickHandler={() => hideModal()}
               className=" text-[#3091E7] text-[14px] "
