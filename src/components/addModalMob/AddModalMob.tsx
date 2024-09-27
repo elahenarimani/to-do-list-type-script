@@ -10,6 +10,9 @@ import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import "./addModalMob.css";
+import PrioritySelect from "./prioritySelect/PrioritySelect";
+// import StatusSelect from "./statusSelect/statusSelect"
+import StatusSelect from "./statusSelect/StatusSelect"
 interface Idata {
   id: number;
   taskName: string | number;
@@ -97,57 +100,57 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
     setInpvalDetail("");
     setInpvalDate(undefined);
   }
-  const CaretDownIcon = () => {
-    return (
-      <button className="dropBTN" style={{ padding: 0, margin: 0 }}>
-        <IoMdArrowDropdown size={25} color={"#757575"} />
-      </button>
-    );
-  };
-  const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
-    return (
-      <components.DropdownIndicator {...props}>
-        <CaretDownIcon />
-      </components.DropdownIndicator>
-    );
-  };
-  const customStyles: StylesConfig = {
-    indicatorSeparator: (provided, state) => ({
-      ...provided,
-      display: "none",
-    }),
-    control: (provided, state) => ({
-      ...provided,
-      // width: "98%",
-      // height: "98%",
-      // borderColor: "#757575",
-      padding: 0,
-      margin: 0,
-      border: "none",  // Remove the border
-      boxShadow: "none",
-    }),
-    valueContainer: (provided) => ({
-      ...provided,
-      paddingLeft: 0, // Make sure the placeholder has no padding
-    }),
-    placeholder: (provided) => ({
-      ...provided,
-      paddingLeft: 0, // Remove any inherent padding between icon and placeholder
-    }),
-    menu: (provided) => ({
-      ...provided,
-      textAlign: "left",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      color: "inherit",
-      backgroundColor: state.isSelected ? "#3091E7" : "transparent",
-      "&:hover": {
-        backgroundColor: "#A8A8A8",
-        color: "inherit",
-      },
-    }),
-  };
+  // const CaretDownIcon = () => {
+  //   return (
+  //     <button className="dropBTN" style={{ padding: 0, margin: 0 }}>
+  //       <IoMdArrowDropdown size={25} color={"#757575"} />
+  //     </button>
+  //   );
+  // };
+  // const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
+  //   return (
+  //     <components.DropdownIndicator {...props}>
+  //       <CaretDownIcon />
+  //     </components.DropdownIndicator>
+  //   );
+  // };
+  // const customStyles: StylesConfig = {
+  //   indicatorSeparator: (provided, state) => ({
+  //     ...provided,
+  //     display: "none",
+  //   }),
+  //   control: (provided, state) => ({
+  //     ...provided,
+  //     width: "100%",
+  //     height: "100%",
+  //     borderColor: inputError.priority ? "red" : "#757575",
+  //     borderWidth:"2px",
+  //     paddingLeft: "10px",
+      
+    
+  //   }),
+  //   valueContainer: (provided) => ({
+  //     ...provided,
+  //     paddingLeft: 0,
+  //   }),
+  //   placeholder: (provided) => ({
+  //     ...provided,
+  //     paddingLeft: 0, 
+  //   }),
+  //   menu: (provided) => ({
+  //     ...provided,
+  //     textAlign: "left",
+  //   }),
+  //   option: (provided, state) => ({
+  //     ...provided,
+  //     color: "inherit",
+  //     backgroundColor: state.isSelected ? "#3091E7" : "transparent",
+  //     "&:hover": {
+  //       backgroundColor: "#A8A8A8",
+  //       color: "inherit",
+  //     },
+  //   }),
+  // };
   if (!openAddModal) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center">
@@ -162,13 +165,15 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               type="text"
               inputHandler={(e: any) => setInpval(e.target.value)}
               placeholder="Task Name"
-              className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none"
+              className="add-modal w-full h-full pl-[15px] text-[17px] border-none outline-none text-[13px]"
             />
           </div>
-          <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
+          {/* <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
               inputError.priority ? "border-red-500 border-[2px]" : "border-gray-500"
-            }`}>
-            <Select
+            }`}> */}
+            <div className="min-w-[250px]">
+              <PrioritySelect inputError={inputError} setSelectedOptionPriorityMob={setSelectedOptionPriorityMob}/>
+            {/* <Select
               onChange={(e: any) => {
                 setSelectedOptionPriorityMob(e);
               }}
@@ -181,12 +186,14 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
                 { value: 3, label: "Low" },
               ]}
               defaultValue={null}
-            />
+            /> */}
           </div>
-          <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
+          {/* <div  className={`min-w-[250px]  rounded-[5px] border-[1px] h-[40px] pt-[4px]  border-gray-500 ${
               inputError.status ? "border-red-500 !important border-[2px]" : "border-gray-500"
-            }`}>
-            <Select
+            }`}> */}
+            <div className="min-w-[250px]">
+              <StatusSelect  inputError={inputError} setSelectedOptionStatusMob={setSelectedOptionStatusMob}/>
+            {/* <Select
               onChange={(e: any) => {
                 setSelectedOptionStatusMob(e);
               }}
@@ -199,10 +206,10 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
                 { value: 3, label: "Done" },
               ]}
               defaultValue={null}
-            />
+            /> */}
           </div>
           <div className={`min-w-[250px] h-[40px]  border-gray-500 rounded-[5px] border-[1px] flex justify-between items-center pr-[15px]  ${
-              inputError.status ? "border-red-500 border-[2px]" : "border-gray-500"
+              inputError.deadline ? "border-red-500 border-[2px]" : "border-gray-500"
             }`}>
             <DateInput
               valueState={inpvalDate}
@@ -218,7 +225,7 @@ function AddModalMob({ openAddModal, setOpenAddModal }: ImodalParameter) {
               type="text"
               inputHandler={(e: any) => setInpvalDetail(e.target.value)}
               placeholder="Task Details (Optional)"
-              className="taske-Details w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top"
+              className="taske-Details w-full h-full pl-[15px] text-[17px] border-none outline-none text-left text-top text-[13px]"
             />
           </div>
           <div className="w-full   h-[40px] flex justify-between items-center pb-[20px]">
