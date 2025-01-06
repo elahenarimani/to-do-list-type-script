@@ -1,4 +1,4 @@
-import { useContext , useState} from 'react'
+import { useContext, useState } from "react";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
@@ -25,17 +25,7 @@ interface IViewParameter {
   id: null | number;
 }
 interface IPriorityParameter {
-  priority: ISelectOption | null ;
-}
-interface Idata {
-  id: number;
-  taskName: string | number;
-  // priority: string;
-  // status: string;
-  priority: ISelectOption | null ;
-  status: ISelectOption | null ;
-  deadline: number;
-  taskDetails: string | number;
+  priority: ISelectOption | null;
 }
 interface IIdModeParameter {
   id: null | number;
@@ -46,15 +36,15 @@ interface IRemoveTodoParameter {
 }
 interface ITableDesktopParameter {
   taskName: string | number;
-  priority: ISelectOption | null ;
-  status: ISelectOption | null ;
+  priority: ISelectOption | null;
+  status: ISelectOption | null;
   deadline: number;
   taskDetails: string | number;
   id: number;
-  removeId: number|null;
+  removeId: number | null;
 }
 interface IStatusParameter {
-  status: ISelectOption | null ;
+  status: ISelectOption | null;
 }
 function TableDesktop({
   taskName,
@@ -77,30 +67,26 @@ function TableDesktop({
     mode: "add",
   });
   function renderPriority({ priority }: IPriorityParameter) {
-    
     if (priority?.label === "High") {
       return (
         <div className="h-[25px] w-[55px] bg-[#F44A3E] rounded-[20px] flex justify-center items-center">
-             <p >High </p>
+          <p>High </p>
         </div>
-      
       );
     } else if (priority?.label === "Medium") {
       return (
         <div className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px] flex justify-center items-center">
-              <p>Medium</p>
+          <p>Medium</p>
         </div>
       );
-    } else if (priority?.label === "Low"){
+    } else if (priority?.label === "Low") {
       return (
-        <div  className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px] flex justify-center items-center">
-             <p> Low</p>
+        <div className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px] flex justify-center items-center">
+          <p> Low</p>
         </div>
       );
-    }else {
-      return (
-        <p> </p>
-      );
+    } else {
+      return <p> </p>;
     }
   }
   function removeTodo({ removeId }: IRemoveTodoParameter) {
@@ -115,24 +101,23 @@ function TableDesktop({
     if (status?.label === "To do") {
       return (
         <div className="h-[25px] w-[55px] bg-[#2A9AF3] rounded-[20px]  flex justify-center items-center">
-           <p >To do </p>
+          <p>To do </p>
         </div>
       );
-    } else if (status?.label === "Doing" ) {
+    } else if (status?.label === "Doing") {
       return (
         <div className="h-[25px] w-[55px] bg-[#FF9C0A] rounded-[20px]  flex justify-center items-center">
-           <p >Doing</p>
+          <p>Doing</p>
         </div>
-      );}
-      else if (status?.label === "Done" ) {
-        return (
-          <div className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]  flex justify-center items-center">
-             <p >Done</p>
-          </div>
-        );} else {
-      return (
-        <p></p>
       );
+    } else if (status?.label === "Done") {
+      return (
+        <div className="h-[25px] w-[55px] bg-[#53B257] rounded-[20px]  flex justify-center items-center">
+          <p>Done</p>
+        </div>
+      );
+    } else {
+      return <p></p>;
     }
   }
   function handleDeleteBTN() {
@@ -196,7 +181,7 @@ function TableDesktop({
         handleButtonClick={handleButtonClick}
         onClose={handleClose}
       />
-      {DataUse?.data.map((item) => { 
+      {DataUse?.data.map((item) => {
         if (item.id === idMode.id)
           return (
             <Edite2ModalDes

@@ -16,23 +16,16 @@ interface ISelectOption {
 interface Idata {
   id: number;
   taskName: string | number;
-  // priority: string;
-  // status: string;
   priority: ISelectOption | null | string;
   status: ISelectOption | null | string;
   deadline: number;
   taskDetails: string | number;
-}
-interface ImodalParameter {
-  onClose: Function;
-  data: Idata[];
 }
 interface IMobHeader {
   search: string | number;
   setSearch: Function;
 }
 const MobileHeader = ({ search, setSearch }: IMobHeader) => {
-  // const [search, setSearch] = useState<string | number>("");
   const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const DataUse = useContext(DataContext);

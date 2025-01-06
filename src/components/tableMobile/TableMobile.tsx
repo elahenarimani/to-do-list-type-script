@@ -1,9 +1,5 @@
 import { useContext } from "react";
-import Select, {
-  components,
-  DropdownIndicatorProps,
-  StylesConfig,
-} from "react-select";
+import { components, DropdownIndicatorProps, StylesConfig } from "react-select";
 import { useState } from "react";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
@@ -26,10 +22,6 @@ interface Idata {
   deadline: number;
   taskDetails: string | number;
 }
-interface ISelectedData {
-  value: string | number | null;
-  label: string | null;
-}
 interface IViewParameter {
   id: null | number;
 }
@@ -38,10 +30,6 @@ interface IPriorityParameter {
 }
 interface IHandleRemoveTodoButton {
   removeId: number;
-}
-interface IchangeToEditModeParameter {
-  id: null | number;
-  mode: string;
 }
 interface IRemoveTodoParameter {
   removeId: number;
@@ -61,7 +49,7 @@ interface ITableMobileParameter {
   deadline: number;
   taskDetails: string | number;
   id: number;
-  removeId: number|null;
+  removeId: number | null;
 }
 interface IHandleRemoveTodoButton {
   removeId: number;
@@ -71,8 +59,6 @@ interface IIdModeParameter {
   mode: string;
 }
 function TableMobile({
-  data,
-  setData,
   taskName,
   priority,
   status,

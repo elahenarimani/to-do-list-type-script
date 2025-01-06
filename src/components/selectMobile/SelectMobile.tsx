@@ -14,19 +14,6 @@ interface ISelectOption {
   value: number | null;
   label: string | null;
 }
-interface Idata {
-  id: number;
-  taskName: string | number;
-  priority: ISelectOption | null;
-  status: ISelectOption | null;
-  deadline: number;
-  taskDetails: string | number;
-}
-// interface ISelectedMob {
-
-//     value: string | number | null;
-//     label: "Priority" |"Status" | "Deadline" | null;
-//   }
 interface ISelectMobile {
   value: "Priority" | "Status" | "Deadline";
   label: string | null;

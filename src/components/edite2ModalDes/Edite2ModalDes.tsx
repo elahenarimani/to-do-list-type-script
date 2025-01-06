@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import {  useContext, useState } from "react";
 import Select, {
   components,
   DropdownIndicatorProps,
@@ -9,21 +9,9 @@ import Input from "../input/Input";
 import DateInput from "../dateInput/DateInput";
 import Button from "../button/Button";
 import { DataContext } from "../../App";
-interface ISelectMobile {
-  value: "Priority" | "Status" | "Deadline";
-  label: string | null;
-}
 interface ISelectOption {
   value: number | null;
   label: string | null;
-}
-interface Idata {
-  id: number;
-  taskName: string | number;
-  priority: ISelectOption | null;
-  status: ISelectOption | null;
-  deadline: number | undefined;
-  taskDetails: string | number;
 }
 interface IIdModeParameter {
   id: null | number;

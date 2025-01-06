@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import "./App.css";
 import { FaArrowUp } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
@@ -11,6 +10,7 @@ import TableDesktop from "./components/tableDesktop/TableDesktop";
 import SelectMobile from "./components/selectMobile/SelectMobile";
 import DesktopHeader from "./components/desktopHeader/DesktopHeader";
 import MobileHeader from "./components/mobileHeader/MobileHeader";
+import "./App.css";
 export const DataContext = createContext<{
   data: Idata[];
   setData: Function;
@@ -36,39 +36,23 @@ interface ISelectedMob {
   sortSelDirection: null;
 }
 interface IhandleSelectOptionParametere {
-  numberOfShow:  number;
+  numberOfShow: number;
 }
 function App() {
   let removeId: number | null = null;
   const [data, setData] = useState<Idata[]>([]);
-  const [showSelectOption, setShowSelectOption] = useState< number>(
-    10
-  );
+  const [showSelectOption, setShowSelectOption] = useState<number>(10);
   const [currenPage, setCurrentPage] = useState<number>(1);
   const itemPerPage = +showSelectOption;
   const startIndex = (currenPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
   const [search, setSearch] = useState<string | number>("");
   const [openFilterToDo, setOpenFilterToDo] = useState<boolean>(false);
-  const [selectedOptionPriority, setSelectedOptionPriority] =
-    useState<ISelectOption | null>({
-      label: null,
-      value: null,
-    });
-  const [selectedOptionStatus, setSelectedOptionStatus] =
-    useState<ISelectOption | null>({
-      label: null,
-      value: null,
-    });
   const [sortState, setSortState] = useState<ISort>({
     sortKay: null,
     sortDirection: null,
   });
-  const [inpvalDate, setInpvalDate] = useState<number | undefined>(undefined);
-  const [sortSelectState, setSortSlectState] = useState<ISelectedMob>({
-    sortSeleKay: null,
-    sortSelDirection: null,
-  });
+  let filteredData = data;
   function handleSort(kay: "priority" | "status" | "deadline") {
     setSortState((item: ISort) => {
       if (item.sortKay === kay) {
@@ -79,50 +63,33 @@ function App() {
             : item.sortDirection === "downToUp"
             ? null
             : "upToDown";
-        return {//if sortDirection is null
+        return {
+          //if sortDirection is null
           sortKay: newDirection ? kay : null, // Reset key if direction (newDirection = null)is null
-          sortDirection: newDirection,//sortDirection = null
+          sortDirection: newDirection, //sortDirection = null
         };
       } else {
         return {
-          sortKay: kay,//when select new kay and kay is not null
+          sortKay: kay, //when select new kay and kay is not null
           sortDirection: "upToDown",
         };
       }
     });
   }
-  let filteredData = data;
-  // if (showSelectOption !== "All") {//related to showSelectOption
-  //   filteredData = data.slice(startIndex, endIndex);
-  // }
-  if (showSelectOption ) {//related to showSelectOption
+  if (showSelectOption) {
+    //related to showSelectOption
     filteredData = data.slice(startIndex, endIndex);
   }
   function handleSelectOption({ numberOfShow }: IhandleSelectOptionParametere) {
     setShowSelectOption(numberOfShow);
   }
-  const [filteredMobData , setFilteredMobDate] = useState<Idata[]>(data)
-  // const [showSelectOption, setShowSelectOption] = useState<string | number>(
-  //   "All"
-  // );
-  // const [currenPage, setCurrentPage] = useState<number>(1);
-  // const itemPerPage = +showSelectOption;
-  // const startIndex = (currenPage - 1) * itemPerPage;
-  // const endIndex = startIndex + itemPerPage;
   function handledArroeForward() {
-    if(currenPage < Math.ceil(data.length / itemPerPage)){
-      // setCurrentPage((prevPage) => prevPage + 1);
-      setCurrentPage(currenPage + 1)
+    if (currenPage < Math.ceil(data.length / itemPerPage)) {
+      setCurrentPage(currenPage + 1);
     }
-    
   }
   function handleArrowBack() {
-    if(currenPage>1)
-      setCurrentPage(currenPage - 1)
-    // setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  }
-  function filterToDoHandler() {
-    setOpenFilterToDo(true);
+    if (currenPage > 1) setCurrentPage(currenPage - 1);
   }
   return (
     <>
@@ -230,7 +197,7 @@ function App() {
                       return tempB - tempA;
                     }
                   }
-                  return 0;//default return value
+                  return 0; //default return value
                 })
                 .map((item) => {
                   return (
@@ -269,28 +236,6 @@ function App() {
                   </div>
                 );
               })}
-                {/* {filteredMobData
-              .filter((item) => {
-                const taskName = (item?.taskName as string).toLowerCase();
-                return taskName.includes((search as string).toLowerCase());
-              })
-              .map((item) => {
-                return (
-                  <div className="block md:hidden">
-                    <TableMobile
-                      data={data}
-                      setData={setData}
-                      taskName={item.taskName}
-                      priority={item.priority}
-                      status={item.status}
-                      deadline={item.deadline}
-                      taskDetails={item.taskDetails}
-                      id={item.id}
-                      removeId={removeId}
-                    />
-                  </div>
-                );
-              })} */}
             <div className="w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]">
               <div>
                 <p>Rows per page: </p>
@@ -315,31 +260,33 @@ function App() {
                   >
                     15
                   </p>
-                  {/* <p
-                    className="h-[30px] text-[15px]"
-                    onClick={() => handleSelectOption({ numberOfShow: "All" })}
-                  >
-                    All
-                  </p> */}
                 </div>
                 <button className="dropBTN">
                   <IoMdArrowDropdown size={25} color={"#757575"} />
                 </button>
               </div>
               <div>
-                <p>{startIndex+1}-{endIndex} of {data.length} </p>
+                <p>
+                  {startIndex + 1}-{endIndex} of {data.length}{" "}
+                </p>
               </div>
               <div className="flex justify-between items-center gap-[15px]">
-                <button onClick={() => handleArrowBack()} disabled={currenPage === 1}>
+                <button
+                  onClick={() => handleArrowBack()}
+                  disabled={currenPage === 1}
+                >
                   <IoIosArrowBack size={20} color={"#BDBDBD"} />
                 </button>
-                <button onClick={() => handledArroeForward()} disabled={currenPage === Math.ceil(data.length / itemPerPage)}>
+                <button
+                  onClick={() => handledArroeForward()}
+                  disabled={currenPage === Math.ceil(data.length / itemPerPage)}
+                >
                   <IoIosArrowForward size={20} color={"#BDBDBD"} />
                 </button>
               </div>
             </div>
           </div>
-          <div className="">
+          <div>
             <FilterToDo openFilterToDo={openFilterToDo} />
           </div>
         </main>

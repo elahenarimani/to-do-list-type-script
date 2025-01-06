@@ -23,17 +23,17 @@ function ViewModal({
   closeViewModal,
 }: IViewModalParameter) {
   const modalRef = useRef<any>();
+  const handleClickOutside = (event: any) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeViewModal();
+    }
+  };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  const handleClickOutside = (event: any) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      closeViewModal();
-    }
-  };
   if (!viewOpen) return null;
   return (
     <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center z-10">

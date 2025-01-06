@@ -45,9 +45,9 @@ const DesktopHeader = ({ search, setSearch }: IDesHeader) => {
               <CiSearch size={20} />
             </div>
           </div>
-          <Button onClickHandler={() => filterToDoHandler()}>
+          {/* <Button onClickHandler={() => filterToDoHandler()}>
             <FaFilter size={20} />
-          </Button>
+          </Button> */}
           <Button onClickHandler={() => handleOpen()}>
             <TbPencilPlus size={20} />
           </Button>
