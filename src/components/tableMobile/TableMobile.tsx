@@ -61,7 +61,7 @@ interface ITableMobileParameter {
   deadline: number;
   taskDetails: string | number;
   id: number;
-  removeId: number;
+  removeId: number|null;
 }
 interface IHandleRemoveTodoButton {
   removeId: number;
@@ -194,35 +194,6 @@ function TableMobile({
       },
     }),
   };
-
-  // function sortData(sortBy: string | null){
-  //   if (!sortBy) return;
-  //   let sortedData:Idata[] = [...data];
-  //   console.log( sortedData?.priority)
-  //   switch (sortBy) {
-  //     case 'Priority':
-  //       sortedData.sort((a, b) => {
-
-  //         if (data.priority === "High") {
-  //           return a.priority === b.priority ? 0 : a.priority === 'High' ? -1 : 1;
-  //         } else if (DataUse?.data.priority === 'Medium') {
-  //           return a.priority === b.priority ? 0 : a.priority === 'Medium' ? -1 : 1;
-  //         } else if (DataUse?.data?.priority === 'Low') {
-  //           return a.priority === b.priority ? 0 : a.priority === 'Low' ? -1 : 1;
-  //         }
-  //         return 0;
-  //       });
-  //       break;
-  //     case 'Status':
-  //       const statusOrder: { [key: string]: number } = { 'Doing': 1, 'Done': 2, 'To do': 3 };
-  //       sortedData.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
-  //       break;
-  //     case 'Deadline':
-  //       sortedData.sort((a, b) => a.deadline - b.deadline);
-  //       break;
-  //     default:
-  //       break;
-  //   }
   return (
     <div>
       <table className="w-full flex flex-col justify-between ">

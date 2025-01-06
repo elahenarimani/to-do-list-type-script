@@ -51,7 +51,7 @@ interface ITableDesktopParameter {
   deadline: number;
   taskDetails: string | number;
   id: number;
-  removeId: number;
+  removeId: number|null;
 }
 interface IStatusParameter {
   status: ISelectOption | null ;
@@ -90,14 +90,12 @@ function TableDesktop({
         <div className="h-[25px] w-[70px] bg-[#FFEC43] rounded-[20px] flex justify-center items-center">
               <p>Medium</p>
         </div>
-       
       );
     } else if (priority?.label === "Low"){
       return (
         <div  className="h-[25px] w-[50px] bg-[#A2A2A2] rounded-[20px] flex justify-center items-center">
              <p> Low</p>
         </div>
-       
       );
     }else {
       return (
@@ -198,8 +196,8 @@ function TableDesktop({
         handleButtonClick={handleButtonClick}
         onClose={handleClose}
       />
-      {DataUse?.data.map((item) => {
-        if (item.id == idMode.id)
+      {DataUse?.data.map((item) => { 
+        if (item.id === idMode.id)
           return (
             <Edite2ModalDes
               openEdite={openEdite}
@@ -217,7 +215,7 @@ function TableDesktop({
           );
       })}
       {DataUse?.data.map((item) => {
-        if (item.id == viewId.id)
+        if (item.id === viewId.id)
           return (
             <ViewModal
               taskName={item.taskName}

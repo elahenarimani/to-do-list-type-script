@@ -5,8 +5,6 @@ interface ISelectOption {
 }
 interface IViewModalParameter {
   taskName: string | number;
-  // priority: string;
-  // status: string;
   priority: ISelectOption | null | string;
   status: ISelectOption | null | string;
   deadline: number;

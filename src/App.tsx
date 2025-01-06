@@ -35,19 +35,11 @@ interface ISelectedMob {
   sortSeleKay: "priority" | "status" | "deadline" | null;
   sortSelDirection: null;
 }
-// interface IIdModeParameter {
-//   id: null | number;
-//   mode: string;
-// }
-// const [idMode, setIdMode] = useState<IIdModeParameter>({
-//   id: null,
-//   mode: "add",
-// });
 interface IhandleSelectOptionParametere {
   numberOfShow: string | number;
 }
-let removeId: number;
 function App() {
+  let removeId: number | null = null;
   const [data, setData] = useState<Idata[]>([]);
   const [showSelectOption, setShowSelectOption] = useState<string | number>(
     "All"
@@ -68,7 +60,6 @@ function App() {
       label: null,
       value: null,
     });
-
   const [sortState, setSortState] = useState<ISort>({
     sortKay: null,
     sortDirection: null,
@@ -78,10 +69,6 @@ function App() {
     sortSeleKay: null,
     sortSelDirection: null,
   });
-  let filteredData = data;
-  if (showSelectOption !== "All") {
-    filteredData = data.slice(startIndex, endIndex);
-  }
   function handleSort(kay: "priority" | "status" | "deadline") {
     setSortState((item: ISort) => {
       if (item.sortKay === kay) {
@@ -92,28 +79,43 @@ function App() {
             : item.sortDirection === "downToUp"
             ? null
             : "upToDown";
-        return {
-          sortKay: newDirection ? kay : null, // Reset key if direction is null
-          sortDirection: newDirection,
+        return {//if sortDirection is null
+          sortKay: newDirection ? kay : null, // Reset key if direction (newDirection = null)is null
+          sortDirection: newDirection,//sortDirection = null
         };
       } else {
         return {
-          sortKay: kay,
+          sortKay: kay,//when select new kay and kay is not null
           sortDirection: "upToDown",
         };
       }
     });
   }
-
+  let filteredData = data;
+  if (showSelectOption !== "All") {//related to showSelectOption
+    filteredData = data.slice(startIndex, endIndex);
+  }
   function handleSelectOption({ numberOfShow }: IhandleSelectOptionParametere) {
     setShowSelectOption(numberOfShow);
-    // setCurrentPage(1)
   }
+  // const [showSelectOption, setShowSelectOption] = useState<string | number>(
+  //   "All"
+  // );
+  // const [currenPage, setCurrentPage] = useState<number>(1);
+  // const itemPerPage = +showSelectOption;
+  // const startIndex = (currenPage - 1) * itemPerPage;
+  // const endIndex = startIndex + itemPerPage;
   function handledArroeForward() {
-    setCurrentPage((prevPage) => prevPage + 1);
+    if(currenPage < Math.ceil(data.length / itemPerPage)){
+      // setCurrentPage((prevPage) => prevPage + 1);
+      setCurrentPage(currenPage + 1)
+    }
+    
   }
   function handleArrowBack() {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    if(currenPage>1)
+      setCurrentPage(currenPage - 1)
+    // setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   }
   function filterToDoHandler() {
     setOpenFilterToDo(true);
@@ -205,7 +207,6 @@ function App() {
                 .sort((a: any, b: any) => {
                   if (sortState.sortKay === "priority") {
                     if (sortState.sortDirection === "upToDown") {
-                      console.log(a.priority.value);
                       return a.priority?.value - b.priority?.value;
                     } else {
                       return b.priority?.value - a.priority?.value;
@@ -225,11 +226,12 @@ function App() {
                       return tempB - tempA;
                     }
                   }
-                  return 0;
+                  return 0;//default return value
                 })
                 .map((item) => {
                   return (
                     <TableDesktop
+                      key={item.id}
                       taskName={item?.taskName}
                       priority={item?.priority}
                       status={item?.status}
@@ -302,10 +304,10 @@ function App() {
                 <p>1-10 of 10 </p>
               </div>
               <div className="flex justify-between items-center gap-[15px]">
-                <button onClick={() => handleArrowBack()}>
+                <button onClick={() => handleArrowBack()} disabled={currenPage === 1}>
                   <IoIosArrowBack size={20} color={"#BDBDBD"} />
                 </button>
-                <button onClick={() => handledArroeForward()}>
+                <button onClick={() => handledArroeForward()} disabled={currenPage === Math.ceil(data.length / itemPerPage)}>
                   <IoIosArrowForward size={20} color={"#BDBDBD"} />
                 </button>
               </div>

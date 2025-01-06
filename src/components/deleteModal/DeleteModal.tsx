@@ -1,7 +1,7 @@
 interface IDeleteModalParameter {
   openDelete: boolean;
   id: number;
-  removeId: number;
+  removeId: number|null;
   handleButtonClick: Function;
   onClose: Function;
 }
