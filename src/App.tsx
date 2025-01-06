@@ -36,13 +36,13 @@ interface ISelectedMob {
   sortSelDirection: null;
 }
 interface IhandleSelectOptionParametere {
-  numberOfShow: string | number;
+  numberOfShow:  number;
 }
 function App() {
   let removeId: number | null = null;
   const [data, setData] = useState<Idata[]>([]);
-  const [showSelectOption, setShowSelectOption] = useState<string | number>(
-    "All"
+  const [showSelectOption, setShowSelectOption] = useState< number>(
+    10
   );
   const [currenPage, setCurrentPage] = useState<number>(1);
   const itemPerPage = +showSelectOption;
@@ -92,12 +92,16 @@ function App() {
     });
   }
   let filteredData = data;
-  if (showSelectOption !== "All") {//related to showSelectOption
+  // if (showSelectOption !== "All") {//related to showSelectOption
+  //   filteredData = data.slice(startIndex, endIndex);
+  // }
+  if (showSelectOption ) {//related to showSelectOption
     filteredData = data.slice(startIndex, endIndex);
   }
   function handleSelectOption({ numberOfShow }: IhandleSelectOptionParametere) {
     setShowSelectOption(numberOfShow);
   }
+  const [filteredMobData , setFilteredMobDate] = useState<Idata[]>(data)
   // const [showSelectOption, setShowSelectOption] = useState<string | number>(
   //   "All"
   // );
@@ -265,12 +269,34 @@ function App() {
                   </div>
                 );
               })}
+                {/* {filteredMobData
+              .filter((item) => {
+                const taskName = (item?.taskName as string).toLowerCase();
+                return taskName.includes((search as string).toLowerCase());
+              })
+              .map((item) => {
+                return (
+                  <div className="block md:hidden">
+                    <TableMobile
+                      data={data}
+                      setData={setData}
+                      taskName={item.taskName}
+                      priority={item.priority}
+                      status={item.status}
+                      deadline={item.deadline}
+                      taskDetails={item.taskDetails}
+                      id={item.id}
+                      removeId={removeId}
+                    />
+                  </div>
+                );
+              })} */}
             <div className="w-full h-[50px] flex justify-end items-center gap-[20px] pr-[25px]">
               <div>
                 <p>Rows per page: </p>
               </div>
               <div className="dropdown min-w-[50px] inline-block cursor-pointer relative flex justify-between items-center gap-[15px]">
-                <div className="dropdowncontent h-[130px]  absolute min-w-[50px] z-12 bottom-0 right-100 bg-white rounded-[5px] pt-[5px]">
+                <div className="dropdowncontent h-[100px]  absolute min-w-[50px] z-12 bottom-0 right-100 bg-white rounded-[5px] pt-[5px]">
                   <p
                     className="h-[30px] text-[15px]"
                     onClick={() => handleSelectOption({ numberOfShow: 5 })}
@@ -289,19 +315,19 @@ function App() {
                   >
                     15
                   </p>
-                  <p
+                  {/* <p
                     className="h-[30px] text-[15px]"
                     onClick={() => handleSelectOption({ numberOfShow: "All" })}
                   >
                     All
-                  </p>
+                  </p> */}
                 </div>
                 <button className="dropBTN">
                   <IoMdArrowDropdown size={25} color={"#757575"} />
                 </button>
               </div>
               <div>
-                <p>1-10 of 10 </p>
+                <p>{startIndex+1}-{endIndex} of {data.length} </p>
               </div>
               <div className="flex justify-between items-center gap-[15px]">
                 <button onClick={() => handleArrowBack()} disabled={currenPage === 1}>
