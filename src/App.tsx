@@ -139,7 +139,6 @@ function App() {
                     onClick={() => handleSort("status")}
                   >
                     <p className=" text-[#666666]">Status</p>
-                    {/* <FaArrowUp /> */}
                     {sortState.sortDirection === "upToDown" &&
                     sortState.sortKay === "status" ? (
                       <FaArrowDown />
