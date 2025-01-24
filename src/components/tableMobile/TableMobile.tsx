@@ -228,6 +228,7 @@ function TableMobile({
             </div>
           </td>
           <DeleteModal
+            key={id}
             openDelete={openDelete}
             removeId={removeId}
             id={id}
