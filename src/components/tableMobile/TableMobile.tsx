@@ -5,7 +5,7 @@ import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
-import DeleteModal from "../DeleteModal/DeleteModal";
+import DeleteModal from "../deleteModal/DeleteModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edit2ModalMob from "../edit2ModalMob/Edit2ModalMob";

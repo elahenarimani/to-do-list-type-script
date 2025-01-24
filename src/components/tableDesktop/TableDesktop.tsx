@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
-import DeleteModal from "../DeleteModal/DeleteModal";
+import DeleteModal from "../deleteModal/DeleteModal";
 import Button from "../button/Button";
 import ViewModal from "../viewModal/ViewModal";
 import Edite2ModalDes from "../edite2ModalDes/Edite2ModalDes";
