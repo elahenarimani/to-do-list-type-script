@@ -187,8 +187,6 @@ function TableDesktop({
             <Edite2ModalDes
               openEdite={openEdite}
               setOpenEdit={setOpenEdit}
-              // data={data}
-              // setData={setData}
               idMode={idMode}
               setIdMode={setIdMode}
               taskName={item.taskName}
