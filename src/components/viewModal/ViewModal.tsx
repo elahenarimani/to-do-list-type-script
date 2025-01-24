@@ -36,7 +36,7 @@ function ViewModal({
   }, []);
   if (!viewOpen) return null;
   return (
-    <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center z-10">
+    <div className="modal-wrapper w-[100vw] h-[100vh] fixed top-0 left-0 bg-white bg-opacity-[70%] flex items-center justify-center z-[3]">
       <div
         className="modal w-full md:w-[500px] overflow-y-scroll overflow-x-hidden md:overflow-y-hidden h-[500px]  bg-white rounded-[10px] pl-[30px] pr-[30px] pt-[20px] pb-[20px] ml-[25px] mr-[25px] "
         ref={modalRef}
