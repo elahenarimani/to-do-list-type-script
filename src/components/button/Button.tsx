@@ -1,13 +1,25 @@
-interface IButtonParameter{
-    children : string 
-    onClicHandler:Function
-    className : string
+interface IButtonParameter {
+  children: string | JSX.Element;
+  onClickHandler: Function;
+  className?: string;
+  disabled?: boolean;
 }
-function Button({onClicHandler , children , className}:IButtonParameter){
-  return(
-   <div>
-       <button onClick={() => onClicHandler()} className={className}>{children}</button>
-   </div>
-  )
+function Button({
+  onClickHandler,
+  children,
+  className,
+  disabled,
+}: IButtonParameter) {
+  return (
+    <div>
+      <button
+        onClick={() => onClickHandler()}
+        className={className}
+        disabled={disabled}
+      >
+        {children}
+      </button>
+    </div>
+  );
 }
-export default Button
+export default Button;

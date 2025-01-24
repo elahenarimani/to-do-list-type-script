@@ -1,0 +1,12 @@
+.search-wrapper-des input:focus{
+    outline: none; /* Removes default browser outline */
+    box-shadow: none; /* Prevents any shadow or focus effect */
+  }
+  .search-wrapper-des input:hover{
+    outline: none; /* Removes default browser outline */
+    box-shadow: none; /* Prevents any shadow or focus effect */
+  }
+  .search-wrapper-des:hover {
+    border-color: inherit; /* Keeps the same border color when hovering over the wrapper */
+    box-shadow: none; /* Prevents any shadow effect on hover */
+  }
